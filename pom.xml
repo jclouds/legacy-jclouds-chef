@@ -31,6 +31,15 @@
     <artifactId>jclouds-chef-project</artifactId>
     <packaging>pom</packaging>
     <name>jclouds chef project</name>
+
+<repositories>
+<repository>
+    <id>jclouds</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </repository>
+
+    </repositories>
+
     <modules>
         <module>core</module>
         <module>servlet</module>
