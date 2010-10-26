@@ -44,7 +44,7 @@ import org.jclouds.opscodeplatform.functions.OpscodePlatformRestClientModule;
 import org.jclouds.rest.ConfiguresRestClient;
 import org.jclouds.rest.RestClientTest;
 import org.jclouds.rest.RestContextFactory;
-import org.jclouds.rest.RestContextFactory.ContextSpec;
+import org.jclouds.rest.RestContextSpec;
 import org.jclouds.rest.functions.ReturnEmptySetOnNotFoundOr404;
 import org.jclouds.rest.functions.ReturnFalseOnNotFoundOr404;
 import org.jclouds.rest.functions.ReturnNullOnNotFoundOr404;
@@ -131,7 +131,7 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
    public void testCreateUser() throws SecurityException, NoSuchMethodException, IOException {
       Method method = OpscodePlatformAsyncClient.class.getMethod("createUser", User.class);
       GeneratedHttpRequest<OpscodePlatformAsyncClient> httpRequest = processor
-               .createRequest(method, new User("myuser"));
+            .createRequest(method, new User("myuser"));
 
       assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/users HTTP/1.1");
       assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
@@ -142,20 +142,22 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
       Iterables.getOnlyElement(httpRequest.getFilters()).filter(httpRequest);
 
       assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/users HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, new StringBuilder("Accept: application/json").append("\n").append(
-               "X-Chef-Version: 0.9.8").append("\n").append(
-               "X-Ops-Authorization-1: kfrkDpfgNU26k70R1vl1bEWk0Q0f9Fs/3kxOX7gHd7iNoJq03u7RrcrAOSgL").append("\n")
-               .append("X-Ops-Authorization-2: ETj5JNeCk18BmFkHMAbCA9hXVo1T4rlHCpbuzAzFlFxUGAT4wj8UoO7V886X").append(
-                        "\n").append(
-                        "X-Ops-Authorization-3: Kf8DvihP6ElthCNuu1xuhN0B4GEmWC9+ut7UMLe0L2T34VzkbCtuInGbf42/").append(
-                        "\n").append(
-                        "X-Ops-Authorization-4: G7iu94/xFOT1gN9cex4pNyTnRCHzob4JVU1usxt/2g5grN2SyYwRS5+4MNLN").append(
-                        "\n").append(
-                        "X-Ops-Authorization-5: WY/iLUPb/9dwtiIQsnUOXqDrs28zNswZulQW4AzYRd7MczJVKU4y4+4XRcB4").append(
-                        "\n").append("X-Ops-Authorization-6: 2+BFLT5o6P6G0D+eCu3zSuaqEJRucPJPaDGWdKIMag==")
-               .append("\n").append("X-Ops-Content-Hash: yLHOxvgIEtNw5UrZDxslOeMw1gw=").append("\n").append(
-                        "X-Ops-Sign: version=1.0").append("\n").append("X-Ops-Timestamp: timestamp").append("\n")
-               .append("X-Ops-Userid: user").append("\n").toString());
+      assertNonPayloadHeadersEqual(
+            httpRequest,
+            new StringBuilder("Accept: application/json").append("\n").append("X-Chef-Version: 0.9.8").append("\n")
+                  .append("X-Ops-Authorization-1: kfrkDpfgNU26k70R1vl1bEWk0Q0f9Fs/3kxOX7gHd7iNoJq03u7RrcrAOSgL")
+                  .append("\n")
+                  .append("X-Ops-Authorization-2: ETj5JNeCk18BmFkHMAbCA9hXVo1T4rlHCpbuzAzFlFxUGAT4wj8UoO7V886X")
+                  .append("\n")
+                  .append("X-Ops-Authorization-3: Kf8DvihP6ElthCNuu1xuhN0B4GEmWC9+ut7UMLe0L2T34VzkbCtuInGbf42/")
+                  .append("\n")
+                  .append("X-Ops-Authorization-4: G7iu94/xFOT1gN9cex4pNyTnRCHzob4JVU1usxt/2g5grN2SyYwRS5+4MNLN")
+                  .append("\n")
+                  .append("X-Ops-Authorization-5: WY/iLUPb/9dwtiIQsnUOXqDrs28zNswZulQW4AzYRd7MczJVKU4y4+4XRcB4")
+                  .append("\n").append("X-Ops-Authorization-6: 2+BFLT5o6P6G0D+eCu3zSuaqEJRucPJPaDGWdKIMag==")
+                  .append("\n").append("X-Ops-Content-Hash: yLHOxvgIEtNw5UrZDxslOeMw1gw=").append("\n")
+                  .append("X-Ops-Sign: version=1.0").append("\n").append("X-Ops-Timestamp: timestamp").append("\n")
+                  .append("X-Ops-Userid: user").append("\n").toString());
       assertPayloadEquals(httpRequest, "{\"username\":\"myuser\"}", "application/json", false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -169,7 +171,7 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
    public void testUpdateUser() throws SecurityException, NoSuchMethodException, IOException {
       Method method = OpscodePlatformAsyncClient.class.getMethod("updateUser", User.class);
       GeneratedHttpRequest<OpscodePlatformAsyncClient> httpRequest = processor
-               .createRequest(method, new User("myuser"));
+            .createRequest(method, new User("myuser"));
 
       assertRequestLineEquals(httpRequest, "PUT https://api.opscode.com/users/myuser HTTP/1.1");
       assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
@@ -218,14 +220,14 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
    public void testCreateOrg() throws SecurityException, NoSuchMethodException, IOException {
       Method method = OpscodePlatformAsyncClient.class.getMethod("createOrganization", Organization.class);
       GeneratedHttpRequest<OpscodePlatformAsyncClient> httpRequest = processor.createRequest(method, new Organization(
-               "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
+            "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
 
       assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/organizations HTTP/1.1");
       assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
       assertPayloadEquals(
-               httpRequest,
-               "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
-               "application/json", false);
+            httpRequest,
+            "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
+            "application/json", false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
       assertSaxResponseParserClassEquals(method, null);
@@ -238,14 +240,14 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
    public void testUpdateOrg() throws SecurityException, NoSuchMethodException, IOException {
       Method method = OpscodePlatformAsyncClient.class.getMethod("updateOrganization", Organization.class);
       GeneratedHttpRequest<OpscodePlatformAsyncClient> httpRequest = processor.createRequest(method, new Organization(
-               "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
+            "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
 
       assertRequestLineEquals(httpRequest, "PUT https://api.opscode.com/organizations/myorganization HTTP/1.1");
       assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
       assertPayloadEquals(
-               httpRequest,
-               "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
-               "application/json", false);
+            httpRequest,
+            "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
+            "application/json", false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
       assertSaxResponseParserClassEquals(method, null);
@@ -331,8 +333,8 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
    }
 
    @Override
-   public ContextSpec<OpscodePlatformClient, OpscodePlatformAsyncClient> createContextSpec() {
+   public RestContextSpec<OpscodePlatformClient, OpscodePlatformAsyncClient> createContextSpec() {
       return new RestContextFactory().createContextSpec("opscodeplatform", "user", SignedHeaderAuthTest.PRIVATE_KEY,
-               new Properties());
+            new Properties());
    }
 }

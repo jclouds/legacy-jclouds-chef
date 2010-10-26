@@ -20,10 +20,12 @@
 package org.jclouds.opscodeplatform.internal;
 
 import java.net.URI;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.jclouds.domain.Credentials;
 import org.jclouds.lifecycle.Closer;
 import org.jclouds.opscodeplatform.OpscodePlatformAsyncClient;
 import org.jclouds.opscodeplatform.OpscodePlatformClient;
@@ -45,10 +47,11 @@ public class OpscodePlatformContextImpl extends RestContextImpl<OpscodePlatformC
       implements OpscodePlatformContext {
 
    @Inject
-   protected OpscodePlatformContextImpl(Closer closer, Utils utils, Injector injector,
-         TypeLiteral<OpscodePlatformClient> syncApi, TypeLiteral<OpscodePlatformAsyncClient> asyncApi,
-         @Provider URI endpoint, @Provider String provider, @Identity String identity, @ApiVersion String apiVersion) {
-      super(closer, utils, injector, syncApi, asyncApi, endpoint, provider, identity, apiVersion);
+   protected OpscodePlatformContextImpl(Closer closer, Map<String, Credentials> credentialStore, Utils utils,
+         Injector injector, TypeLiteral<OpscodePlatformClient> syncApi,
+         TypeLiteral<OpscodePlatformAsyncClient> asyncApi, @Provider URI endpoint, @Provider String provider,
+         @Identity String identity, @ApiVersion String apiVersion) {
+      super(closer, credentialStore, utils, injector, syncApi, asyncApi, endpoint, provider, identity, apiVersion);
    }
 
 }
