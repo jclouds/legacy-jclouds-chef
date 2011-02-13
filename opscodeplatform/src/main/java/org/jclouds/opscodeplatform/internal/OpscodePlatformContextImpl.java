@@ -33,7 +33,7 @@ import org.jclouds.opscodeplatform.OpscodePlatformContext;
 import org.jclouds.rest.Utils;
 import org.jclouds.rest.annotations.ApiVersion;
 import org.jclouds.rest.annotations.Identity;
-import org.jclouds.rest.annotations.Provider;
+import org.jclouds.location.Provider;
 import org.jclouds.rest.internal.RestContextImpl;
 
 import com.google.inject.Injector;
@@ -51,7 +51,8 @@ public class OpscodePlatformContextImpl extends RestContextImpl<OpscodePlatformC
          Injector injector, TypeLiteral<OpscodePlatformClient> syncApi,
          TypeLiteral<OpscodePlatformAsyncClient> asyncApi, @Provider URI endpoint, @Provider String provider,
          @Identity String identity, @ApiVersion String apiVersion) {
-      super(closer, credentialStore, utils, injector, syncApi, asyncApi, endpoint, provider, identity, apiVersion);
+      super(closer, credentialStore, utils, injector, syncApi, asyncApi, endpoint, provider, identity, apiVersion, null ); // Not sure what needs to go here for Chef
+
    }
 
 }
