@@ -29,7 +29,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jclouds</groupId>
-        <artifactId>jclouds-project</artifactId>
+        <artifactId>jclouds-chef-project</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jclouds-core</artifactId>
-            <version>${project.version}</version>
+            <version>${jclouds.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.jclouds.driver</groupId>
             <artifactId>jclouds-log4j</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${jclouds.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
