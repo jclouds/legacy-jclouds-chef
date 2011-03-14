@@ -20,7 +20,7 @@
 package org.jclouds.opscodeplatform;
 
 import com.google.common.collect.Iterables;
-import org.jclouds.compute.util.ComputeServiceUtils;
+import org.jclouds.rest.Providers;
 import org.testng.annotations.Test;
 
 /**
@@ -32,7 +32,7 @@ import org.testng.annotations.Test;
 public class ProvidersInPropertiesTest {
 
    public void testSupportedProviders() {
-      Iterable<String> providers = ComputeServiceUtils.getSupportedProviders();
+      Iterable<String> providers = Providers.getSupportedProviders();
       assert Iterables.contains(providers, "opscodeplatform") : providers;
    }
 
