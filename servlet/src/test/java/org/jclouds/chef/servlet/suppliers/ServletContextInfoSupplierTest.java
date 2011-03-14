@@ -44,7 +44,7 @@ import com.google.inject.Provides;
  * @author Adrian Cole
  */
 
-@Test(groups = "unit", testName = "chef.ServletContextInfoSupplierTest")
+@Test(groups = { "unit" })
 public class ServletContextInfoSupplierTest {
 
    @Test

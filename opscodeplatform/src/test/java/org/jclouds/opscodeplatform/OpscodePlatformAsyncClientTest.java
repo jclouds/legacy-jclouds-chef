@@ -63,7 +63,7 @@ import com.google.inject.TypeLiteral;
  * 
  * @author Adrian Cole
  */
-@Test(groups = "unit", testName = "opscodeplatform.OpscodePlatformAsyncClientTest")
+@Test(groups = { "unit" })
 public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatformAsyncClient> {
 
    public void testListUsers() throws SecurityException, NoSuchMethodException, IOException {
@@ -138,12 +138,11 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
       assertPayloadEquals(httpRequest, "{\"username\":\"myuser\"}", "application/json", false);
 
       // now make sure request filters apply by replaying
-      Iterables.getOnlyElement(httpRequest.getFilters()).filter(httpRequest);
-      Iterables.getOnlyElement(httpRequest.getFilters()).filter(httpRequest);
+      HttpRequest filteredRequest = Iterables.getOnlyElement(httpRequest.getFilters()).filter(httpRequest);
 
-      assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/users HTTP/1.1");
+      assertRequestLineEquals(filteredRequest, "POST https://api.opscode.com/users HTTP/1.1");
       assertNonPayloadHeadersEqual(
-            httpRequest,
+            filteredRequest,
             new StringBuilder("Accept: application/json").append("\n").append("X-Chef-Version: 0.9.8").append("\n")
                   .append("X-Ops-Authorization-1: kfrkDpfgNU26k70R1vl1bEWk0Q0f9Fs/3kxOX7gHd7iNoJq03u7RrcrAOSgL")
                   .append("\n")
@@ -158,13 +157,13 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
                   .append("\n").append("X-Ops-Content-Hash: yLHOxvgIEtNw5UrZDxslOeMw1gw=").append("\n")
                   .append("X-Ops-Sign: version=1.0").append("\n").append("X-Ops-Timestamp: timestamp").append("\n")
                   .append("X-Ops-Userid: user").append("\n").toString());
-      assertPayloadEquals(httpRequest, "{\"username\":\"myuser\"}", "application/json", false);
+      assertPayloadEquals(filteredRequest, "{\"username\":\"myuser\"}", "application/json", false);
 
-      assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
+      assertResponseParserClassEquals(method, filteredRequest, ParseJson.class);
       assertSaxResponseParserClassEquals(method, null);
       assertExceptionParserClassEquals(method, null);
 
-      checkFilters(httpRequest);
+      checkFilters(filteredRequest);
 
    }
 

@@ -50,7 +50,7 @@ import com.google.inject.Module;
  * 
  * @author Adrian Cole
  */
-@Test(groups = "live", sequential = true, testName = "GoogleAppEngineLiveTest")
+@Test(groups = { "live" }, sequential = true)
 public class GoogleAppEngineLiveTest {
 
    GoogleDevServer server;
@@ -92,8 +92,8 @@ public class GoogleAppEngineLiveTest {
       assert string.indexOf("Opscode Platform") >= 0 : string;
    }
 
-   @BeforeTest(groups = "live")
-   @AfterTest(groups = "live")
+   @BeforeTest(groups = { "live" })
+   @AfterTest(groups = { "live" })
    @Parameters( { "appengine.applicationid", "jclouds.chef.endpoint", "jclouds.chef.identity",
          "jclouds.chef.identity.pem" })
    public void cleanupDevelopmentClientsAndNodes(String applicationId, String endpoint, String identity,

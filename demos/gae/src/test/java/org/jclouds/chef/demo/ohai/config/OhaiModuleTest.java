@@ -57,7 +57,7 @@ import com.google.inject.TypeLiteral;
  * 
  * @author Adrian Cole
  */
-@Test(groups = "unit", testName = "ohai.OhaiModuleTest")
+@Test(groups = { "unit" })
 public class OhaiModuleTest {
 
    @Test

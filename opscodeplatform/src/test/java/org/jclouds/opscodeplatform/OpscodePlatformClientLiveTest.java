@@ -55,7 +55,7 @@ import com.google.inject.Module;
  * 
  * @author Adrian Cole
  */
-@Test(groups = "live", testName = "chef.OpscodePlatformClientLiveTest")
+@Test(groups = { "live" })
 public class OpscodePlatformClientLiveTest extends BaseChefClientLiveTest {
 
    private OpscodePlatformContext validatorConnection;

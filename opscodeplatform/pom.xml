@@ -29,21 +29,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jclouds</groupId>
-        <artifactId>jclouds-chef-project</artifactId>
+        <artifactId>jclouds-chef-pom</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../project/pom.xml</relativePath>
     </parent>
-    <groupId>org.jclouds</groupId>
     <artifactId>jclouds-opscodeplatform</artifactId>
-    <name>jclouds Opscode Platform core</name>
+    <name>JClouds Chef :: Opscode Platform</name>
     <description>jclouds components to access Opscode Platform</description>
 
+<!--
     <properties>
-        <jclouds.opscodeplatform.org>MYORG</jclouds.opscodeplatform.org>
-        <jclouds.opscodeplatform.rsa-key>/etc/chef/validation.pem</jclouds.opscodeplatform.rsa-key>
-        <jclouds.test.identity>${jclouds.opscodeplatform.org}</jclouds.test.identity>
-        <jclouds.test.credential>${jclouds.opscodeplatform.rsa-key}</jclouds.test.credential>
+        <jclouds.opscodeplatform.org>organicelement</jclouds.opscodeplatform.org>
+        <jclouds.opscodeplatform.rsa-key>${user.home}/.chef/${jclouds.opscodeplatform.org}/validation.pem</jclouds.opscodeplatform.rsa-key>
+        <jclouds.test.identity>ccustine</jclouds.test.identity>
+        <jclouds.test.credential>${user.home}/.chef/${jclouds.opscodeplatform.org}/${jclouds.test.identity}.pem</jclouds.test.credential>
     </properties>
+-->
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -77,4 +78,24 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>live</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <groups>live</groups>
+                            <excludedGroups>unit</excludedGroups>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
 </project>

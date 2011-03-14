@@ -43,7 +43,7 @@ import com.google.inject.TypeLiteral;
  * @author Adrian Cole
  */
 
-@Test(groups = "unit", testName = "chef.WebXmlSupplierTest")
+@Test(groups = { "unit" })
 public class WebXmlSupplierTest {
 
    @Test

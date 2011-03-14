@@ -59,7 +59,7 @@ import com.google.inject.Module;
  * 
  * @author Adrian Cole
  */
-@Test(groups = "live", testName = "chef.ChefComputeServiceLiveTest")
+@Test(groups = { "live" })
 public class ChefComputeServiceLiveTest {
 
    private ComputeServiceContext computeContext;

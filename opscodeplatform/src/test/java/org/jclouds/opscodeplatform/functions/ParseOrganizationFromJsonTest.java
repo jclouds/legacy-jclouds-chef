@@ -42,7 +42,7 @@ import com.google.inject.TypeLiteral;
  * 
  * @author Adrian Cole
  */
-@Test(groups = "unit", sequential = true, testName = "chef.ParseOrganizationFromJsonTest")
+@Test(groups = { "unit" }, sequential = true)
 public class ParseOrganizationFromJsonTest {
 
    private ParseJson<Organization> handler;
