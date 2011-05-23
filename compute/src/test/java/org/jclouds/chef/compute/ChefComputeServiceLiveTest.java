@@ -131,7 +131,7 @@ public class ChefComputeServiceLiveTest {
       Payload bootstrap = chefContext.getChefService().createClientAndBootstrapScriptForTag(tag);
 
       try {
-         nodes = computeContext.getComputeService().runNodesWithTag(tag, 1, runScript(bootstrap));
+         nodes = computeContext.getComputeService().createNodesInGroup(tag, 1, runScript(bootstrap));
       } catch (RunNodesException e) {
          nodes = concat(e.getSuccessfulNodes(), e.getNodeErrors().keySet());
       }
