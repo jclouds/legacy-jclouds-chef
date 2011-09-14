@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+import org.jclouds.chef.binders.AdminFlagFromCreateClientOptions;
 import org.jclouds.chef.domain.Client;
 import org.jclouds.chef.domain.CookbookVersion;
 import org.jclouds.chef.domain.DatabagItem;
@@ -31,11 +35,17 @@ import org.jclouds.chef.domain.Role;
 import org.jclouds.chef.domain.Sandbox;
 import org.jclouds.chef.domain.SearchResult;
 import org.jclouds.chef.domain.UploadSandbox;
+import org.jclouds.chef.options.CreateClientOptions;
 import org.jclouds.concurrent.Timeout;
 import org.jclouds.http.HttpResponseException;
 import org.jclouds.rest.AuthorizationException;
 import org.jclouds.rest.annotations.BinderParam;
+import org.jclouds.rest.annotations.MapBinder;
+import org.jclouds.rest.annotations.ParamParser;
+import org.jclouds.rest.annotations.PayloadParam;
 import org.jclouds.rest.binders.BindToJsonPayload;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 /**
  * Provides synchronous access to Chef.
@@ -139,6 +149,23 @@ public interface ChefClient {
     */
    @Timeout(duration = 120, timeUnit = TimeUnit.SECONDS)
    Client createClient(String name);
+
+   /**
+    * creates a new administrator client
+    *
+    * @return the private key of the client. You can then use this client name
+    *         and private key to access the Opscode API.
+    * @throws AuthorizationException
+    *            <p/>
+    *            "401 Unauthorized" if the caller is not a recognized user.
+    *            <p/>
+    *            "403 Forbidden" if the caller is not authorized to create a
+    *            client.
+    * @throws HttpResponseException
+    *            "409 Conflict" if the client already exists
+    */
+   @Timeout(duration = 120, timeUnit = TimeUnit.SECONDS)
+   Client createClient(String name, CreateClientOptions options);
 
    /**
     * generate a new key-pair for this client, and return the new private key in
