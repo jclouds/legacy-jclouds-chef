@@ -48,6 +48,7 @@ import org.jclouds.chef.domain.Role;
 import org.jclouds.chef.domain.Sandbox;
 import org.jclouds.chef.domain.SearchResult;
 import org.jclouds.chef.domain.UploadSandbox;
+import org.jclouds.chef.options.CreateClientOptions;
 import org.jclouds.util.Utils;
 
 import com.google.common.base.Function;
@@ -118,6 +119,12 @@ public class TransientChefAsyncClient implements ChefAsyncClient {
 
    @Override
    public ListenableFuture<Client> createClient(String clientname) {
+      // TODO Auto-generated method stub
+      return null;
+   }
+   
+   @Override
+   public ListenableFuture<Client> createClient(String clientname, CreateClientOptions options) {
       // TODO Auto-generated method stub
       return null;
    }
