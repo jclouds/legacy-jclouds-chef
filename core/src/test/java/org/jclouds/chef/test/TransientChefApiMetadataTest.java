@@ -16,29 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.opscodeplatform;
+package org.jclouds.chef.test;
 
-import static org.jclouds.Constants.PROPERTY_ENDPOINT;
+import org.jclouds.Wrapper;
+import org.jclouds.rest.internal.BaseRestApiMetadataTest;
+import org.testng.annotations.Test;
 
-import java.util.Properties;
-
-import org.jclouds.chef.internal.BaseChefPropertiesBuilder;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.TypeToken;
 
 /**
- * Builds properties used in Chef Clients
  * 
  * @author Adrian Cole
  */
-public class OpscodePlatformPropertiesBuilder extends BaseChefPropertiesBuilder {
-   @Override
-   protected Properties defaultProperties() {
-      Properties properties = super.defaultProperties();
-      properties.setProperty(PROPERTY_ENDPOINT, "https://api.opscode.com");
-      return properties;
-   }
+@Test(groups = "unit", testName = "TransientChefApiMetadataTest")
+public class TransientChefApiMetadataTest extends BaseRestApiMetadataTest {
 
-   public OpscodePlatformPropertiesBuilder(Properties properties) {
-      super(properties);
+   // no config management abstraction, yet
+   public TransientChefApiMetadataTest() {
+      super(new TransientChefApiMetadata(), ImmutableSet.<TypeToken<? extends Wrapper>> of());
    }
-
 }

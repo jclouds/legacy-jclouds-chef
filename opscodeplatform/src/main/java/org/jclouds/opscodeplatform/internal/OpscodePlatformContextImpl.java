@@ -20,21 +20,25 @@ package org.jclouds.opscodeplatform.internal;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.jclouds.domain.Credentials;
 import org.jclouds.lifecycle.Closer;
+import org.jclouds.location.Iso3166;
+import org.jclouds.location.Provider;
 import org.jclouds.opscodeplatform.OpscodePlatformAsyncClient;
 import org.jclouds.opscodeplatform.OpscodePlatformClient;
 import org.jclouds.opscodeplatform.OpscodePlatformContext;
 import org.jclouds.rest.Utils;
 import org.jclouds.rest.annotations.ApiVersion;
+import org.jclouds.rest.annotations.BuildVersion;
 import org.jclouds.rest.annotations.Identity;
-import org.jclouds.location.Provider;
 import org.jclouds.rest.internal.RestContextImpl;
 
+import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
@@ -43,15 +47,15 @@ import com.google.inject.TypeLiteral;
  */
 @Singleton
 public class OpscodePlatformContextImpl extends RestContextImpl<OpscodePlatformClient, OpscodePlatformAsyncClient>
-      implements OpscodePlatformContext {
+         implements OpscodePlatformContext {
 
    @Inject
    protected OpscodePlatformContextImpl(Closer closer, Map<String, Credentials> credentialStore, Utils utils,
-         Injector injector, TypeLiteral<OpscodePlatformClient> syncApi,
-         TypeLiteral<OpscodePlatformAsyncClient> asyncApi, @Provider URI endpoint, @Provider String provider,
-         @Identity String identity, @ApiVersion String apiVersion) {
-      super(closer, credentialStore, utils, injector, syncApi, asyncApi, endpoint, provider, identity, apiVersion, null ); // Not sure what needs to go here for Chef
-
+            Injector injector, @Provider Supplier<URI> endpoint, @Provider String provider, @Identity String identity,
+            @ApiVersion String apiVersion, @BuildVersion String buildVersion, @Iso3166 Set<String> iso3166Codes) {
+      super(closer, credentialStore, utils, injector, TypeLiteral.get(OpscodePlatformClient.class), TypeLiteral
+               .get(OpscodePlatformAsyncClient.class), endpoint, buildVersion, buildVersion, buildVersion,
+               buildVersion, iso3166Codes);
    }
 
 }

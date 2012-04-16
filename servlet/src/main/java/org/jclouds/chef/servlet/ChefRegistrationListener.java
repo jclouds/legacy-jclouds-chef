@@ -33,7 +33,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.jclouds.chef.ChefContextFactory;
+import org.jclouds.ContextBuilder;
+import org.jclouds.chef.ChefApiMetadata;
+import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.ChefService;
 import org.jclouds.chef.domain.Node;
 import org.jclouds.chef.reference.ChefConstants;
@@ -105,14 +107,14 @@ public class ChefRegistrationListener implements ServletContextListener {
    }
 
    private ChefService createService(Properties props, final ServletContextEvent servletContextEvent) {
-      return new ChefContextFactory().createContext(ImmutableSet.of(new AbstractModule() {
+      return ContextBuilder.newBuilder(new ChefApiMetadata()).modules(ImmutableSet.of(new AbstractModule() {
 
          @Override
          protected void configure() {
             bind(ServletContext.class).toInstance(servletContextEvent.getServletContext());
          }
 
-      }), props).getChefService();
+      })).overrides(props).build(ChefContext.class).getChefService();
    }
 
    private static String getInitParam(ServletContextEvent servletContextEvent, String name) {

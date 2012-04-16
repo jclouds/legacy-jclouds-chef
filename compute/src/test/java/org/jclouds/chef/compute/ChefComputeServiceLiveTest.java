@@ -34,19 +34,19 @@ import java.net.URI;
 import java.util.List;
 import java.util.Properties;
 
+import org.jclouds.ContextBuilder;
+import org.jclouds.chef.ChefApiMetadata;
 import org.jclouds.chef.ChefContext;
-import org.jclouds.chef.ChefContextFactory;
 import org.jclouds.chef.domain.CookbookVersion;
 import org.jclouds.chef.util.RunListBuilder;
 import org.jclouds.compute.ComputeServiceContext;
-import org.jclouds.compute.ComputeServiceContextFactory;
 import org.jclouds.compute.RunNodesException;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.predicates.NodePredicates;
 import org.jclouds.io.Payload;
 import org.jclouds.logging.log4j.config.Log4JLoggingModule;
 import org.jclouds.ssh.jsch.config.JschSshClientModule;
-import org.jclouds.util.Utils;
+import org.jclouds.util.Strings2;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
@@ -63,14 +63,14 @@ public class ChefComputeServiceLiveTest {
 
    private ComputeServiceContext computeContext;
    private ChefContext chefContext;
-   private String tag;
+   private String group;
    private String clientName;
    private String chefEndpoint;
    private Iterable<? extends NodeMetadata> nodes;
 
    @BeforeGroups(groups = { "live" })
    public void setupAll() throws FileNotFoundException, IOException {
-      tag = System.getProperty("jclouds.compute.tag") != null ? System.getProperty("jclouds.compute.tag")
+      group = System.getProperty("jclouds.compute.group") != null ? System.getProperty("jclouds.compute.group")
                : "jcloudschef";
       String computeProvider = checkNotNull(System.getProperty("jclouds.compute.provider"), "jclouds.compute.provider");
       String computeEndpoint = System.getProperty("jclouds.compute.endpoint");
@@ -93,10 +93,10 @@ public class ChefComputeServiceLiveTest {
       if (computeEndpoint != null && !computeEndpoint.trim().equals(""))
          props.setProperty(computeProvider + ".endpoint", computeEndpoint);
 
-      computeContext = new ComputeServiceContextFactory().createContext(computeProvider, ImmutableSet.of(
-               new Log4JLoggingModule(), getSshModule()), props);
+      computeContext = ContextBuilder.newBuilder(computeProvider).modules(ImmutableSet.of(
+               new Log4JLoggingModule(), getSshModule())).overrides(props).build(ComputeServiceContext.class);
 
-      chefContext = new ChefContextFactory().createContext(ImmutableSet.<Module> of(new Log4JLoggingModule()), props);
+      chefContext = ContextBuilder.newBuilder(new ChefApiMetadata()).modules(ImmutableSet.<Module> of(new Log4JLoggingModule())).overrides(props).build();
    }
 
    protected Module getSshModule() {
@@ -111,8 +111,8 @@ public class ChefComputeServiceLiveTest {
 
       if (any(cookbookVersions, containsRecipe(recipe))) {
          List<String> runList = new RunListBuilder().addRecipe(recipe).build();
-         chefContext.getChefService().updateRunListForTag(runList, tag);
-         assertEquals(chefContext.getChefService().getRunListForTag(tag), runList);
+         chefContext.getChefService().updateRunListForTag(runList, group);
+         assertEquals(chefContext.getChefService().getRunListForTag(group), runList);
       } else {
          assert false : String.format("recipe %s not in %s", recipe, cookbookVersions);
       }
@@ -127,10 +127,10 @@ public class ChefComputeServiceLiveTest {
    @Test(dependsOnMethods = "testCanUpdateRunList")
    public void testRunNodesWithBootstrap() throws IOException {
 
-      Payload bootstrap = chefContext.getChefService().createClientAndBootstrapScriptForTag(tag);
+      Payload bootstrap = chefContext.getChefService().createClientAndBootstrapScriptForTag(group);
 
       try {
-         nodes = computeContext.getComputeService().createNodesInGroup(tag, 1, runScript(bootstrap));
+         nodes = computeContext.getComputeService().createNodesInGroup(group, 1, runScript(Strings2.toStringAndClose(bootstrap.getInput())));
       } catch (RunNodesException e) {
          nodes = concat(e.getSuccessfulNodes(), e.getNodeErrors().keySet());
       }
@@ -138,7 +138,7 @@ public class ChefComputeServiceLiveTest {
       for (NodeMetadata node : nodes) {
          URI uri = URI.create("http://" + getLast(node.getPublicAddresses()));
          InputStream content = computeContext.utils().http().get(uri);
-         String string = Utils.toStringAndClose(content);
+         String string = Strings2.toStringAndClose(content);
          assert string.indexOf("It works!") >= 0 : string;
       }
 
@@ -147,7 +147,7 @@ public class ChefComputeServiceLiveTest {
    @AfterGroups(groups = { "live" })
    public void teardownCompute() {
       if (computeContext != null) {
-         computeContext.getComputeService().destroyNodesMatching(NodePredicates.withTag(tag));
+         computeContext.getComputeService().destroyNodesMatching(NodePredicates.inGroup(group));
          computeContext.close();
       }
    }
@@ -155,7 +155,7 @@ public class ChefComputeServiceLiveTest {
    @AfterGroups(groups = { "live" })
    public void teardownChef() {
       if (chefContext != null) {
-         chefContext.getChefService().cleanupStaleNodesAndClients(tag + "-", 1);
+         chefContext.getChefService().cleanupStaleNodesAndClients(group + "-", 1);
          if (clientName != null && chefContext.getApi().clientExists(clientName))
             chefContext.getApi().deleteClient(clientName);
          chefContext.close();

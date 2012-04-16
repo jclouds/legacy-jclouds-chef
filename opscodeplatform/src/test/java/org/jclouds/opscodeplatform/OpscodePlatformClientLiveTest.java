@@ -25,11 +25,12 @@ import static org.testng.Assert.assertNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.Set;
 
+import org.jclouds.ContextBuilder;
 import org.jclouds.chef.BaseChefClientLiveTest;
 import org.jclouds.chef.ChefClient;
+import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.crypto.Pems;
 import org.jclouds.json.Json;
@@ -39,7 +40,6 @@ import org.jclouds.opscodeplatform.domain.Organization;
 import org.jclouds.opscodeplatform.domain.User;
 import org.jclouds.rest.AuthorizationException;
 import org.jclouds.rest.HttpClient;
-import org.jclouds.rest.RestContextFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -87,10 +87,8 @@ public class OpscodePlatformClientLiveTest extends BaseChefClientLiveTest {
    }
 
    private OpscodePlatformContext createConnection(String identity, String key) throws IOException {
-      Properties props = new Properties();
-      return (OpscodePlatformContext) new RestContextFactory()
-               .<OpscodePlatformClient, OpscodePlatformAsyncClient> createContext("opscodeplatform", identity, key,
-                        ImmutableSet.<Module> of(new Log4JLoggingModule()), props);
+      return ContextBuilder.newBuilder("opscodeplatform").credentials(identity, key).modules(
+               ImmutableSet.<Module> of(new Log4JLoggingModule())).build();
    }
 
    @Override
@@ -104,10 +102,9 @@ public class OpscodePlatformClientLiveTest extends BaseChefClientLiveTest {
    }
 
    private ChefClient createChefClient(String user, String adminKey) {
-      Properties props = new Properties();
-      props.setProperty("chef.endpoint", "https://api.opscode.com/organizations/" + orgname);
-      return (ChefClient) new RestContextFactory().createContext("chef", user, adminKey,
-               ImmutableSet.<Module> of(new Log4JLoggingModule()), props).getApi();
+      return ContextBuilder.newBuilder("chef").endpoint("https://api.opscode.com/organizations/" + orgname)
+               .credentials(user, adminKey).modules(ImmutableSet.<Module> of(new Log4JLoggingModule())).build(
+                        ChefContext.class).getApi();
    }
 
    @Override

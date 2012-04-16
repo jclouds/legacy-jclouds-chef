@@ -21,16 +21,11 @@ package org.jclouds.opscodeplatform;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-
-import org.jclouds.chef.ChefClient;
 import org.jclouds.concurrent.Timeout;
 import org.jclouds.opscodeplatform.domain.Organization;
 import org.jclouds.opscodeplatform.domain.User;
 import org.jclouds.rest.AuthorizationException;
 import org.jclouds.rest.ResourceNotFoundException;
-import org.jclouds.rest.annotations.Delegate;
 
 /**
  * Provides synchronous access to the Opscode Platform.

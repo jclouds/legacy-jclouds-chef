@@ -22,38 +22,29 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Properties;
 
+import org.jclouds.apis.ApiMetadata;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.filters.SignedHeaderAuthTest;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
-import org.jclouds.concurrent.MoreExecutors;
-import org.jclouds.concurrent.config.ConfiguresExecutorService;
-import org.jclouds.concurrent.config.ExecutorServiceModule;
 import org.jclouds.date.TimeStamp;
 import org.jclouds.http.HttpRequest;
-import org.jclouds.http.RequiresHttp;
-import org.jclouds.http.TransformingHttpCommandExecutorService;
-import org.jclouds.http.config.ConfiguresHttpCommandExecutorService;
 import org.jclouds.http.functions.ParseJson;
 import org.jclouds.http.functions.ReturnTrueIf2xx;
 import org.jclouds.opscodeplatform.domain.Organization;
 import org.jclouds.opscodeplatform.domain.User;
 import org.jclouds.opscodeplatform.functions.OpscodePlatformRestClientModule;
 import org.jclouds.rest.ConfiguresRestClient;
-import org.jclouds.rest.RestClientTest;
-import org.jclouds.rest.RestContextFactory;
-import org.jclouds.rest.RestContextSpec;
 import org.jclouds.rest.functions.ReturnEmptySetOnNotFoundOr404;
 import org.jclouds.rest.functions.ReturnFalseOnNotFoundOr404;
 import org.jclouds.rest.functions.ReturnNullOnNotFoundOr404;
+import org.jclouds.rest.internal.BaseAsyncClientTest;
 import org.jclouds.rest.internal.GeneratedHttpRequest;
 import org.jclouds.rest.internal.RestAnnotationProcessor;
 import org.testng.annotations.Test;
 
 import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
-import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 
@@ -63,7 +54,7 @@ import com.google.inject.TypeLiteral;
  * @author Adrian Cole
  */
 @Test(groups = { "unit" })
-public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatformAsyncClient> {
+public class OpscodePlatformAsyncClientTest extends BaseAsyncClientTest<OpscodePlatformAsyncClient> {
 
    public void testListUsers() throws SecurityException, NoSuchMethodException, IOException {
       Method method = OpscodePlatformAsyncClient.class.getMethod("listUsers");
@@ -304,23 +295,6 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
       return new TestOpscodePlatformRestClientModule();
    }
 
-   @ConfiguresHttpCommandExecutorService
-   @ConfiguresExecutorService
-   private static class HttpExecutorModule extends AbstractModule {
-      private final TransformingHttpCommandExecutorService httpExecutor;
-
-      private HttpExecutorModule(TransformingHttpCommandExecutorService httpExecutor) {
-         this.httpExecutor = httpExecutor;
-      }
-
-      @Override
-      protected void configure() {
-         bind(TransformingHttpCommandExecutorService.class).toInstance(httpExecutor);
-         install(new ExecutorServiceModule(MoreExecutors.sameThreadExecutor(), MoreExecutors.sameThreadExecutor()));
-      }
-   }
-
-   @RequiresHttp
    @ConfiguresRestClient
    static class TestOpscodePlatformRestClientModule extends OpscodePlatformRestClientModule {
       @Override
@@ -329,10 +303,10 @@ public class OpscodePlatformAsyncClientTest extends RestClientTest<OpscodePlatfo
       }
 
    }
-
    @Override
-   public RestContextSpec<OpscodePlatformClient, OpscodePlatformAsyncClient> createContextSpec() {
-      return new RestContextFactory().createContextSpec("opscodeplatform", "user", SignedHeaderAuthTest.PRIVATE_KEY,
-            new Properties());
+   public ApiMetadata createApiMetadata() {
+      identity = "user";
+      credential = SignedHeaderAuthTest.PRIVATE_KEY;
+      return new OpscodePlatformApiMetadata();
    }
 }

@@ -23,7 +23,6 @@ import java.util.Map;
 import org.jclouds.chef.ChefAsyncClient;
 import org.jclouds.chef.ChefClient;
 import org.jclouds.chef.config.BaseChefRestClientModule;
-import org.jclouds.http.RequiresHttp;
 import org.jclouds.opscodeplatform.OpscodePlatformAsyncClient;
 import org.jclouds.opscodeplatform.OpscodePlatformClient;
 import org.jclouds.rest.ConfiguresRestClient;
@@ -35,7 +34,6 @@ import com.google.common.collect.ImmutableMap;
  * 
  * @author Adrian Cole
  */
-@RequiresHttp
 @ConfiguresRestClient
 public class OpscodePlatformRestClientModule extends
       BaseChefRestClientModule<OpscodePlatformClient, OpscodePlatformAsyncClient> {
