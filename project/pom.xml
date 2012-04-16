@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
+    Licensed to jclouds, Inc. (jclouds) under one or more
+    contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  jclouds licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-    Copyright (C) 2010 Cloud Conscious, LLC. <info@cloudconscious.com>
+      http://www.apache.org/licenses/LICENSE-2.0
 
-    ====================================================================
-    Licensed under the Apache License, Version 2.0 (the "License"); you
-    may not use this file except in compliance with the License. You may
-    obtain a copy of the License at
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 
-    http://www.apache.org/licenses/LICENSE-2.0 Unless required by
-    applicable law or agreed to in writing, software distributed under the
-    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-    CONDITIONS OF ANY KIND, either express or implied. See the License for
-    the specific language governing permissions and limitations under the
-    License.
-    ====================================================================
-  -->
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -32,6 +34,19 @@
   <name>JClouds Chef :: Parent POM</name>
   <description>JClouds Chef Parent POM for Maven configuration</description>
 
+  <licenses>
+    <license>
+       <name>Apache License</name>
+       <url>../resources/LICENSE.txt</url>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>jclouds</name>
+    <url>http://www.jclouds.org/</url>
+  </organization>
+
+
   <properties>
     <jclouds.version>1.0.0</jclouds.version>
     <maven.compile.source>1.6</maven.compile.source>
@@ -40,8 +55,14 @@
 
   <repositories>
     <repository>
-      <id>jclouds</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+       <id>sonatype-nexus-snapshots</id>
+       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+       <releases>
+           <enabled>false</enabled>
+       </releases>
+       <snapshots>
+           <enabled>true</enabled>
+       </snapshots>
     </repository>
     <repository>
       <id>clojars</id>
@@ -94,6 +115,23 @@
 
     <finalName>${project.artifactId}</finalName>
     <plugins>
+      <plugin>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <id>process-remote-resources</id>
+            <goals>
+                <goal>process</goal>
+            </goals>
+            <configuration>
+                <resourceBundles>
+                    <resourceBundle>org.jclouds:jclouds-resources:${project.version}</resourceBundle>
+                </resourceBundles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -238,6 +276,42 @@
                                             <value>${jclouds.wire.httpstream.md5}</value>
                                         </property>
                                     </systemProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>chef-project</id>
+            <activation>
+                <file>
+                    <!-- only in the jclouds-project module -->
+                    <exists>src/etc/header.txt</exists>
+                </file>
+            </activation>
+
+            <!-- Maven generates incorrect links without the <site> declaration here -->
+            <distributionManagement>
+                <site>
+                    <id>jclouds-github-pages-site</id>
+                    <url>${maven.site.url.base}/${project.version}/${project.artifactId}</url>
+                </site>
+            </distributionManagement>
+            <build>
+                <plugins>
+                   <plugin>
+                        <artifactId>maven-remote-resources-plugin</artifactId>
+                        <version>1.2</version>
+                        <executions>
+                            <execution>
+                                <id>process-remote-resources</id>
+                                <goals>
+                                    <goal>process</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>true</skip>
                                 </configuration>
                             </execution>
                         </executions>

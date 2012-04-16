@@ -1,0 +1,9 @@
+jclouds
+Copyright 2009-2012 jclouds, Inc.
+
+This product includes software developed at
+jclouds, Inc. (http://www.jclouds.org/).
+
+This product includes software developed at Opscode, Inc
+Copyright (c) 2010 Opscode, Inc
+
