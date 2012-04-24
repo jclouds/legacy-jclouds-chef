@@ -18,27 +18,18 @@
  */
 package org.jclouds.opscodeplatform.internal;
 
-import java.net.URI;
-import java.util.Map;
-import java.util.Set;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.jclouds.domain.Credentials;
 import org.jclouds.lifecycle.Closer;
-import org.jclouds.location.Iso3166;
-import org.jclouds.location.Provider;
 import org.jclouds.opscodeplatform.OpscodePlatformAsyncClient;
 import org.jclouds.opscodeplatform.OpscodePlatformClient;
 import org.jclouds.opscodeplatform.OpscodePlatformContext;
+import org.jclouds.providers.ProviderMetadata;
 import org.jclouds.rest.Utils;
-import org.jclouds.rest.annotations.ApiVersion;
-import org.jclouds.rest.annotations.BuildVersion;
 import org.jclouds.rest.annotations.Identity;
 import org.jclouds.rest.internal.RestContextImpl;
 
-import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
@@ -50,12 +41,10 @@ public class OpscodePlatformContextImpl extends RestContextImpl<OpscodePlatformC
          implements OpscodePlatformContext {
 
    @Inject
-   protected OpscodePlatformContextImpl(Closer closer, Map<String, Credentials> credentialStore, Utils utils,
-            Injector injector, @Provider Supplier<URI> endpoint, @Provider String provider, @Identity String identity,
-            @ApiVersion String apiVersion, @BuildVersion String buildVersion, @Iso3166 Set<String> iso3166Codes) {
-      super(closer, credentialStore, utils, injector, TypeLiteral.get(OpscodePlatformClient.class), TypeLiteral
-               .get(OpscodePlatformAsyncClient.class), endpoint, buildVersion, buildVersion, buildVersion,
-               buildVersion, iso3166Codes);
+   protected OpscodePlatformContextImpl(ProviderMetadata providerMetadata, @Identity String identity, Utils utils,
+            Closer closer, Injector injector) {
+      super(providerMetadata, identity, utils, closer, injector, TypeLiteral.get(OpscodePlatformClient.class),
+               TypeLiteral.get(OpscodePlatformAsyncClient.class));
    }
 
 }

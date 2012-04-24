@@ -45,6 +45,7 @@ import org.jclouds.logging.jdk.JDKLogger;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.AbstractModule;
 
 /**
@@ -114,7 +115,7 @@ public class ChefRegistrationListener implements ServletContextListener {
             bind(ServletContext.class).toInstance(servletContextEvent.getServletContext());
          }
 
-      })).overrides(props).build(ChefContext.class).getChefService();
+      })).overrides(props).build(TypeToken.of(ChefContext.class)).getChefService();
    }
 
    private static String getInitParam(ServletContextEvent servletContextEvent, String name) {

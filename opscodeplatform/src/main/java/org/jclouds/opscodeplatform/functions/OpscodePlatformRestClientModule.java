@@ -28,6 +28,7 @@ import org.jclouds.opscodeplatform.OpscodePlatformClient;
 import org.jclouds.rest.ConfiguresRestClient;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
 
 /**
  * Configures the Opscode Platform connection.
@@ -42,7 +43,7 @@ public class OpscodePlatformRestClientModule extends
          .build();
 
    public OpscodePlatformRestClientModule() {
-      super(OpscodePlatformClient.class, OpscodePlatformAsyncClient.class, DELEGATE_MAP);
+      super(TypeToken.of(OpscodePlatformClient.class), TypeToken.of(OpscodePlatformAsyncClient.class), DELEGATE_MAP);
    }
 
 }

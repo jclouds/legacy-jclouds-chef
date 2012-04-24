@@ -46,6 +46,7 @@ import org.testng.annotations.Test;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Guice;
 import com.google.inject.Module;
 
@@ -104,7 +105,7 @@ public class OpscodePlatformClientLiveTest extends BaseChefClientLiveTest {
    private ChefClient createChefClient(String user, String adminKey) {
       return ContextBuilder.newBuilder("chef").endpoint("https://api.opscode.com/organizations/" + orgname)
                .credentials(user, adminKey).modules(ImmutableSet.<Module> of(new Log4JLoggingModule())).build(
-                        ChefContext.class).getApi();
+                        TypeToken.of(ChefContext.class)).getApi();
    }
 
    @Override

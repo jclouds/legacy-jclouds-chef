@@ -18,7 +18,7 @@
  */
 package org.jclouds.opscodeplatform;
 
-import org.jclouds.Wrapper;
+import org.jclouds.View;
 import org.jclouds.rest.internal.BaseRestApiMetadataTest;
 import org.testng.annotations.Test;
 
@@ -34,6 +34,6 @@ public class OpscodePlatformApiMetadataTest extends BaseRestApiMetadataTest {
 
    // no config management abstraction, yet
    public OpscodePlatformApiMetadataTest() {
-      super(new OpscodePlatformApiMetadata(), ImmutableSet.<TypeToken<? extends Wrapper>> of());
+      super(new OpscodePlatformApiMetadata(), ImmutableSet.<TypeToken<? extends View>> of());
    }
 }
