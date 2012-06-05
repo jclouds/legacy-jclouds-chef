@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.opscodeplatform.config;
+package org.jclouds.opscodeplatform.functions;
 
 import javax.inject.Singleton;
 
