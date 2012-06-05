@@ -31,9 +31,9 @@ import org.jclouds.date.TimeStamp;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.functions.ParseJson;
 import org.jclouds.http.functions.ReturnTrueIf2xx;
+import org.jclouds.opscodeplatform.config.OpscodePlatformRestClientModule;
 import org.jclouds.opscodeplatform.domain.Organization;
 import org.jclouds.opscodeplatform.domain.User;
-import org.jclouds.opscodeplatform.functions.OpscodePlatformRestClientModule;
 import org.jclouds.rest.ConfiguresRestClient;
 import org.jclouds.rest.functions.ReturnEmptySetOnNotFoundOr404;
 import org.jclouds.rest.functions.ReturnFalseOnNotFoundOr404;
@@ -53,7 +53,7 @@ import com.google.inject.TypeLiteral;
  * 
  * @author Adrian Cole
  */
-@Test(groups = { "unit" })
+@Test(groups = "unit", testName = "OpscodePlatformAsyncClientTest")
 public class OpscodePlatformAsyncClientTest extends BaseAsyncClientTest<OpscodePlatformAsyncClient> {
 
    public void testListUsers() throws SecurityException, NoSuchMethodException, IOException {

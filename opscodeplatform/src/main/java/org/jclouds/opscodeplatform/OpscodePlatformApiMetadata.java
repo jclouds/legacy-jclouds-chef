@@ -7,7 +7,7 @@ import org.jclouds.apis.ApiMetadata;
 import org.jclouds.chef.ChefApiMetadata;
 import org.jclouds.chef.ChefAsyncClient;
 import org.jclouds.ohai.config.JMXOhaiModule;
-import org.jclouds.opscodeplatform.functions.OpscodePlatformRestClientModule;
+import org.jclouds.opscodeplatform.config.OpscodePlatformRestClientModule;
 import org.jclouds.rest.RestContext;
 import org.jclouds.rest.internal.BaseRestApiMetadata;
 
