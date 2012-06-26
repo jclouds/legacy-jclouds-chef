@@ -23,59 +23,48 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.jclouds.provider</groupId>
+        <groupId>org.jclouds.chef</groupId>
         <artifactId>chef-parent</artifactId>
         <version>1.5.0-SNAPSHOT</version>
         <relativePath>../project/pom.xml</relativePath>
     </parent>
-    <artifactId>jclouds-chef-compute</artifactId>
+    <artifactId>chef-compute</artifactId>
     <name>JClouds Chef :: Compute</name>
     <description>provisions nodes with jclouds and kick's off chef to configure and integrate</description>
     <properties>
-        <!--
-            for example: ec2, trmk-ecloud, bluelock-vclouddirector,
-            cloudservers, etc
-        -->
-        <jclouds.compute.provider>YOUR_PREFERRED_PROVIDER</jclouds.compute.provider>
-        <!-- leave blank unless you have a different url to override -->
-        <jclouds.compute.endpoint></jclouds.compute.endpoint>
-        <jclouds.compute.identity>YOUR_ACCOUNT</jclouds.compute.identity>
-        <jclouds.compute.credential>YOUR_CREDENTIAL</jclouds.compute.credential>
-        <!--  tag for nodes used in the tests  -->
-        <jclouds.compute.tag>jcloudschef</jclouds.compute.tag>
-        <jclouds.chef.identity>YOUR_USER</jclouds.chef.identity>
-        <jclouds.chef.credential.pem>${user.home}/.chef/${jclouds.chef.identity}.pem</jclouds.chef.credential.pem>
-        <jclouds.opscodeplatform.org>YOUR_ORG</jclouds.opscodeplatform.org>
-        <jclouds.chef.endpoint>https://api.opscode.com/organizations/${jclouds.opscodeplatform.org}</jclouds.chef.endpoint>
+        <test.chef.endpoint>http://localhost:4000</test.chef.endpoint>
+        <test.chef.api-version></test.chef.api-version>
+        <test.chef.build-version></test.chef.build-version>
+        <test.chef.identity>chef-validator</test.chef.identity>
+        <test.chef.credential>${user.home}/.chef/validation.pem</test.chef.credential>
+        <test.chef.compute.provider>aws-ec2</test.chef.compute.provider>
+        <test.chef.compute.endpoint>https://ec2.us-east-1.amazonaws.com</test.chef.compute.endpoint>
+        <test.chef.compute.api-version>2010-06-15</test.chef.compute.api-version>
+        <test.chef.compute.build-version></test.chef.compute.build-version>
+        <test.chef.compute.identity>${test.aws.identity}</test.chef.compute.identity>
+        <test.chef.compute.credential>${test.aws.credential}</test.chef.compute.credential>
+        <test.chef.compute.template></test.chef.compute.template>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jclouds-chef</artifactId>
+            <groupId>org.jclouds.api</groupId>
+            <artifactId>chef</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jclouds.api</groupId>
+            <artifactId>chef</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds</groupId>
             <artifactId>jclouds-compute</artifactId>
             <version>${jclouds.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jclouds.driver</groupId>
-            <artifactId>jclouds-jsch</artifactId>
-            <version>${jclouds.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jclouds.driver</groupId>
-            <artifactId>jclouds-log4j</artifactId>
-            <version>${jclouds.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -99,7 +88,26 @@
             <scope>test</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>           
+            <groupId>org.jclouds.driver</groupId>
+            <artifactId>jclouds-slf4j</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jclouds.driver</groupId>
+            <artifactId>jclouds-sshj</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>   
+        <dependency>        
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
     <profiles>
         <profile>
             <id>live</id>
@@ -116,46 +124,20 @@
                                     <goal>test</goal>
                                 </goals>
                                 <configuration>
-                                    <excludes>
-                                        <exclude>none</exclude>
-                                    </excludes>
-                                    <includes>
-                                        <include>**/*LiveTest.java</include>
-                                    </includes>
-                                    <systemProperties>
-                                        <property>
-                                            <name>jclouds.compute.provider</name>
-                                            <value>${jclouds.compute.provider}</value>
-                                        </property>
-                                        <property>
-                                            <name>jclouds.compute.endpoint</name>
-                                            <value>${jclouds.compute.endpoint}</value>
-                                        </property>
-                                        <property>
-                                            <name>jclouds.compute.identity</name>
-                                            <value>${jclouds.compute.identity}</value>
-                                        </property>
-                                        <property>
-                                            <name>jclouds.compute.credential</name>
-                                            <value>${jclouds.compute.credential}</value>
-                                        </property>
-                                        <property>
-                                            <name>jclouds.compute.tag</name>
-                                            <value>${jclouds.compute.tag}</value>
-                                        </property>
-                                        <property>
-                                            <name>jclouds.compute.credential</name>
-                                            <value>${jclouds.compute.credential}</value>
-                                        </property>
-                                        <property>
-                                            <name>jclouds.chef.credential.pem</name>
-                                            <value>${jclouds.chef.credential.pem}</value>
-                                        </property>
-                                        <property>
-                                            <name>jclouds.chef.endpoint</name>
-                                            <value>${jclouds.chef.endpoint}</value>
-                                        </property>
-                                    </systemProperties>
+                                    <systemPropertyVariables>
+                                        <test.chef.endpoint>${test.chef.endpoint}</test.chef.endpoint>
+                                        <test.chef.api-version>${test.chef.api-version}</test.chef.api-version>
+                                        <test.chef.build-version>${test.chef.build-version}</test.chef.build-version>
+                                        <test.chef.identity>${test.chef.identity}</test.chef.identity>
+                                        <test.chef.credential>${test.chef.credential}</test.chef.credential>
+                                        <test.chef.compute.provider>${test.chef.compute.provider}</test.chef.compute.provider>
+                                        <test.chef.compute.endpoint>${test.chef.compute.endpoint}</test.chef.compute.endpoint>
+                                        <test.chef.compute.build-version>${test.chef.compute.build-version}</test.chef.compute.build-version>
+                                        <test.chef.compute.api-version>${test.chef.compute.api-version}</test.chef.compute.api-version>
+                                        <test.chef.compute.identity>${test.chef.compute.identity}</test.chef.compute.identity>
+                                        <test.chef.compute.credential>${test.chef.compute.credential}</test.chef.compute.credential>
+                                        <test.chef.compute.template>${test.chef.compute.template}</test.chef.compute.template>
+                                    </systemPropertyVariables>
                                 </configuration>
                             </execution>
                         </executions>

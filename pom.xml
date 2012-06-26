@@ -21,7 +21,7 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.jclouds.provider</groupId>
+  <groupId>org.jclouds.chef</groupId>
   <artifactId>chef-project</artifactId>
   <name>JClouds Chef :: Project POM</name>
   <description>JClouds Chef top level project pom for builds</description>
@@ -33,7 +33,7 @@
     <module>core</module>
     <module>servlet</module>
     <module>compute</module>
-    <module>opscodeplatform</module>
+    <module>labs</module>
   </modules>
   <build>
     <plugins>

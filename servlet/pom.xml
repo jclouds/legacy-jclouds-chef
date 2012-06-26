@@ -23,19 +23,31 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.jclouds.provider</groupId>
+    <groupId>org.jclouds.chef</groupId>
     <artifactId>chef-parent</artifactId>
     <version>1.5.0-SNAPSHOT</version>
     <relativePath>../project/pom.xml</relativePath>
   </parent>
-  <artifactId>jclouds-chef-servlet</artifactId>
+  <artifactId>chef-servlet</artifactId>
   <name>JClouds Chef :: Servlet</name>
   <description>jclouds components to access chef from a servlet container</description>
 
+  <properties>
+    <jclouds.osgi.import>
+      org.jclouds;version=${project.version},
+      org.jclouds*;version=${project.version},
+      *
+    </jclouds.osgi.import>
+    <jclouds.osgi.export>
+      org.jclouds.chef.servlet*;version=${project.version};-noimport:=true,
+      org.jclouds.ohai.servlet*;version=${project.version};-noimport:=true,
+    </jclouds.osgi.export>
+  </properties>
+
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>jclouds-chef</artifactId>
+      <groupId>org.jclouds.api</groupId>
+      <artifactId>chef</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
