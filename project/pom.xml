@@ -177,8 +177,6 @@
             </goals>
             <configuration>
               <argLine>-Xmx512m -Xms256m -Djava.awt.headless=true -XX:MaxPermSize=256m -Xss256k</argLine>
-              <parallel>tests</parallel>
-              <threadCount>5</threadCount>
               <groups>integration</groups>
               <excludedGroups>unit,performance,live</excludedGroups>
               <properties>
