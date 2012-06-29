@@ -30,7 +30,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
-import org.jclouds.chef.ChefAsyncClient;
+import org.jclouds.Constants;
 import org.jclouds.chef.ChefClient;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
@@ -61,7 +61,7 @@ import com.google.common.util.concurrent.ListenableFuture;
  */
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
-@Headers(keys = "X-Chef-Version", values = ChefAsyncClient.VERSION)
+@Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
 public interface PrivateChefAsyncClient {
 
    /**
