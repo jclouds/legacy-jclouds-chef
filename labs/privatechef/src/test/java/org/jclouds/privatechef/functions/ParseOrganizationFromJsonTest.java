@@ -22,15 +22,18 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 
+import org.jclouds.chef.ChefAsyncClient;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.http.functions.ParseJson;
 import org.jclouds.io.Payloads;
 import org.jclouds.json.config.GsonModule;
 import org.jclouds.privatechef.domain.Organization;
+import org.jclouds.rest.annotations.ApiVersion;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -48,7 +51,13 @@ public class ParseOrganizationFromJsonTest {
 
    @BeforeTest
    protected void setUpInjector() throws IOException {
-      Injector injector = Guice.createInjector(new ChefParserModule(), new GsonModule());
+      Injector injector = Guice.createInjector(new AbstractModule() {
+          @Override
+          protected void configure()
+          {
+              bind(String.class).annotatedWith(ApiVersion.class).toInstance(ChefAsyncClient.VERSION);
+          }
+       }, new ChefParserModule(), new GsonModule());
       handler = injector.getInstance(Key.get(new TypeLiteral<ParseJson<Organization>>() {
       }));
    }

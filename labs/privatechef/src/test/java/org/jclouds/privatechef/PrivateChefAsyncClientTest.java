@@ -22,8 +22,11 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Properties;
 
+import org.jclouds.Constants;
 import org.jclouds.apis.ApiMetadata;
+import org.jclouds.chef.ChefAsyncClient;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.filters.SignedHeaderAuthTest;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
@@ -63,7 +66,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method);
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/users HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseKeySetFromJson.class);
@@ -78,7 +81,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       Method method = PrivateChefAsyncClient.class.getMethod("userExists", String.class);
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "user");
       assertRequestLineEquals(httpRequest, "HEAD https://api.opscode.com/users/user HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ReturnTrueIf2xx.class);
@@ -93,7 +96,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       Method method = PrivateChefAsyncClient.class.getMethod("organizationExists", String.class);
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "organization");
       assertRequestLineEquals(httpRequest, "HEAD https://api.opscode.com/organizations/organization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ReturnTrueIf2xx.class);
@@ -109,7 +112,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method);
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/organizations HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseKeySetFromJson.class);
@@ -126,7 +129,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
             .createRequest(method, new User("myuser"));
 
       assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/users HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, "{\"username\":\"myuser\"}", "application/json", false);
 
       // now make sure request filters apply by replaying
@@ -135,7 +138,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       assertRequestLineEquals(filteredRequest, "POST https://api.opscode.com/users HTTP/1.1");
       assertNonPayloadHeadersEqual(
             filteredRequest,
-            new StringBuilder("Accept: application/json").append("\n").append("X-Chef-Version: 0.9.8").append("\n")
+            new StringBuilder("Accept: application/json").append("\n").append("X-Chef-Version: " + ChefAsyncClient.VERSION + "-test").append("\n")
                   .append("X-Ops-Authorization-1: kfrkDpfgNU26k70R1vl1bEWk0Q0f9Fs/3kxOX7gHd7iNoJq03u7RrcrAOSgL")
                   .append("\n")
                   .append("X-Ops-Authorization-2: ETj5JNeCk18BmFkHMAbCA9hXVo1T4rlHCpbuzAzFlFxUGAT4wj8UoO7V886X")
@@ -165,7 +168,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
             .createRequest(method, new User("myuser"));
 
       assertRequestLineEquals(httpRequest, "PUT https://api.opscode.com/users/myuser HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, "{\"username\":\"myuser\"}", "application/json", false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -181,7 +184,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myuser");
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/users/myuser HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -197,7 +200,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myuser");
 
       assertRequestLineEquals(httpRequest, "DELETE https://api.opscode.com/users/myuser HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -214,7 +217,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
             "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
 
       assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/organizations HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(
             httpRequest,
             "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
@@ -234,7 +237,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
             "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
 
       assertRequestLineEquals(httpRequest, "PUT https://api.opscode.com/organizations/myorganization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(
             httpRequest,
             "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
@@ -253,7 +256,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myorganization");
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/organizations/myorganization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -269,7 +272,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myorganization");
 
       assertRequestLineEquals(httpRequest, "DELETE https://api.opscode.com/organizations/myorganization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: 0.9.8\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -295,6 +298,13 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    @Override
    protected Module createModule() {
       return new TestPrivateChefRestClientModule();
+   }
+   
+   @Override
+   protected Properties setupProperties() {
+       Properties props =  super.setupProperties();
+       props.put(Constants.PROPERTY_API_VERSION, ChefAsyncClient.VERSION + "-test");
+       return props;
    }
 
    @ConfiguresRestClient
