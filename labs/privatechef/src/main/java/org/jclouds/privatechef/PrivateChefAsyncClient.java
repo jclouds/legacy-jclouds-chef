@@ -31,6 +31,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
+import org.jclouds.chef.ChefAsyncClient;
 import org.jclouds.chef.ChefClient;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
@@ -39,6 +40,7 @@ import org.jclouds.privatechef.domain.User;
 import org.jclouds.privatechef.functions.OrganizationName;
 import org.jclouds.privatechef.functions.Username;
 import org.jclouds.rest.annotations.BinderParam;
+import org.jclouds.rest.annotations.Delegate;
 import org.jclouds.rest.annotations.ExceptionParser;
 import org.jclouds.rest.annotations.Headers;
 import org.jclouds.rest.annotations.ParamParser;
@@ -64,6 +66,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
 public interface PrivateChefAsyncClient {
 
+   @Delegate
+   ChefAsyncClient getChefClient();
+    
    /**
     * @see ChefUser#listUsers
     */

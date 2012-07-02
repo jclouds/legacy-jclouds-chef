@@ -31,6 +31,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
+import org.jclouds.chef.ChefClient;
+import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.compute.internal.BaseComputeServiceIntegratedChefClientLiveTest;
 import org.jclouds.chef.domain.CookbookVersion;
 import org.jclouds.chef.util.RunListBuilder;
@@ -42,12 +44,14 @@ import org.jclouds.util.Strings2;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
+import com.google.common.reflect.TypeToken;
+
 /**
  * 
  * @author Adrian Cole
  */
 @Test(groups = "live", testName = "ChefComputeServiceLiveTest")
-public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChefClientLiveTest {
+public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChefClientLiveTest<ChefContext> {
 
    private String group;
    private String clientName;
@@ -107,5 +111,17 @@ public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChef
          context.close();
       }
       super.tearDownContext();
+   }
+   
+   @Override
+   protected ChefClient getChefClient(ChefContext context)
+   {
+       return context.getApi();
+   }
+   
+   @Override
+   protected TypeToken<ChefContext> contextType()
+   {
+       return TypeToken.of(ChefContext.class);
    }
 }

@@ -21,11 +21,13 @@ package org.jclouds.privatechef;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.jclouds.chef.ChefClient;
 import org.jclouds.concurrent.Timeout;
 import org.jclouds.privatechef.domain.Organization;
 import org.jclouds.privatechef.domain.User;
 import org.jclouds.rest.AuthorizationException;
 import org.jclouds.rest.ResourceNotFoundException;
+import org.jclouds.rest.annotations.Delegate;
 
 /**
  * Provides synchronous access to the Private Chef.
@@ -37,6 +39,10 @@ import org.jclouds.rest.ResourceNotFoundException;
  */
 @Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
 public interface PrivateChefClient {
+    
+   @Delegate
+   ChefClient getChefClient();
+    
    /**
     * @return list of user names.
     * 

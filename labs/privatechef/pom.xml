@@ -35,12 +35,13 @@
 
     <properties>
         <test.jclouds.privatechef.org>YOUR_ORG</test.jclouds.privatechef.org>
-
-        <test.privatechef.endpoint>https://api.opscode.com/organizations/${jclouds.privatechef.org}</test.privatechef.endpoint>
+        <test.privatechef.endpoint>https://api.opscode.com/organizations/${test.jclouds.privatechef.org}</test.privatechef.endpoint>
         <test.privatechef.api-version></test.privatechef.api-version>
         <test.privatechef.build-version></test.privatechef.build-version>
         <test.privatechef.identity>YOUR_USER</test.privatechef.identity>
         <test.privatechef.credential>${user.home}/.chef/${jclouds.privatechef.org}/${jclouds.test.identity}.pem</test.privatechef.credential>
+        <test.privatechef.validator.identity>${test.jclouds.privatechef.org}-validator</test.privatechef.validator.identity>
+        <test.privatechef.validator.credential>${user.home}/.chef/${jclouds.privatechef.org}/${test.privatechef.validator.identity}.pem</test.privatechef.validator.credential>
 
         <jclouds.osgi.export>org.jclouds.privatechef*;version="${project.version}"</jclouds.osgi.export>
         <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
@@ -76,6 +77,13 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Required to read private key files -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>1.46</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

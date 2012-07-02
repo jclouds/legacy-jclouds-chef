@@ -6,6 +6,7 @@ import java.util.Properties;
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.chef.ChefApiMetadata;
 import org.jclouds.chef.ChefAsyncClient;
+import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.ohai.config.JMXOhaiModule;
 import org.jclouds.privatechef.config.PrivateChefRestClientModule;
 import org.jclouds.rest.internal.BaseRestApiMetadata;
@@ -46,7 +47,7 @@ public class PrivateChefApiMetadata extends BaseRestApiMetadata {
 
       protected Builder(Class<?> client, Class<?> asyncClient) {
          super(client, asyncClient);
-         id("chef")
+         id("privatechef")
          .name("Private Chef Api")
          .identityName("User")
          .credentialName("Certificate")
@@ -55,7 +56,7 @@ public class PrivateChefApiMetadata extends BaseRestApiMetadata {
          .defaultEndpoint("https://api.opscode.com")
          .defaultProperties(PrivateChefApiMetadata.defaultProperties())
          .context(TypeToken.of(PrivateChefContext.class))
-         .defaultModules(ImmutableSet.<Class<? extends Module>>of(PrivateChefRestClientModule.class, JMXOhaiModule.class));
+         .defaultModules(ImmutableSet.<Class<? extends Module>>of(PrivateChefRestClientModule.class, ChefParserModule.class, JMXOhaiModule.class));
       }
 
       @Override
