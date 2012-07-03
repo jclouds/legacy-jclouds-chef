@@ -26,6 +26,7 @@ import org.jclouds.privatechef.domain.Organization;
 import org.jclouds.privatechef.domain.User;
 import org.jclouds.rest.AuthorizationException;
 import org.jclouds.rest.ResourceNotFoundException;
+import org.jclouds.rest.annotations.Delegate;
 
 /**
  * Provides synchronous access to the Private Chef.
@@ -37,6 +38,10 @@ import org.jclouds.rest.ResourceNotFoundException;
  */
 @Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
 public interface PrivateChefClient {
+    
+   @Delegate
+   PatchedChefClient getChefClient();
+    
    /**
     * @return list of user names.
     * 
