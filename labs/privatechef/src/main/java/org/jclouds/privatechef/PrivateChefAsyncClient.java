@@ -39,6 +39,7 @@ import org.jclouds.privatechef.domain.User;
 import org.jclouds.privatechef.functions.OrganizationName;
 import org.jclouds.privatechef.functions.Username;
 import org.jclouds.rest.annotations.BinderParam;
+import org.jclouds.rest.annotations.Delegate;
 import org.jclouds.rest.annotations.ExceptionParser;
 import org.jclouds.rest.annotations.Headers;
 import org.jclouds.rest.annotations.ParamParser;
@@ -64,6 +65,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
 public interface PrivateChefAsyncClient {
 
+   @Delegate
+   PatchedChefAsyncClient getChefClient();
+    
    /**
     * @see ChefUser#listUsers
     */
