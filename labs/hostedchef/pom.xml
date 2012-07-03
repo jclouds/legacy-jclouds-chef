@@ -35,26 +35,24 @@
 
     <properties>
         <test.jclouds.hostedchef.org>YOUR_ORG</test.jclouds.hostedchef.org>
-
-        <test.hostedchef.endpoint>https://api.opscode.com/organizations/${jclouds.hostedchef.org}</test.hostedchef.endpoint>
+        <test.hostedchef.endpoint>https://api.opscode.com/organizations/${test.jclouds.hostedchef.org}</test.hostedchef.endpoint>
         <test.hostedchef.api-version></test.hostedchef.api-version>
         <test.hostedchef.build-version></test.hostedchef.build-version>
         <test.hostedchef.identity>YOUR_USER</test.hostedchef.identity>
         <test.hostedchef.credential>${user.home}/.chef/${jclouds.hostedchef.org}/${jclouds.test.identity}.pem</test.hostedchef.credential>
-
+        <test.hostedchef.validator.identity>${test.jclouds.hostedchef.org}-validator</test.hostedchef.validator.identity>
+        <test.hostedchef.validator.credential>${user.home}/.chef/${jclouds.hostedchef.org}/${test.hostedchef.validator.identity}.pem</test.hostedchef.validator.credential>
         <jclouds.osgi.export>org.jclouds.hostedchef*;version="${project.version}"</jclouds.osgi.export>
         <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
     </properties>
 
     <dependencies>
         <dependency>
-            <!-- <groupId>org.jclouds.api</groupId> -->
             <groupId>org.jclouds.labs</groupId>
             <artifactId>privatechef</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <!-- <groupId>org.jclouds.api</groupId> -->
             <groupId>org.jclouds.labs</groupId>
             <artifactId>privatechef</artifactId>
             <version>${project.version}</version>
@@ -85,6 +83,13 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Required to read private key files -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>1.46</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -21,7 +21,6 @@ package org.jclouds.privatechef;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.jclouds.chef.ChefClient;
 import org.jclouds.concurrent.Timeout;
 import org.jclouds.privatechef.domain.Organization;
 import org.jclouds.privatechef.domain.User;
@@ -41,7 +40,7 @@ import org.jclouds.rest.annotations.Delegate;
 public interface PrivateChefClient {
     
    @Delegate
-   ChefClient getChefClient();
+   PatchedChefClient getChefClient();
     
    /**
     * @return list of user names.

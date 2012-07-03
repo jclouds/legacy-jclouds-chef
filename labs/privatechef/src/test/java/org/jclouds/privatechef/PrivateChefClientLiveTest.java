@@ -21,16 +21,13 @@ package org.jclouds.privatechef;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-import java.util.Properties;
 import java.util.Set;
 
 import org.jclouds.chef.ChefClient;
 import org.jclouds.chef.internal.BaseChefClientLiveTest;
-import org.jclouds.crypto.Pems;
 import org.jclouds.privatechef.domain.Organization;
 import org.jclouds.privatechef.domain.User;
 import org.jclouds.rest.AuthorizationException;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.google.common.reflect.TypeToken;
@@ -46,13 +43,8 @@ public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChe
    public PrivateChefClientLiveTest(){
        provider = "privatechef";
    }
-    
-//   private String privateChefIdentity;
-//   private String privateChefCredential;
-//   protected context context;
-   
 
-   private String orgname = System.getProperty("test.jclouds.privatechef.org");
+   private String orgname = System.getProperty("test.jclouds." + provider + ".org");
    private Organization org;
    private User orgUser;
    private String createdOrgname;
@@ -63,25 +55,6 @@ public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChe
    public void testValidatorCreateClient() throws Exception {
        super.testValidatorCreateClient();
    }
-   
-//   protected Properties setupPrivateChefProperties() {
-//       Properties overrides = setupProperties();
-//       privateChefIdentity = setIfTestSystemPropertyPresent(overrides, provider + ".validator.identity");
-//       privateChefCredential = setCredentialFromPemFile(overrides, privateChefIdentity, provider + ".validator.credential");
-//       overrides.setProperty(provider + ".identity", privateChefIdentity);
-//       overrides.setProperty(provider + ".credential", privateChefCredential);
-//       return overrides;
-//   }
-
-//   @BeforeClass(groups = { "integration", "live" })
-//   @Override
-//   public void setupContext() {
-//       super.setupContext();
-//       context = newBuilder()
-//           .modules(setupModules())
-//           .overrides(setupProperties())
-//           .build(TypeToken.of(context.class)); 
-//   }
 
 //   @Test(expectedExceptions = AuthorizationException.class)
 //   public void testListOrganizations() throws Exception {
@@ -125,51 +98,52 @@ public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChe
 //   public void testGetOrganization() throws Exception {
 //       context.getApi().getOrganization(orgname);
 //   }
+   
+// @Test//(expectedExceptions = AuthorizationException.class)
+// public void testGetOrganizationFailsForValidationKey() throws Exception {
+//     context.getApi().getOrganization(orgname);
+// }
 //
-//   @Test(expectedExceptions = AuthorizationException.class, enabled = false)
+// @Test//(dependsOnMethods = "testGenerateKeyForClient", expectedExceptions = AuthorizationException.class)
+// public void testGetOrganizationFailsForClient() throws Exception {
+//     context.getApi().getOrganization(orgname);
+// }
+//
+   
+//
+   
+//   @Test
 //   public void testListUsers() throws Exception {
 //      Set<String> orgs = context.getApi().listUsers();
 //      assertNotNull(orgs);
 //   }
-//
-//   // @Test(expectedExceptions = HttpResponseException.class)
-//   @Test(enabled = false, expectedExceptions = AuthorizationException.class)
+
+//   @Test(enabled = false)
 //   public void testCreateUser() throws Exception {
-//       context.getApi().deleteUser(PREFIX);
-//       context.getApi().createUser(new User(PREFIX));
+//      context.getApi().deleteUser(PREFIX);
+//      context.getApi().createUser(new User(PREFIX));
 //      orgUser = context.getApi().getUser(PREFIX);
 //      assertNotNull(orgUser);
 //      assertEquals(orgUser.getUsername(), PREFIX);
 //      assertNotNull(orgUser.getPrivateKey());
 //   }
-
+//
 //   @Test(enabled = false)
 //   public void testUserExists() throws Exception {
-//      assertNotNull(context.getApi().userExists(user));
+//      assertNotNull(context.getApi().userExists(identity));
 //   }
 //
 //   @Test(enabled = false)
 //   public void testGetUser() throws Exception {
-//       context.getApi().getUser(user);
+//       context.getApi().getUser(identity);
 //   }
-
-    // disabled while create user fails
+//
 //   @Test(dependsOnMethods = "testCreateUser", enabled = false)
 //   public void testUpdateUser() throws Exception {
 //      User user = context.getApi().getUser(PREFIX);
 //      context.getApi().updateUser(user);
 //   }
-//
-//   @Test//(expectedExceptions = AuthorizationException.class)
-//   public void testGetOrganizationFailsForValidationKey() throws Exception {
-//       context.getApi().getOrganization(orgname);
-//   }
-//
-//   @Test//(dependsOnMethods = "testGenerateKeyForClient", expectedExceptions = AuthorizationException.class)
-//   public void testGetOrganizationFailsForClient() throws Exception {
-//       context.getApi().getOrganization(orgname);
-//   }
-//
+
     @Override
     protected ChefClient getChefClient(PrivateChefContext context) {
         return context.getApi().getChefClient();

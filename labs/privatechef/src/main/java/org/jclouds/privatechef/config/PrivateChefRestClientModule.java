@@ -20,9 +20,9 @@ package org.jclouds.privatechef.config;
 
 import java.util.Map;
 
-import org.jclouds.chef.ChefAsyncClient;
-import org.jclouds.chef.ChefClient;
 import org.jclouds.chef.config.BaseChefRestClientModule;
+import org.jclouds.privatechef.PatchedChefAsyncClient;
+import org.jclouds.privatechef.PatchedChefClient;
 import org.jclouds.privatechef.PrivateChefAsyncClient;
 import org.jclouds.privatechef.PrivateChefClient;
 import org.jclouds.rest.ConfiguresRestClient;
@@ -39,7 +39,7 @@ import com.google.common.reflect.TypeToken;
 public class PrivateChefRestClientModule extends
       BaseChefRestClientModule<PrivateChefClient, PrivateChefAsyncClient> {
    public static final Map<Class<?>, Class<?>> DELEGATE_MAP = ImmutableMap.<Class<?>, Class<?>> builder()//
-         .put(ChefClient.class, ChefAsyncClient.class)//
+         .put(PatchedChefClient.class, PatchedChefAsyncClient.class)//
          .build();
 
    public PrivateChefRestClientModule() {
