@@ -30,6 +30,6 @@ import com.google.inject.ImplementedBy;
  * 
  */
 @ImplementedBy(PrivateChefContextImpl.class)
-public interface PrivateChefContext extends RestContext<PrivateChefClient, PrivateChefAsyncClient> {
+public interface PrivateChefContext extends RestContext<PrivateChefApi, PrivateChefAsyncApi> {
 
 }

@@ -31,7 +31,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
-import org.jclouds.chef.ChefClient;
+import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.compute.internal.BaseComputeServiceIntegratedChefClientLiveTest;
 import org.jclouds.chef.domain.CookbookVersion;
@@ -114,7 +114,7 @@ public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChef
    }
    
    @Override
-   protected ChefClient getChefClient(ChefContext context)
+   protected ChefApi getChefApi(ChefContext context)
    {
        return context.getApi();
    }

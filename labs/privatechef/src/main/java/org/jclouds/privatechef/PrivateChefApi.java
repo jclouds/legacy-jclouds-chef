@@ -32,15 +32,15 @@ import org.jclouds.rest.annotations.Delegate;
  * Provides synchronous access to the Private Chef.
  * <p/>
  * 
- * @see PrivateChefAsyncClient
+ * @see PrivateChefAsyncApi
  * @see <a href="TODO: insert URL of Private Chef documentation" />
  * @author Adrian Cole
  */
 @Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
-public interface PrivateChefClient {
+public interface PrivateChefApi {
     
    @Delegate
-   PatchedChefClient getChefClient();
+   PatchedChefApi getChefApi();
     
    /**
     * @return list of user names.

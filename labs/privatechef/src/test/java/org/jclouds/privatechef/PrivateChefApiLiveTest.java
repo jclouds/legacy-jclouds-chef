@@ -23,8 +23,8 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.Set;
 
-import org.jclouds.chef.ChefClient;
-import org.jclouds.chef.internal.BaseChefClientLiveTest;
+import org.jclouds.chef.ChefApi;
+import org.jclouds.chef.internal.BaseChefApiLiveTest;
 import org.jclouds.privatechef.domain.Organization;
 import org.jclouds.privatechef.domain.User;
 import org.jclouds.rest.AuthorizationException;
@@ -33,14 +33,14 @@ import org.testng.annotations.Test;
 import com.google.common.reflect.TypeToken;
 
 /**
- * Tests behavior of {@code PrivateChefClient}
+ * Tests behavior of {@code PrivateChefApi}
  * TODO: needs complete refactoring
  * @author Adrian Cole
  */
-@Test(groups = "live", testName = "PrivateChefClientLiveTest")
-public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChefContext> {
+@Test(groups = "live", testName = "PrivateChefApiLiveTest")
+public class PrivateChefApiLiveTest extends BaseChefApiLiveTest<PrivateChefContext> {
 
-   public PrivateChefClientLiveTest(){
+   public PrivateChefApiLiveTest(){
        provider = "privatechef";
    }
 
@@ -49,7 +49,7 @@ public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChe
    private User orgUser;
    private String createdOrgname;
    
-   // Private Chef does not allow validators to create clients
+   // Private Chef does not allow validators to create apis
    @Override
    @Test(expectedExceptions = AuthorizationException.class)
    public void testValidatorCreateClient() throws Exception {
@@ -73,12 +73,12 @@ public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChe
 //      assertNotNull(org);
 //      assertNull(org.getName());
 //      assertNull(org.getFullName());
-//      assertEquals(org.getClientname(), createdOrgname + "-validator");
+//      assertEquals(org.getApiname(), createdOrgname + "-validator");
 //      assertNull(org.getOrgType());
 //      assertNotNull(org.getPrivateKey());
 //      context connection = null;
 //      try {
-//         connection = createConnection(org.getClientname(), Pems.pem(org.getPrivateKey()));
+//         connection = createConnection(org.getApiname(), Pems.pem(org.getPrivateKey()));
 //      } finally {
 //         if (connection != null)
 //            connection.close();
@@ -104,8 +104,8 @@ public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChe
 //     context.getApi().getOrganization(orgname);
 // }
 //
-// @Test//(dependsOnMethods = "testGenerateKeyForClient", expectedExceptions = AuthorizationException.class)
-// public void testGetOrganizationFailsForClient() throws Exception {
+// @Test//(dependsOnMethods = "testGenerateKeyForApi", expectedExceptions = AuthorizationException.class)
+// public void testGetOrganizationFailsForApi() throws Exception {
 //     context.getApi().getOrganization(orgname);
 // }
 //
@@ -145,8 +145,8 @@ public class PrivateChefClientLiveTest extends BaseChefClientLiveTest<PrivateChe
 //   }
 
     @Override
-    protected ChefClient getChefClient(PrivateChefContext context) {
-        return context.getApi().getChefClient();
+    protected ChefApi getChefApi(PrivateChefContext context) {
+        return context.getApi().getChefApi();
     }
 
     @Override

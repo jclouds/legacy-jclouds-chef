@@ -18,17 +18,17 @@
  */
 package org.jclouds.hostedchef;
 
-import org.jclouds.privatechef.PrivateChefClientLiveTest;
+import org.jclouds.privatechef.PrivateChefApiLiveTest;
 import org.testng.annotations.Test;
 
 /**
- * Tests behavior of {@code PrivateChefClient}
+ * Tests behavior of {@code PrivateChefApi}
  * 
  * @author Adrian Cole
  */
-@Test(groups = "live", singleThreaded = true, testName = "HostedChefClientLiveTest")
-public class HostedChefClientLiveTest extends PrivateChefClientLiveTest {
-   public HostedChefClientLiveTest() {
+@Test(groups = "live", singleThreaded = true, testName = "HostedChefApiLiveTest")
+public class HostedChefApiLiveTest extends PrivateChefApiLiveTest {
+   public HostedChefApiLiveTest() {
       provider = "hostedchef";
    }
 

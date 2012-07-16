@@ -21,10 +21,10 @@ package org.jclouds.privatechef.config;
 import java.util.Map;
 
 import org.jclouds.chef.config.BaseChefRestClientModule;
-import org.jclouds.privatechef.PatchedChefAsyncClient;
-import org.jclouds.privatechef.PatchedChefClient;
-import org.jclouds.privatechef.PrivateChefAsyncClient;
-import org.jclouds.privatechef.PrivateChefClient;
+import org.jclouds.privatechef.PatchedChefAsyncApi;
+import org.jclouds.privatechef.PatchedChefApi;
+import org.jclouds.privatechef.PrivateChefAsyncApi;
+import org.jclouds.privatechef.PrivateChefApi;
 import org.jclouds.rest.ConfiguresRestClient;
 
 import com.google.common.collect.ImmutableMap;
@@ -37,13 +37,13 @@ import com.google.common.reflect.TypeToken;
  */
 @ConfiguresRestClient
 public class PrivateChefRestClientModule extends
-      BaseChefRestClientModule<PrivateChefClient, PrivateChefAsyncClient> {
+      BaseChefRestClientModule<PrivateChefApi, PrivateChefAsyncApi> {
    public static final Map<Class<?>, Class<?>> DELEGATE_MAP = ImmutableMap.<Class<?>, Class<?>> builder()//
-         .put(PatchedChefClient.class, PatchedChefAsyncClient.class)//
+         .put(PatchedChefApi.class, PatchedChefAsyncApi.class)//
          .build();
 
    public PrivateChefRestClientModule() {
-      super(TypeToken.of(PrivateChefClient.class), TypeToken.of(PrivateChefAsyncClient.class), DELEGATE_MAP);
+      super(TypeToken.of(PrivateChefApi.class), TypeToken.of(PrivateChefAsyncApi.class), DELEGATE_MAP);
    }
 
 }

@@ -23,7 +23,7 @@ import java.util.Properties;
 
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.chef.ChefApiMetadata;
-import org.jclouds.chef.ChefAsyncClient;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.ohai.config.JMXOhaiModule;
 import org.jclouds.privatechef.config.PrivateChefRestClientModule;
@@ -49,7 +49,7 @@ public class PrivateChefApiMetadata extends BaseRestApiMetadata {
    }
 
    public PrivateChefApiMetadata() {
-      this(new Builder(PrivateChefClient.class, PrivateChefAsyncClient.class));
+      this(new Builder(PrivateChefApi.class, PrivateChefAsyncApi.class));
    }
 
    protected PrivateChefApiMetadata(Builder builder) {
@@ -63,13 +63,13 @@ public class PrivateChefApiMetadata extends BaseRestApiMetadata {
 
    public static class Builder extends BaseRestApiMetadata.Builder {
 
-      protected Builder(Class<?> client, Class<?> asyncClient) {
-         super(client, asyncClient);
+      protected Builder(Class<?> api, Class<?> asyncApi) {
+         super(api, asyncApi);
          id("privatechef")
          .name("Private Chef Api")
          .identityName("User")
          .credentialName("Certificate")
-         .version(ChefAsyncClient.VERSION)
+         .version(ChefAsyncApi.VERSION)
          .documentation(URI.create("http://help.opscode.com/kb/api"))
          .defaultEndpoint("https://api.opscode.com")
          .defaultProperties(PrivateChefApiMetadata.defaultProperties())

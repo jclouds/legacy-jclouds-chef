@@ -24,13 +24,12 @@ import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
 
-import org.jclouds.chef.ChefAsyncClient;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.crypto.Crypto;
 import org.jclouds.crypto.Pems;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.http.functions.ParseJson;
-import org.jclouds.io.Payloads;
 import org.jclouds.json.config.GsonModule;
 import org.jclouds.privatechef.domain.User;
 import org.jclouds.rest.annotations.ApiVersion;
@@ -60,7 +59,7 @@ public class ParseUserFromJsonTest {
           @Override
           protected void configure()
           {
-              bind(String.class).annotatedWith(ApiVersion.class).toInstance(ChefAsyncClient.VERSION);
+              bind(String.class).annotatedWith(ApiVersion.class).toInstance(ChefAsyncApi.VERSION);
           }
        }, new ChefParserModule(), new GsonModule());
       handler = injector.getInstance(Key.get(new TypeLiteral<ParseJson<User>>() {
@@ -92,7 +91,7 @@ public class ParseUserFromJsonTest {
                   .x509Certificate("-----BEGIN CERTIFICATE-----\nMIIClzCCAgCgAwIBAgIBATANBgkqhkiG9w0BAQUFADCBnjELMAkGA1UEBhMCVVMx\nEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxFjAUBgNVBAoM\nDU9wc2NvZGUsIEluYy4xHDAaBgNVBAsME0NlcnRpZmljYXRlIFNlcnZpY2UxMjAw\nBgNVBAMMKW9wc2NvZGUuY29tL2VtYWlsQWRkcmVzcz1hdXRoQG9wc2NvZGUuY29t\nMB4XDTEwMDgwMzA0MDUzNVoXDTIwMDczMTA0MDUzNVowADCCASIwDQYJKoZIhvcN\nAQEBBQADggEPADCCAQoCggEBALwik6j3R7+xrB045NNoPdQMN0+sUJnUWiO9F+hO\nhhhcWbXB/rW9V6h8cIRcnRAlV4btFlY03Fr8WdWjBc5/QSx0GFs2cVP3yClTUero\n8md40cQ10RaV+f87zHbzW3bCfvH6BG3aD9Yro1DGbsumTL3G0wwoFo2FUNqJkfQp\nB/+RcJW5N3EqxeqnxmjO9+NDhpJylH13b4QquL8cnZTsHxycjQ1mND1vvKwyh1sc\nTbWAww3iDMNs/2At+H9W3AJEfv5cseW9uUcA6JmTalyaqdYYzlSVZaPlDL81n16Y\neYYI3ILcM3OSLplljFHcS3HcPv4kJujVvXJlNvG7x7tKuxcCAwEAATANBgkqhkiG\n9w0BAQUFAAOBgQBcoSP/2tFhP8yjF/dRDRdDed0/Cg0xnpp2wvM38gBRgvhpZbQ3\nI2rqpw5THNzrzBVnrYxd57uAa+y2MMG57XnvNWOmyL6WIYXLfN1QI3nHdpHS/QVF\nCRWpDWxLM1TkqAD9xQZOpUDdByF2exiCDNTzSYYg/ISLlIEzicNJeoPNbA==\n-----END CERTIFICATE-----\n"),
             "xBOmipWikVEicS7tNOPdQzPsPmsROMgPme5O19ZHh6R7N9MQT7d5olDiGFpO");
 
-      assertEquals(handler.apply(new HttpResponse(200, "ok", Payloads.newPayload(ParseUserFromJsonTest.class
-            .getResourceAsStream("/user.json")))), user);
+      assertEquals(handler.apply(HttpResponse.builder().statusCode(200).message("ok").payload(ParseUserFromJsonTest.class
+            .getResourceAsStream("/user.json")).build()), user);
    }
 }

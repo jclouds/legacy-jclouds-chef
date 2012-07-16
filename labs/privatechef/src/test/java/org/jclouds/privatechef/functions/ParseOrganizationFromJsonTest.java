@@ -22,11 +22,10 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 
-import org.jclouds.chef.ChefAsyncClient;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.http.functions.ParseJson;
-import org.jclouds.io.Payloads;
 import org.jclouds.json.config.GsonModule;
 import org.jclouds.privatechef.domain.Organization;
 import org.jclouds.rest.annotations.ApiVersion;
@@ -55,7 +54,7 @@ public class ParseOrganizationFromJsonTest {
           @Override
           protected void configure()
           {
-              bind(String.class).annotatedWith(ApiVersion.class).toInstance(ChefAsyncClient.VERSION);
+              bind(String.class).annotatedWith(ApiVersion.class).toInstance(ChefAsyncApi.VERSION);
           }
        }, new ChefParserModule(), new GsonModule());
       handler = injector.getInstance(Key.get(new TypeLiteral<ParseJson<Organization>>() {
@@ -68,6 +67,6 @@ public class ParseOrganizationFromJsonTest {
             "jclouds-validator", "Business", null);
 
       String toParse = "{\"guid\":\"486ca3ac66264fea926aa0b4ff74341c\",\"name\":\"jclouds\",\"full_name\":\"jclouds\",\"clientname\":\"jclouds-validator\",\"org_type\":\"Business\",\"name\":\"jclouds\"}";
-      assertEquals(handler.apply(new HttpResponse(200, "ok", Payloads.newStringPayload(toParse))), org);
+      assertEquals(handler.apply(HttpResponse.builder().statusCode(200).message("ok").payload(toParse).build()), org);
    }
 }

@@ -25,8 +25,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
-import org.jclouds.chef.ChefAsyncClient;
-import org.jclouds.chef.ChefClient;
+import org.jclouds.chef.ChefAsyncApi;
+import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.rest.annotations.ExceptionParser;
 import org.jclouds.rest.annotations.Headers;
@@ -37,7 +37,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 /**
  * Private chef api seems to miss support for HEAD method in the node resource.
- * This class overrides the {@link ChefAsyncClient#nodeExists(String)} method to
+ * This class overrides the {@link ChefAsyncApi#nodeExists(String)} method to
  * use GET instead of HEAD.
  * 
  * @author Ignasi Barrera
@@ -46,10 +46,10 @@ import com.google.common.util.concurrent.ListenableFuture;
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
-public interface PatchedChefAsyncClient extends ChefAsyncClient
+public interface PatchedChefAsyncApi extends ChefAsyncApi
 {
     /**
-     * @see ChefClient#nodeExists(String)
+     * @see ChefApi#nodeExists(String)
      */
     @Override
     @GET // Use get instead of HEAD.

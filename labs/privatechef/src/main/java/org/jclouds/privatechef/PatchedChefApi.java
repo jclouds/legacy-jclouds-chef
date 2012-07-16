@@ -16,23 +16,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.chef.test;
+package org.jclouds.privatechef;
 
 import java.util.concurrent.TimeUnit;
 
-import org.jclouds.chef.ChefAsyncClient;
-import org.jclouds.chef.ChefClient;
+import org.jclouds.chef.ChefApi;
 import org.jclouds.concurrent.Timeout;
+import org.jclouds.rest.AuthorizationException;
 
 /**
- * In-memory chef simulator.
- * <p/>
+ * Private chef api seems to miss support for HEAD method in the node resource.
+ * This class overrides the {@link ChefApi#nodeExists(String)} method to
+ * use GET instead of HEAD.
  * 
- * @see ChefAsyncClient
- * @see <a href="TODO: insert URL of Chef documentation" />
- * @author Adrian Cole
+ * @author Ignasi Barrera
+ *
  */
-@Timeout(duration = 30, timeUnit = TimeUnit.MILLISECONDS)
-public interface TransientChefClient extends ChefClient {
-
+@Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
+public interface PatchedChefApi extends ChefApi
+{
+    /**
+     * 
+     * @return true if the specified node name exists.
+     * 
+     * @throws AuthorizationException
+     *            <p/>
+     *            "401 Unauthorized" if you are not a recognized user.
+     *            <p/>
+     *            "403 Forbidden" if you do not have rights to view the node.
+     */
+    @Override
+    boolean nodeExists(String name);
 }

@@ -31,7 +31,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
-import org.jclouds.chef.ChefClient;
+import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
 import org.jclouds.privatechef.domain.Organization;
@@ -56,17 +56,17 @@ import com.google.common.util.concurrent.ListenableFuture;
  * Provides asynchronous access to the Private Chef via their REST API.
  * <p/>
  * 
- * @see PrivateChefClient
+ * @see PrivateChefApi
  * @see <a href="TODO: insert URL of provider documentation" />
  * @author Adrian Cole
  */
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
-public interface PrivateChefAsyncClient {
+public interface PrivateChefAsyncApi {
 
    @Delegate
-   PatchedChefAsyncClient getChefClient();
+   PatchedChefAsyncApi getChefApi();
     
    /**
     * @see ChefUser#listUsers
@@ -86,14 +86,14 @@ public interface PrivateChefAsyncClient {
    ListenableFuture<Boolean> userExists(@PathParam("username") String username);
 
    /**
-    * @see ChefClient#createUser
+    * @see ChefApi#createUser
     */
    @POST
    @Path("/users")
    ListenableFuture<User> createUser(@BinderParam(BindToJsonPayload.class) User user);
 
    /**
-    * @see ChefClient#updateUser
+    * @see ChefApi#updateUser
     */
    @PUT
    @Path("/users/{username}")
@@ -102,7 +102,7 @@ public interface PrivateChefAsyncClient {
          @PathParam("username") @ParamParser(Username.class) @BinderParam(BindToJsonPayload.class) User user);
 
    /**
-    * @see ChefClient#getUser
+    * @see ChefApi#getUser
     */
    @GET
    @Path("/users/{username}")
@@ -111,7 +111,7 @@ public interface PrivateChefAsyncClient {
    ListenableFuture<User> getUser(@PathParam("username") String username);
 
    /**
-    * @see ChefClient#deleteUser
+    * @see ChefApi#deleteUser
     */
    @DELETE
    @Path("/users/{username}")
@@ -137,14 +137,14 @@ public interface PrivateChefAsyncClient {
    ListenableFuture<Boolean> organizationExists(@PathParam("organizationname") String organizationname);
 
    /**
-    * @see ChefClient#createOrganization
+    * @see ChefApi#createOrganization
     */
    @POST
    @Path("/organizations")
    ListenableFuture<Organization> createOrganization(@BinderParam(BindToJsonPayload.class) Organization org);
 
    /**
-    * @see ChefClient#updateOrganization
+    * @see ChefApi#updateOrganization
     */
    @PUT
    @Path("/organizations/{orgname}")
@@ -153,7 +153,7 @@ public interface PrivateChefAsyncClient {
          @PathParam("orgname") @ParamParser(OrganizationName.class) @BinderParam(BindToJsonPayload.class) Organization org);
 
    /**
-    * @see ChefClient#getOrganization
+    * @see ChefApi#getOrganization
     */
    @GET
    @Path("/organizations/{orgname}")
@@ -162,7 +162,7 @@ public interface PrivateChefAsyncClient {
    ListenableFuture<Organization> getOrganization(@PathParam("orgname") String orgname);
 
    /**
-    * @see ChefClient#deleteOrganization
+    * @see ChefApi#deleteOrganization
     */
    @DELETE
    @Path("/organizations/{orgname}")

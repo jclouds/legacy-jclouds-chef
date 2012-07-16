@@ -26,7 +26,7 @@ import java.util.Properties;
 
 import org.jclouds.Constants;
 import org.jclouds.apis.ApiMetadata;
-import org.jclouds.chef.ChefAsyncClient;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.filters.SignedHeaderAuthTest;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
@@ -34,8 +34,6 @@ import org.jclouds.date.TimeStamp;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.functions.ParseJson;
 import org.jclouds.http.functions.ReturnTrueIf2xx;
-import org.jclouds.privatechef.PrivateChefApiMetadata;
-import org.jclouds.privatechef.PrivateChefAsyncClient;
 import org.jclouds.privatechef.config.PrivateChefRestClientModule;
 import org.jclouds.privatechef.domain.Organization;
 import org.jclouds.privatechef.domain.User;
@@ -43,7 +41,7 @@ import org.jclouds.rest.ConfiguresRestClient;
 import org.jclouds.rest.functions.ReturnEmptySetOnNotFoundOr404;
 import org.jclouds.rest.functions.ReturnFalseOnNotFoundOr404;
 import org.jclouds.rest.functions.ReturnNullOnNotFoundOr404;
-import org.jclouds.rest.internal.BaseAsyncClientTest;
+import org.jclouds.rest.internal.BaseAsyncApiTest;
 import org.jclouds.rest.internal.GeneratedHttpRequest;
 import org.jclouds.rest.internal.RestAnnotationProcessor;
 import org.testng.annotations.Test;
@@ -54,19 +52,19 @@ import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 
 /**
- * Tests annotation parsing of {@code PrivateChefAsyncClient}
+ * Tests annotation parsing of {@code PrivateChefAsyncApi}
  * 
  * @author Adrian Cole
  */
-@Test(groups = "unit", testName = "PrivateChefAsyncClientTest")
-public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefAsyncClient> {
+@Test(groups = "unit", testName = "PrivateChefAsyncApiTest")
+public class PrivateChefAsyncApiTest extends BaseAsyncApiTest<PrivateChefAsyncApi> {
 
    public void testListUsers() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("listUsers");
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method);
+      Method method = PrivateChefAsyncApi.class.getMethod("listUsers");
+      GeneratedHttpRequest httpRequest = processor.createRequest(method);
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/users HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseKeySetFromJson.class);
@@ -78,10 +76,10 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testUserExists() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("userExists", String.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "user");
+      Method method = PrivateChefAsyncApi.class.getMethod("userExists", String.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, "user");
       assertRequestLineEquals(httpRequest, "HEAD https://api.opscode.com/users/user HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ReturnTrueIf2xx.class);
@@ -93,10 +91,10 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testOrganizationExists() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("organizationExists", String.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "organization");
+      Method method = PrivateChefAsyncApi.class.getMethod("organizationExists", String.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, "organization");
       assertRequestLineEquals(httpRequest, "HEAD https://api.opscode.com/organizations/organization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ReturnTrueIf2xx.class);
@@ -108,11 +106,11 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testListOrganizations() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("listOrganizations");
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method);
+      Method method = PrivateChefAsyncApi.class.getMethod("listOrganizations");
+      GeneratedHttpRequest httpRequest = processor.createRequest(method);
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/organizations HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseKeySetFromJson.class);
@@ -124,12 +122,12 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testCreateUser() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("createUser", User.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor
+      Method method = PrivateChefAsyncApi.class.getMethod("createUser", User.class);
+      GeneratedHttpRequest httpRequest = processor
             .createRequest(method, new User("myuser"));
 
       assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/users HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, "{\"username\":\"myuser\"}", "application/json", false);
 
       // now make sure request filters apply by replaying
@@ -138,7 +136,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
       assertRequestLineEquals(filteredRequest, "POST https://api.opscode.com/users HTTP/1.1");
       assertNonPayloadHeadersEqual(
             filteredRequest,
-            new StringBuilder("Accept: application/json").append("\n").append("X-Chef-Version: " + ChefAsyncClient.VERSION + "-test").append("\n")
+            new StringBuilder("Accept: application/json").append("\n").append("X-Chef-Version: " + ChefAsyncApi.VERSION + "-test").append("\n")
                   .append("X-Ops-Authorization-1: kfrkDpfgNU26k70R1vl1bEWk0Q0f9Fs/3kxOX7gHd7iNoJq03u7RrcrAOSgL")
                   .append("\n")
                   .append("X-Ops-Authorization-2: ETj5JNeCk18BmFkHMAbCA9hXVo1T4rlHCpbuzAzFlFxUGAT4wj8UoO7V886X")
@@ -163,12 +161,12 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testUpdateUser() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("updateUser", User.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor
+      Method method = PrivateChefAsyncApi.class.getMethod("updateUser", User.class);
+      GeneratedHttpRequest httpRequest = processor
             .createRequest(method, new User("myuser"));
 
       assertRequestLineEquals(httpRequest, "PUT https://api.opscode.com/users/myuser HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, "{\"username\":\"myuser\"}", "application/json", false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -180,11 +178,11 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testGetUser() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("getUser", String.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myuser");
+      Method method = PrivateChefAsyncApi.class.getMethod("getUser", String.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, "myuser");
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/users/myuser HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -196,11 +194,11 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testDeleteUser() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("deleteUser", String.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myuser");
+      Method method = PrivateChefAsyncApi.class.getMethod("deleteUser", String.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, "myuser");
 
       assertRequestLineEquals(httpRequest, "DELETE https://api.opscode.com/users/myuser HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -212,12 +210,12 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testCreateOrg() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("createOrganization", Organization.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, new Organization(
+      Method method = PrivateChefAsyncApi.class.getMethod("createOrganization", Organization.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, new Organization(
             "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
 
       assertRequestLineEquals(httpRequest, "POST https://api.opscode.com/organizations HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(
             httpRequest,
             "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
@@ -232,12 +230,12 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testUpdateOrg() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("updateOrganization", Organization.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, new Organization(
+      Method method = PrivateChefAsyncApi.class.getMethod("updateOrganization", Organization.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, new Organization(
             "myorganization", "myorganization", "myorganization-validator", Organization.Type.BUSINESS));
 
       assertRequestLineEquals(httpRequest, "PUT https://api.opscode.com/organizations/myorganization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(
             httpRequest,
             "{\"name\":\"myorganization\",\"full_name\":\"myorganization\",\"clientname\":\"myorganization-validator\",\"org_type\":\"Business\"}",
@@ -252,11 +250,11 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testGetOrg() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("getOrganization", String.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myorganization");
+      Method method = PrivateChefAsyncApi.class.getMethod("getOrganization", String.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, "myorganization");
 
       assertRequestLineEquals(httpRequest, "GET https://api.opscode.com/organizations/myorganization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -268,11 +266,11 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    public void testDeleteOrg() throws SecurityException, NoSuchMethodException, IOException {
-      Method method = PrivateChefAsyncClient.class.getMethod("deleteOrganization", String.class);
-      GeneratedHttpRequest<PrivateChefAsyncClient> httpRequest = processor.createRequest(method, "myorganization");
+      Method method = PrivateChefAsyncApi.class.getMethod("deleteOrganization", String.class);
+      GeneratedHttpRequest httpRequest = processor.createRequest(method, "myorganization");
 
       assertRequestLineEquals(httpRequest, "DELETE https://api.opscode.com/organizations/myorganization HTTP/1.1");
-      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncClient.VERSION + "-test\n");
+      assertNonPayloadHeadersEqual(httpRequest, "Accept: application/json\nX-Chef-Version: " + ChefAsyncApi.VERSION + "-test\n");
       assertPayloadEquals(httpRequest, null, null, false);
 
       assertResponseParserClassEquals(method, httpRequest, ParseJson.class);
@@ -290,8 +288,8 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    }
 
    @Override
-   protected TypeLiteral<RestAnnotationProcessor<PrivateChefAsyncClient>> createTypeLiteral() {
-      return new TypeLiteral<RestAnnotationProcessor<PrivateChefAsyncClient>>() {
+   protected TypeLiteral<RestAnnotationProcessor<PrivateChefAsyncApi>> createTypeLiteral() {
+      return new TypeLiteral<RestAnnotationProcessor<PrivateChefAsyncApi>>() {
       };
    }
 
@@ -303,7 +301,7 @@ public class PrivateChefAsyncClientTest extends BaseAsyncClientTest<PrivateChefA
    @Override
    protected Properties setupProperties() {
        Properties props =  super.setupProperties();
-       props.put(Constants.PROPERTY_API_VERSION, ChefAsyncClient.VERSION + "-test");
+       props.put(Constants.PROPERTY_API_VERSION, ChefAsyncApi.VERSION + "-test");
        return props;
    }
 

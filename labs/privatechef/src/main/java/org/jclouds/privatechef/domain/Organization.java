@@ -137,7 +137,7 @@ public class Organization {
       return fullName;
    }
 
-   public String getClientname() {
+   public String getApiname() {
       return clientname;
    }
 
