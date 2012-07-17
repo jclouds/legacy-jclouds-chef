@@ -39,7 +39,7 @@ import org.jclouds.chef.util.RunListBuilder;
 import org.jclouds.compute.RunNodesException;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.predicates.NodePredicates;
-import org.jclouds.io.Payload;
+import org.jclouds.scriptbuilder.domain.Statement;
 import org.jclouds.util.Strings2;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -65,8 +65,8 @@ public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChef
 
       if (any(cookbookVersions, containsRecipe(recipe))) {
          List<String> runList = new RunListBuilder().addRecipe(recipe).build();
-         context.getChefService().updateRunListForTag(runList, group);
-         assertEquals(context.getChefService().getRunListForTag(group), runList);
+         context.getChefService().updateRunListForGroup(runList, group);
+         assertEquals(context.getChefService().getRunListForGroup(group), runList);
       } else {
          assert false : String.format("recipe %s not in %s", recipe, cookbookVersions);
       }
@@ -81,11 +81,10 @@ public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChef
    @Test(dependsOnMethods = "testCanUpdateRunList")
    public void testRunNodesWithBootstrap() throws IOException {
 
-      Payload bootstrap = context.getChefService().createClientAndBootstrapScriptForTag(group);
+      Statement bootstrap = context.getChefService().createClientAndBootstrapScriptForGroup(group);
 
       try {
-         nodes = computeContext.getComputeService().createNodesInGroup(group, 1,
-                  runScript(Strings2.toStringAndClose(bootstrap.getInput())));
+         nodes = computeContext.getComputeService().createNodesInGroup(group, 1, runScript(bootstrap));
       } catch (RunNodesException e) {
          nodes = concat(e.getSuccessfulNodes(), e.getNodeErrors().keySet());
       }
