@@ -19,13 +19,12 @@
     under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jclouds.chef</groupId>
         <artifactId>chef-parent</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <version>1.5.0-beta.8</version>
         <relativePath>../project/pom.xml</relativePath>
     </parent>
     <artifactId>chef-compute</artifactId>
@@ -33,17 +32,17 @@
     <description>provisions nodes with jclouds and kick's off chef to configure and integrate</description>
     <properties>
         <test.chef.endpoint>http://localhost:4000</test.chef.endpoint>
-        <test.chef.api-version></test.chef.api-version>
-        <test.chef.build-version></test.chef.build-version>
+        <test.chef.api-version />
+        <test.chef.build-version />
         <test.chef.identity>chef-validator</test.chef.identity>
         <test.chef.credential>${user.home}/.chef/validation.pem</test.chef.credential>
         <test.chef.compute.provider>aws-ec2</test.chef.compute.provider>
         <test.chef.compute.endpoint>https://ec2.us-east-1.amazonaws.com</test.chef.compute.endpoint>
         <test.chef.compute.api-version>2010-06-15</test.chef.compute.api-version>
-        <test.chef.compute.build-version></test.chef.compute.build-version>
+        <test.chef.compute.build-version />
         <test.chef.compute.identity>${test.aws.identity}</test.chef.compute.identity>
         <test.chef.compute.credential>${test.aws.credential}</test.chef.compute.credential>
-        <test.chef.compute.template></test.chef.compute.template>
+        <test.chef.compute.template />
     </properties>
 
     <dependencies>
@@ -63,41 +62,41 @@
         <dependency>
             <groupId>org.jclouds</groupId>
             <artifactId>jclouds-compute</artifactId>
-            <version>${jclouds.version}</version>
+            <version>1.5.0-beta.8</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds</groupId>
             <artifactId>jclouds-core</artifactId>
-            <version>${jclouds.version}</version>
+            <version>1.5.0-beta.8</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds</groupId>
             <artifactId>jclouds-compute</artifactId>
-            <version>${jclouds.version}</version>
+            <version>1.5.0-beta.8</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds</groupId>
             <artifactId>jclouds-allcompute</artifactId>
-            <version>${jclouds.version}</version>
+            <version>1.5.0-beta.8</version>
             <scope>test</scope>
             <optional>true</optional>
         </dependency>
         <dependency>           
             <groupId>org.jclouds.driver</groupId>
             <artifactId>jclouds-slf4j</artifactId>
-            <version>${project.version}</version>
+            <version>1.5.0-beta.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds.driver</groupId>
             <artifactId>jclouds-sshj</artifactId>
-            <version>${project.version}</version>
+            <version>1.5.0-beta.8</version>
             <scope>test</scope>
         </dependency>   
         <dependency>        

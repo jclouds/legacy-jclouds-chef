@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.jclouds.chef</groupId>
         <artifactId>chef-parent</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <version>1.5.0-beta.8</version>
         <relativePath>../../project/pom.xml</relativePath>
     </parent>
     <!-- <groupId>org.jclouds.provider</groupId> -->
@@ -36,8 +36,8 @@
     <properties>
         <test.jclouds.hostedchef.org>YOUR_ORG</test.jclouds.hostedchef.org>
         <test.hostedchef.endpoint>https://api.opscode.com/organizations/${test.jclouds.hostedchef.org}</test.hostedchef.endpoint>
-        <test.hostedchef.api-version></test.hostedchef.api-version>
-        <test.hostedchef.build-version></test.hostedchef.build-version>
+        <test.hostedchef.api-version />
+        <test.hostedchef.build-version />
         <test.hostedchef.identity>YOUR_USER</test.hostedchef.identity>
         <test.hostedchef.credential>${user.home}/.chef/${jclouds.hostedchef.org}/${jclouds.test.identity}.pem</test.hostedchef.credential>
         <test.hostedchef.validator.identity>${test.jclouds.hostedchef.org}-validator</test.hostedchef.validator.identity>
@@ -69,14 +69,14 @@
         <dependency>
             <groupId>org.jclouds</groupId>
             <artifactId>jclouds-core</artifactId>
-            <version>${jclouds.version}</version>
+            <version>1.5.0-beta.8</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds.driver</groupId>
             <artifactId>jclouds-slf4j</artifactId>
-            <version>${project.version}</version>
+            <version>1.5.0-beta.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
