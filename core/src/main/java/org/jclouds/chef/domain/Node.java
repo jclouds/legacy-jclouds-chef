@@ -21,6 +21,8 @@ package org.jclouds.chef.domain;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import org.jclouds.domain.JsonBall;
 
 import com.google.common.collect.Iterables;
@@ -44,13 +46,30 @@ public class Node {
    @SerializedName("run_list")
    private List<String> runList = Lists.newArrayList();
 
+   /**
+    * @since chef 0.10
+    */
+   @SerializedName("chef_environment")
+   @Nullable
+   private String chefEnvironment;
+
    // internal
    @SerializedName("json_class")
    private String _jsonClass = "Chef::Node";
 
    public Node(String name, Map<String, JsonBall> normal, Map<String, JsonBall> override,
-         Map<String, JsonBall> defaultA, Map<String, JsonBall> automatic, Iterable<String> runList) {
+	     Map<String, JsonBall> defaultA, Map<String, JsonBall> automatic, Iterable<String> runList) {
+	   this(name, normal, override, defaultA, automatic, runList, null);
+   }
+
+   /**
+    * @since chef 0.10
+    */
+   public Node(String name, Map<String, JsonBall> normal, Map<String, JsonBall> override,
+         Map<String, JsonBall> defaultA, Map<String, JsonBall> automatic, Iterable<String> runList,
+         String chefEnvironment) {
       this.name = name;
+      this.chefEnvironment = chefEnvironment;
       this.normal.putAll(normal);
       this.override.putAll(override);
       this.defaultA.putAll(defaultA);
@@ -65,7 +84,15 @@ public class Node {
    }
 
    public Node(String name, Iterable<String> runList) {
+	   this(name, runList, "_default");
+   }
+
+   /**
+    * @since chef 0.10
+    */
+   public Node(String name, Iterable<String> runList, String chefEnvironment) {
       this.name = name;
+      this.chefEnvironment = chefEnvironment;
       Iterables.addAll(this.runList, runList);
    }
 
@@ -98,6 +125,13 @@ public class Node {
       return runList;
    }
 
+   /**
+    * @since chef 0.10
+    */
+   public String getChefEnvironment() {
+      return chefEnvironment;
+   }
+
    @SerializedName("chef_type")
    private String _chefType = "node";
 
@@ -113,6 +147,7 @@ public class Node {
       result = prime * result + ((normal == null) ? 0 : normal.hashCode());
       result = prime * result + ((override == null) ? 0 : override.hashCode());
       result = prime * result + ((runList == null) ? 0 : runList.hashCode());
+      result = prime * result + ((chefEnvironment == null) ? 0 : chefEnvironment.hashCode());
       return result;
    }
 
@@ -164,6 +199,11 @@ public class Node {
          if (other.runList != null)
             return false;
       } else if (!runList.equals(other.runList))
+         return false;
+      if (chefEnvironment == null) {
+         if (other.chefEnvironment != null)
+            return false;
+      } else if (!chefEnvironment.equals(other.chefEnvironment))
          return false;
       return true;
    }
