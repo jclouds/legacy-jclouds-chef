@@ -91,13 +91,13 @@
         <dependency>           
             <groupId>org.jclouds.driver</groupId>
             <artifactId>jclouds-slf4j</artifactId>
-            <version>${project.version}</version>
+            <version>${jclouds.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds.driver</groupId>
             <artifactId>jclouds-sshj</artifactId>
-            <version>${project.version}</version>
+            <version>${jclouds.version}</version>
             <scope>test</scope>
         </dependency>   
         <dependency>        
