@@ -43,7 +43,6 @@
     <url>http://www.jclouds.org/</url>
   </organization>
   <properties>
-    <jclouds.version>1.5.0-beta.10</jclouds.version>
     <maven.compile.source>1.6</maven.compile.source>
     <maven.compile.target>1.6</maven.compile.target>
   </properties>
@@ -124,7 +123,7 @@
             </goals>
             <configuration>
               <resourceBundles>
-                <resourceBundle>org.jclouds:jclouds-resources:${jclouds.version}</resourceBundle>
+                <resourceBundle>org.jclouds:jclouds-resources:${project.version}</resourceBundle>
               </resourceBundles>
             </configuration>
           </execution>
