@@ -52,7 +52,7 @@
     <dependency>
       <groupId>org.jclouds</groupId>
       <artifactId>jclouds-core</artifactId>
-      <version>${jclouds.version}</version>
+      <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
