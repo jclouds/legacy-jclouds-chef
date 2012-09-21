@@ -40,7 +40,6 @@
 		<appengine.applicationid>YOUR_APPLICATION_ID</appengine.applicationid>
 		<devappserver.address>localhost</devappserver.address>
 		<devappserver.port>8088</devappserver.port>
-		<jclouds.version>1.5.0-SNAPSHOT</jclouds.version>
 		<jclouds.chef.identity>${appengine.applicationid}</jclouds.chef.identity>
 		<jclouds.chef.identity.pem>${user.home}/.chef/${jclouds.chef.identity}.pem</jclouds.chef.identity.pem>
 		<jclouds.opscodeplatform.org>YOUR_ORG</jclouds.opscodeplatform.org>
@@ -61,7 +60,7 @@
 		<dependency>
 			<groupId>org.jclouds</groupId>
 			<artifactId>jclouds-chef-servlet</artifactId>
-			<version>${jclouds.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
@@ -72,7 +71,7 @@
 		<dependency>
 			<groupId>org.jclouds</groupId>
 			<artifactId>jclouds-log4j</artifactId>
-			<version>${jclouds.version}</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -91,7 +90,7 @@
 		<dependency>
 			<groupId>org.jclouds</groupId>
 			<artifactId>jclouds-gae</artifactId>
-			<version>${jclouds.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.guice</groupId>
