@@ -28,7 +28,7 @@
   </parent>
   <groupId>org.jclouds.chef</groupId>
   <artifactId>chef-parent</artifactId>
-  <version>1.5.1-SNAPSHOT</version>
+  <version>1.5.1</version>
   <packaging>pom</packaging>
   <name>JClouds Chef :: Parent POM</name>
   <description>JClouds Chef Parent POM for Maven configuration</description>
@@ -50,7 +50,7 @@
     <connection>scm:git:git://github.com/jclouds/jclouds-chef.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jclouds/jclouds-chef.git</developerConnection>
     <url>http://github.com/jclouds/jclouds-chef</url>
-    <tag>HEAD</tag>
+    <tag>jclouds-chef-1.5.1</tag>
   </scm>
   <repositories>
     <repository>
