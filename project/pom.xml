@@ -196,6 +196,10 @@
                   <name>suitename</name>
                   <value>Integration Tests</value>
                 </property>
+                <property>
+                  <name>listener</name>
+                  <value>org.jclouds.test.testng.UnitTestStatusListener</value>
+                </property>
               </properties>
             </configuration>
           </execution>
@@ -209,6 +213,10 @@
             <property>
               <name>suitename</name>
               <value>Unit and Performance Tests</value>
+            </property>
+            <property>
+              <name>listener</name>
+              <value>org.jclouds.test.testng.UnitTestStatusListener</value>
             </property>
           </properties>
         </configuration>
@@ -257,6 +265,10 @@
                     <property>
                       <name>suitename</name>
                       <value>Live Integration Tests</value>
+                    </property>
+                    <property>
+                      <name>listener</name>
+                      <value>org.jclouds.test.testng.UnitTestStatusListener</value>
                     </property>
                   </properties>
                   <systemProperties>
