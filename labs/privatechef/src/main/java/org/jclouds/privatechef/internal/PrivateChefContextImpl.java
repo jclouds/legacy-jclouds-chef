@@ -21,6 +21,7 @@ package org.jclouds.privatechef.internal;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.jclouds.annotations.Name;
 import org.jclouds.lifecycle.Closer;
 import org.jclouds.privatechef.PrivateChefAsyncApi;
 import org.jclouds.privatechef.PrivateChefApi;
@@ -41,9 +42,9 @@ public class PrivateChefContextImpl extends RestContextImpl<PrivateChefApi, Priv
          implements PrivateChefContext {
 
    @Inject
-   protected PrivateChefContextImpl(ProviderMetadata providerMetadata, @Identity String identity, Utils utils,
+   protected PrivateChefContextImpl(@Name String name, ProviderMetadata providerMetadata, @Identity String identity, Utils utils,
             Closer closer, Injector injector) {
-      super(providerMetadata, identity, utils, closer, injector, TypeLiteral.get(PrivateChefApi.class),
+      super(name, providerMetadata, identity, utils, closer, injector, TypeLiteral.get(PrivateChefApi.class),
                TypeLiteral.get(PrivateChefAsyncApi.class));
    }
 
