@@ -81,7 +81,7 @@ public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChef
    @Test(dependsOnMethods = "testCanUpdateRunList")
    public void testRunNodesWithBootstrap() throws IOException {
 
-      Statement bootstrap = context.getChefService().createClientAndBootstrapScriptForGroup(group);
+      Statement bootstrap = context.getChefService().createBootstrapScriptForGroup(group);
 
       try {
          nodes = computeContext.getComputeService().createNodesInGroup(group, 1, runScript(bootstrap));
