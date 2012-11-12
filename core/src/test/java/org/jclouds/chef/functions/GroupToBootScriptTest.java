@@ -46,7 +46,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -112,7 +111,7 @@ public class GroupToBootScriptTest {
             fn.apply("foo").render(OsFamily.UNIX),
             Resources.toString(Resources.getResource("test_install_ruby." + ShellToken.SH.to(OsFamily.UNIX)),
                   Charsets.UTF_8)
-                  + "installChefGems || return 1\n"
+                  + "gem install ohai chef --no-rdoc --no-ri\n"
                   + Resources.toString(Resources.getResource("one-recipe.sh"), Charsets.UTF_8));
 
       verify(validatorKey);
