@@ -16,23 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.privatechef.functions;
+package org.jclouds.hostedchef;
 
-import javax.inject.Singleton;
+import org.jclouds.hostedchef.internal.HostedChefContextImpl;
+import org.jclouds.rest.RestContext;
 
-import org.jclouds.privatechef.domain.User;
+import com.google.inject.ImplementedBy;
 
-import com.google.common.base.Function;
-
-/**
- * 
- * @author Adrian Cole
- */
-@Singleton
-public class Username implements Function<Object, String> {
-
-   public String apply(Object from) {
-      return ((User) from).getUsername();
-   }
+@ImplementedBy(HostedChefContextImpl.class)
+public interface HostedChefContext extends RestContext<HostedChefApi, HostedChefAsyncApi> {
 
 }

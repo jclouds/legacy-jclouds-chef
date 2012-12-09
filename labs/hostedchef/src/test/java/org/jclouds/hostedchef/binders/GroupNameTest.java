@@ -16,23 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.privatechef.functions;
+package org.jclouds.hostedchef.binders;
 
-import javax.inject.Singleton;
+import static org.testng.Assert.assertEquals;
 
-import org.jclouds.privatechef.domain.Organization;
+import java.io.IOException;
 
-import com.google.common.base.Function;
+import org.jclouds.hostedchef.domain.Group;
+import org.testng.annotations.Test;
 
 /**
+ * Unit tests for the {@link GroupName} class.
  * 
- * @author Adrian Cole
+ * @author Ignasi Barrera
  */
-@Singleton
-public class OrganizationName implements Function<Object, String> {
+@Test(groups = "unit", testName = "GroupNameTest")
+public class GroupNameTest {
 
-   public String apply(Object from) {
-      return ((Organization) from).getFullName();
+   @Test(expectedExceptions = NullPointerException.class)
+   public void testInvalidNullInput() {
+      new GroupName().apply(null);
    }
 
+   public void testApplyGroupName() throws IOException {
+      assertEquals(new GroupName().apply(new Group("foo")), "foo");
+   }
 }

@@ -27,7 +27,6 @@
         <version>1.6.0-SNAPSHOT</version>
         <relativePath>../../project/pom.xml</relativePath>
     </parent>
-    <!-- <groupId>org.jclouds.provider</groupId> -->
     <groupId>org.jclouds.labs</groupId>
     <artifactId>hostedchef</artifactId>
     <name>JClouds Chef :: Hosted Chef</name>
@@ -39,25 +38,18 @@
         <test.hostedchef.api-version />
         <test.hostedchef.build-version />
         <test.hostedchef.identity>YOUR_USER</test.hostedchef.identity>
-        <test.hostedchef.credential>${user.home}/.chef/${jclouds.hostedchef.org}/${jclouds.test.identity}.pem</test.hostedchef.credential>
+        <test.hostedchef.credential>${user.home}/.chef/${test.jclouds.hostedchef.org}/${test.hostedchef.identity}.pem</test.hostedchef.credential>
         <test.hostedchef.validator.identity>${test.jclouds.hostedchef.org}-validator</test.hostedchef.validator.identity>
-        <test.hostedchef.validator.credential>${user.home}/.chef/${jclouds.hostedchef.org}/${test.hostedchef.validator.identity}.pem</test.hostedchef.validator.credential>
+        <test.hostedchef.validator.credential>${user.home}/.chef/${test.jclouds.hostedchef.org}/${test.hostedchef.validator.identity}.pem</test.hostedchef.validator.credential>
         <jclouds.osgi.export>org.jclouds.hostedchef*;version="${project.version}"</jclouds.osgi.export>
         <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.jclouds.labs</groupId>
-            <artifactId>privatechef</artifactId>
+            <groupId>org.jclouds.api</groupId>
+            <artifactId>chef</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jclouds.labs</groupId>
-            <artifactId>privatechef</artifactId>
-            <version>${project.version}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds.api</groupId>
@@ -85,12 +77,11 @@
             <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
-        <!-- Required to read private key files -->
+        <!-- Required to read private and public key files -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk16</artifactId>
             <version>1.46</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

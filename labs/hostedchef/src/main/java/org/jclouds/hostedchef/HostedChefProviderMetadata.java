@@ -21,18 +21,15 @@ package org.jclouds.hostedchef;
 import java.net.URI;
 import java.util.Properties;
 
-import org.jclouds.privatechef.PrivateChefApiMetadata;
 import org.jclouds.providers.ProviderMetadata;
 import org.jclouds.providers.internal.BaseProviderMetadata;
 
 /**
  * Implementation of @ link org.jclouds.types.ProviderMetadata} for Hosted Chef
-* @author Adrian Cole
-*/
+ * 
+ * @author Adrian Cole
+ */
 public class HostedChefProviderMetadata extends BaseProviderMetadata {
-   
-   /** The serialVersionUID */
-   private static final long serialVersionUID = 2394954723306943404L;
 
    public static Builder builder() {
       return new Builder();
@@ -42,7 +39,7 @@ public class HostedChefProviderMetadata extends BaseProviderMetadata {
    public Builder toBuilder() {
       return builder().fromProviderMetadata(this);
    }
-   
+
    public HostedChefProviderMetadata() {
       super(builder());
    }
@@ -55,25 +52,24 @@ public class HostedChefProviderMetadata extends BaseProviderMetadata {
       Properties properties = new Properties();
       return properties;
    }
-   
+
    public static class Builder extends BaseProviderMetadata.Builder {
 
-      protected Builder(){
-         id("hostedchef")
-         .name("OpsCode Hosted Chef")
-         .endpoint("https://api.opscode.com")
-         .homepage(URI.create("TODO"))
-         .console(URI.create("TODO"))
-         .iso3166Codes("TODO")
-         .apiMetadata(new PrivateChefApiMetadata())
-         .defaultProperties(HostedChefProviderMetadata.defaultProperties());
+      protected Builder() {
+         id("hostedchef") //
+               .name("OpsCode Hosted Chef") //
+               .endpoint("https://api.opscode.com") //
+               .homepage(URI.create("https://manage.opscode.com")) //
+               .console(URI.create("https://manage.opscode.com")) //
+               .apiMetadata(new HostedChefApiMetadata()) //
+               .defaultProperties(HostedChefProviderMetadata.defaultProperties());
       }
 
       @Override
       public HostedChefProviderMetadata build() {
          return new HostedChefProviderMetadata(this);
       }
-      
+
       @Override
       public Builder fromProviderMetadata(ProviderMetadata in) {
          super.fromProviderMetadata(in);
