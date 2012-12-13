@@ -27,7 +27,6 @@
         <version>1.6.0-SNAPSHOT</version>
         <relativePath>../../project/pom.xml</relativePath>
     </parent>
-    <!-- <groupId>org.jclouds.api</groupId> -->
     <groupId>org.jclouds.labs</groupId>
     <artifactId>privatechef</artifactId>
     <name>JClouds Chef :: Private Chef</name>
@@ -39,15 +38,27 @@
         <test.privatechef.api-version />
         <test.privatechef.build-version />
         <test.privatechef.identity>YOUR_USER</test.privatechef.identity>
-        <test.privatechef.credential>${user.home}/.chef/${jclouds.privatechef.org}/${jclouds.test.identity}.pem</test.privatechef.credential>
+        <test.privatechef.credential>${user.home}/.chef/${test.jclouds.privatechef.org}/${jclouds.privatechef.identity}.pem</test.privatechef.credential>
         <test.privatechef.validator.identity>${test.jclouds.privatechef.org}-validator</test.privatechef.validator.identity>
-        <test.privatechef.validator.credential>${user.home}/.chef/${jclouds.privatechef.org}/${test.privatechef.validator.identity}.pem</test.privatechef.validator.credential>
+        <test.privatechef.validator.credential>${user.home}/.chef/${test.jclouds.privatechef.org}/${test.privatechef.validator.identity}.pem</test.privatechef.validator.credential>
 
         <jclouds.osgi.export>org.jclouds.privatechef*;version="${project.version}"</jclouds.osgi.export>
         <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jclouds.labs</groupId>
+            <artifactId>hostedchef</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jclouds.labs</groupId>
+            <artifactId>hostedchef</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.jclouds.api</groupId>
             <artifactId>chef</artifactId>

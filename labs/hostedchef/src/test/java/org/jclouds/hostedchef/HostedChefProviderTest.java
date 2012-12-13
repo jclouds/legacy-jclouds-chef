@@ -18,12 +18,12 @@
  */
 package org.jclouds.hostedchef;
 
-import org.jclouds.privatechef.PrivateChefApiMetadata;
 import org.jclouds.providers.internal.BaseProviderMetadataTest;
 import org.testng.annotations.Test;
 
 /**
- * The HostedChefProviderTest tests the org.jclouds.providers.HostedChefProvider class.
+ * The HostedChefProviderTest tests the org.jclouds.providers.HostedChefProvider
+ * class.
  * 
  * @author Adrian Cole
  */
@@ -31,6 +31,6 @@ import org.testng.annotations.Test;
 public class HostedChefProviderTest extends BaseProviderMetadataTest {
 
    public HostedChefProviderTest() {
-      super(new HostedChefProviderMetadata(), new PrivateChefApiMetadata());
+      super(new HostedChefProviderMetadata(), new HostedChefApiMetadata());
    }
 }

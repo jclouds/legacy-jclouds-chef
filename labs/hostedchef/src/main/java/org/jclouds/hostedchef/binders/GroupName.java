@@ -16,20 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.privatechef;
+package org.jclouds.hostedchef.binders;
 
-import java.util.concurrent.TimeUnit;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.jclouds.concurrent.Timeout;
-import org.jclouds.hostedchef.HostedChefApi;
+import javax.inject.Singleton;
+
+import org.jclouds.hostedchef.domain.Group;
+
+import com.google.common.base.Function;
 
 /**
- * Provides synchronous access to the Private Chef Api.
+ * Gets the name of a group.
  * 
- * @see HostedChefApi
  * @author Ignasi Barrera
  */
-@Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
-public interface PrivateChefApi extends HostedChefApi {
+@Singleton
+public class GroupName implements Function<Object, String> {
+
+   @Override
+   public String apply(Object from) {
+      return ((Group) checkNotNull(from, "from")).getGroupname();
+   }
 
 }

@@ -16,20 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.privatechef;
+package org.jclouds.hostedchef.binders;
 
-import java.util.concurrent.TimeUnit;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.jclouds.concurrent.Timeout;
-import org.jclouds.hostedchef.HostedChefApi;
+import javax.inject.Singleton;
+import javax.ws.rs.core.MediaType;
+
+import org.jclouds.http.HttpRequest;
+import org.jclouds.rest.binders.BindToStringPayload;
 
 /**
- * Provides synchronous access to the Private Chef Api.
+ * Binds the name of a group to the json payload.
  * 
- * @see HostedChefApi
  * @author Ignasi Barrera
  */
-@Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
-public interface PrivateChefApi extends HostedChefApi {
+@Singleton
+public class BindGroupNameToJsonPayload extends BindToStringPayload {
+
+   @Override
+   public <R extends HttpRequest> R bindToRequest(R request, Object payload) {
+      super.bindToRequest(request, String.format("{\"groupname\":\"%s\"}", checkNotNull(payload, "payload")));
+      request.getPayload().getContentMetadata().setContentType(MediaType.APPLICATION_JSON);
+      return request;
+   }
 
 }

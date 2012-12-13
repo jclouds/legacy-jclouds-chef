@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.privatechef;
+package org.jclouds.hostedchef;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -25,8 +25,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
-import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.ChefApi;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.rest.annotations.ExceptionParser;
 import org.jclouds.rest.annotations.Headers;
@@ -41,19 +41,18 @@ import com.google.common.util.concurrent.ListenableFuture;
  * use GET instead of HEAD.
  * 
  * @author Ignasi Barrera
- *
  */
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
-public interface PatchedChefAsyncApi extends ChefAsyncApi
-{
-    /**
-     * @see ChefApi#nodeExists(String)
-     */
-    @Override
-    @GET // Use get instead of HEAD.
-    @Path("/nodes/{nodename}")
-    @ExceptionParser(ReturnFalseOnNotFoundOr404.class)
-    ListenableFuture<Boolean> nodeExists(@PathParam("nodename") String nodename);
+public interface PatchedChefAsyncApi extends ChefAsyncApi {
+   /**
+    * @see ChefApi#nodeExists(String)
+    */
+   @Override
+   // Use get instead of HEAD
+   @GET
+   @Path("/nodes/{nodename}")
+   @ExceptionParser(ReturnFalseOnNotFoundOr404.class)
+   ListenableFuture<Boolean> nodeExists(@PathParam("nodename") String nodename);
 }

@@ -18,156 +18,24 @@
  */
 package org.jclouds.privatechef;
 
-import java.util.Set;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HEAD;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
-import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.filters.SignedHeaderAuth;
-import org.jclouds.chef.functions.ParseKeySetFromJson;
-import org.jclouds.privatechef.domain.Organization;
-import org.jclouds.privatechef.domain.User;
-import org.jclouds.privatechef.functions.OrganizationName;
-import org.jclouds.privatechef.functions.Username;
-import org.jclouds.rest.annotations.BinderParam;
-import org.jclouds.rest.annotations.Delegate;
-import org.jclouds.rest.annotations.ExceptionParser;
+import org.jclouds.hostedchef.HostedChefAsyncApi;
 import org.jclouds.rest.annotations.Headers;
-import org.jclouds.rest.annotations.ParamParser;
 import org.jclouds.rest.annotations.RequestFilters;
-import org.jclouds.rest.annotations.ResponseParser;
-import org.jclouds.rest.binders.BindToJsonPayload;
-import org.jclouds.rest.functions.ReturnEmptySetOnNotFoundOr404;
-import org.jclouds.rest.functions.ReturnFalseOnNotFoundOr404;
-import org.jclouds.rest.functions.ReturnNullOnNotFoundOr404;
-
-import com.google.common.util.concurrent.ListenableFuture;
 
 /**
- * Provides asynchronous access to the Private Chef via their REST API.
- * <p/>
+ * Provides asynchronous access to the Private Chef Api.
  * 
- * @see PrivateChefApi
- * @see <a href="TODO: insert URL of provider documentation" />
- * @author Adrian Cole
+ * @see HostedChefAsyncApi
+ * @author Ignasi Barrera
  */
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
-public interface PrivateChefAsyncApi {
-
-   @Delegate
-   PatchedChefAsyncApi getChefApi();
-    
-   /**
-    * @see ChefUser#listUsers
-    */
-   @GET
-   @Path("/users")
-   @ResponseParser(ParseKeySetFromJson.class)
-   @ExceptionParser(ReturnEmptySetOnNotFoundOr404.class)
-   ListenableFuture<Set<String>> listUsers();
-
-   /**
-    * @see ChefRole#userExists
-    */
-   @HEAD
-   @Path("/users/{username}")
-   @ExceptionParser(ReturnFalseOnNotFoundOr404.class)
-   ListenableFuture<Boolean> userExists(@PathParam("username") String username);
-
-   /**
-    * @see ChefApi#createUser
-    */
-   @POST
-   @Path("/users")
-   ListenableFuture<User> createUser(@BinderParam(BindToJsonPayload.class) User user);
-
-   /**
-    * @see ChefApi#updateUser
-    */
-   @PUT
-   @Path("/users/{username}")
-   @Consumes(MediaType.APPLICATION_JSON)
-   ListenableFuture<User> updateUser(
-         @PathParam("username") @ParamParser(Username.class) @BinderParam(BindToJsonPayload.class) User user);
-
-   /**
-    * @see ChefApi#getUser
-    */
-   @GET
-   @Path("/users/{username}")
-   @ExceptionParser(ReturnNullOnNotFoundOr404.class)
-   @Consumes(MediaType.APPLICATION_JSON)
-   ListenableFuture<User> getUser(@PathParam("username") String username);
-
-   /**
-    * @see ChefApi#deleteUser
-    */
-   @DELETE
-   @Path("/users/{username}")
-   @ExceptionParser(ReturnNullOnNotFoundOr404.class)
-   @Consumes(MediaType.APPLICATION_JSON)
-   ListenableFuture<User> deleteUser(@PathParam("username") String username);
-
-   /**
-    * @see ChefOrganization#listOrganizations
-    */
-   @GET
-   @Path("/organizations")
-   @ResponseParser(ParseKeySetFromJson.class)
-   @ExceptionParser(ReturnEmptySetOnNotFoundOr404.class)
-   ListenableFuture<Set<String>> listOrganizations();
-
-   /**
-    * @see ChefRole#organizationExists
-    */
-   @HEAD
-   @Path("/organizations/{organizationname}")
-   @ExceptionParser(ReturnFalseOnNotFoundOr404.class)
-   ListenableFuture<Boolean> organizationExists(@PathParam("organizationname") String organizationname);
-
-   /**
-    * @see ChefApi#createOrganization
-    */
-   @POST
-   @Path("/organizations")
-   ListenableFuture<Organization> createOrganization(@BinderParam(BindToJsonPayload.class) Organization org);
-
-   /**
-    * @see ChefApi#updateOrganization
-    */
-   @PUT
-   @Path("/organizations/{orgname}")
-   @Consumes(MediaType.APPLICATION_JSON)
-   ListenableFuture<Organization> updateOrganization(
-         @PathParam("orgname") @ParamParser(OrganizationName.class) @BinderParam(BindToJsonPayload.class) Organization org);
-
-   /**
-    * @see ChefApi#getOrganization
-    */
-   @GET
-   @Path("/organizations/{orgname}")
-   @ExceptionParser(ReturnNullOnNotFoundOr404.class)
-   @Consumes(MediaType.APPLICATION_JSON)
-   ListenableFuture<Organization> getOrganization(@PathParam("orgname") String orgname);
-
-   /**
-    * @see ChefApi#deleteOrganization
-    */
-   @DELETE
-   @Path("/organizations/{orgname}")
-   @ExceptionParser(ReturnNullOnNotFoundOr404.class)
-   @Consumes(MediaType.APPLICATION_JSON)
-   ListenableFuture<Organization> deleteOrganization(@PathParam("orgname") String orgname);
+public interface PrivateChefAsyncApi extends HostedChefAsyncApi {
 
 }

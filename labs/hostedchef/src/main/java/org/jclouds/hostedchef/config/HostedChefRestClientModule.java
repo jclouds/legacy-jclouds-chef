@@ -16,15 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.privatechef.config;
+package org.jclouds.hostedchef.config;
 
 import java.util.Map;
 
 import org.jclouds.chef.config.BaseChefRestClientModule;
+import org.jclouds.hostedchef.HostedChefApi;
+import org.jclouds.hostedchef.HostedChefAsyncApi;
 import org.jclouds.hostedchef.PatchedChefApi;
 import org.jclouds.hostedchef.PatchedChefAsyncApi;
-import org.jclouds.privatechef.PrivateChefApi;
-import org.jclouds.privatechef.PrivateChefAsyncApi;
 import org.jclouds.rest.ConfiguresRestClient;
 
 import com.google.common.collect.ImmutableMap;
@@ -36,13 +36,13 @@ import com.google.common.reflect.TypeToken;
  * @author Ignasi Barrera
  */
 @ConfiguresRestClient
-public class PrivateChefRestClientModule extends BaseChefRestClientModule<PrivateChefApi, PrivateChefAsyncApi> {
+public class HostedChefRestClientModule extends BaseChefRestClientModule<HostedChefApi, HostedChefAsyncApi> {
    public static final Map<Class<?>, Class<?>> DELEGATE_MAP = ImmutableMap.<Class<?>, Class<?>> builder()//
          .put(PatchedChefApi.class, PatchedChefAsyncApi.class)//
          .build();
 
-   public PrivateChefRestClientModule() {
-      super(TypeToken.of(PrivateChefApi.class), TypeToken.of(PrivateChefAsyncApi.class), DELEGATE_MAP);
+   public HostedChefRestClientModule() {
+      super(TypeToken.of(HostedChefApi.class), TypeToken.of(HostedChefAsyncApi.class), DELEGATE_MAP);
    }
 
 }
