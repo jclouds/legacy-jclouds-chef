@@ -18,18 +18,107 @@
  */
 package org.jclouds.hostedchef;
 
-import org.jclouds.privatechef.PrivateChefApiLiveTest;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Set;
+import java.util.UUID;
+
+import org.jclouds.chef.ChefApi;
+import org.jclouds.chef.internal.BaseChefApiLiveTest;
+import org.jclouds.hostedchef.domain.Group;
+import org.jclouds.hostedchef.domain.User;
+import org.jclouds.rest.ResourceNotFoundException;
 import org.testng.annotations.Test;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.TypeToken;
+
 /**
- * Tests behavior of {@code PrivateChefApi}
+ * Tests behavior of the HostedChefApi.
  * 
  * @author Adrian Cole
  */
 @Test(groups = "live", singleThreaded = true, testName = "HostedChefApiLiveTest")
-public class HostedChefApiLiveTest extends PrivateChefApiLiveTest {
+public class HostedChefApiLiveTest extends BaseChefApiLiveTest<HostedChefContext> {
+
+   private static final String GROUP_NAME = System.getProperty("user.name") + "-jcloudstest";
+
    public HostedChefApiLiveTest() {
       provider = "hostedchef";
+   }
+
+   public void testGetUser() {
+      User user = context.getApi().getUser(identity);
+      assertEquals(user.getUsername(), identity);
+      assertNotNull(user.getPublicKey());
+   }
+
+   public void testGetUnexistingUser() {
+      User user = context.getApi().getUser(UUID.randomUUID().toString());
+      assertNull(user);
+   }
+
+   public void testListGroups() {
+      Set<String> groups = context.getApi().listGroups();
+      assertNotNull(groups);
+      assertFalse(groups.isEmpty());
+   }
+
+   public void testGetUnexistingGroup() {
+      Group group = context.getApi().getGroup(UUID.randomUUID().toString());
+      assertNull(group);
+   }
+
+   public void testCreateGroup() {
+      context.getApi().createGroup(GROUP_NAME);
+      Group group = context.getApi().getGroup(GROUP_NAME);
+      assertNotNull(group);
+      assertEquals(group.getGroupname(), GROUP_NAME);
+   }
+
+   @Test(dependsOnMethods = "testCreateGroup")
+   public void testUpdateGroup() {
+      Group group = context.getApi().getGroup(GROUP_NAME);
+      group.setUsers(ImmutableSet.of(identity));
+      group.setClients(ImmutableSet.of(validatorIdentity));
+
+      context.getApi().updateGroup(group);
+      group = context.getApi().getGroup(GROUP_NAME);
+
+      assertNotNull(group);
+      assertTrue(group.getUsers().contains(identity));
+      assertTrue(group.getClients().contains(validatorIdentity));
+   }
+
+   @Test(expectedExceptions = ResourceNotFoundException.class)
+   public void testUpdateUnexistingGroup() {
+      context.getApi().updateGroup(new Group(UUID.randomUUID().toString()));
+   }
+
+   @Test(dependsOnMethods = "testUpdateGroup")
+   public void testDeleteGroup() {
+      context.getApi().deleteGroup(GROUP_NAME);
+      Group group = context.getApi().getGroup(GROUP_NAME);
+      assertNull(group);
+   }
+
+   @Test(expectedExceptions = ResourceNotFoundException.class)
+   public void testDeleteUnexistingGroup() {
+      context.getApi().deleteGroup(UUID.randomUUID().toString());
+   }
+
+   @Override
+   protected ChefApi getChefApi(HostedChefContext context) {
+      return context.getApi().getChefApi();
+   }
+
+   @Override
+   protected TypeToken<HostedChefContext> contextType() {
+      return TypeToken.of(HostedChefContext.class);
    }
 
 }

@@ -23,12 +23,6 @@ import org.jclouds.rest.RestContext;
 
 import com.google.inject.ImplementedBy;
 
-/**
- * 
- * 
- * @author Adrian Cole
- * 
- */
 @ImplementedBy(PrivateChefContextImpl.class)
 public interface PrivateChefContext extends RestContext<PrivateChefApi, PrivateChefAsyncApi> {
 

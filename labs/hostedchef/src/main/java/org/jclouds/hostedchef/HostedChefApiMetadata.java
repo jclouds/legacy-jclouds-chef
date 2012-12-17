@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.privatechef;
+package org.jclouds.hostedchef;
 
 import java.net.URI;
 import java.util.Properties;
@@ -38,18 +38,18 @@ import com.google.inject.Module;
  * 
  * @author Adrian Cole
  */
-public class PrivateChefApiMetadata extends BaseRestApiMetadata {
+public class HostedChefApiMetadata extends BaseRestApiMetadata {
 
    @Override
    public Builder toBuilder() {
       return new Builder(getApi(), getAsyncApi()).fromApiMetadata(this);
    }
 
-   public PrivateChefApiMetadata() {
-      this(new Builder(PrivateChefApi.class, PrivateChefAsyncApi.class));
+   public HostedChefApiMetadata() {
+      this(new Builder(HostedChefApi.class, HostedChefAsyncApi.class));
    }
 
-   protected PrivateChefApiMetadata(Builder builder) {
+   protected HostedChefApiMetadata(Builder builder) {
       super(Builder.class.cast(builder));
    }
 
@@ -62,23 +62,23 @@ public class PrivateChefApiMetadata extends BaseRestApiMetadata {
 
       protected Builder(Class<?> api, Class<?> asyncApi) {
          super(api, asyncApi);
-         id("privatechef")
-               .name("Private Chef Api")
+         id("hostedchef")
+               .name("Hosted Chef Api")
                .identityName("User")
                .credentialName("Certificate")
                .version(ChefAsyncApi.VERSION)
-               .documentation(URI.create("http://www.opscode.com/support/"))
+               .documentation(URI.create("http://www.opscode.com/support"))
                .defaultEndpoint("https://api.opscode.com")
-               .defaultProperties(PrivateChefApiMetadata.defaultProperties())
-               .context(TypeToken.of(PrivateChefContext.class))
+               .defaultProperties(HostedChefApiMetadata.defaultProperties())
+               .context(TypeToken.of(HostedChefContext.class))
                .defaultModules(
                      ImmutableSet.<Class<? extends Module>> of(HostedChefRestClientModule.class,
                            ChefParserModule.class, JMXOhaiModule.class));
       }
 
       @Override
-      public PrivateChefApiMetadata build() {
-         return new PrivateChefApiMetadata(this);
+      public HostedChefApiMetadata build() {
+         return new HostedChefApiMetadata(this);
       }
 
       @Override
