@@ -77,12 +77,6 @@
             <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
-        <!-- Required to read private and public key files -->
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk16</artifactId>
-            <version>1.46</version>
-        </dependency>
     </dependencies>
 
     <profiles>
