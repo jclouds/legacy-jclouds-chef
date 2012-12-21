@@ -1,6 +1,6 @@
 if [ ! -f /usr/bin/chef-client ]; then
   apt-get update
-  apt-get install -y ruby ruby1.8-dev build-essential wget libruby-extras libruby1.8-extras
+  apt-get install -y ruby ruby1.8-dev build-essential wget
   (
   mkdir -p /tmp/bootchef
   cd /tmp/bootchef
