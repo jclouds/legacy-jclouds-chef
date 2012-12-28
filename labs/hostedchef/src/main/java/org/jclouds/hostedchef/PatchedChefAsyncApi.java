@@ -25,13 +25,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
+import org.jclouds.Fallbacks.FalseOnNotFoundOr404;
 import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.filters.SignedHeaderAuth;
-import org.jclouds.rest.annotations.ExceptionParser;
+import org.jclouds.rest.annotations.Fallback;
 import org.jclouds.rest.annotations.Headers;
 import org.jclouds.rest.annotations.RequestFilters;
-import org.jclouds.rest.functions.ReturnFalseOnNotFoundOr404;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -53,6 +53,6 @@ public interface PatchedChefAsyncApi extends ChefAsyncApi {
    // Use get instead of HEAD
    @GET
    @Path("/nodes/{nodename}")
-   @ExceptionParser(ReturnFalseOnNotFoundOr404.class)
+   @Fallback(FalseOnNotFoundOr404.class)
    ListenableFuture<Boolean> nodeExists(@PathParam("nodename") String nodename);
 }
