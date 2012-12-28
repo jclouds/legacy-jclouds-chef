@@ -30,6 +30,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
+import org.jclouds.Fallbacks.NullOnNotFoundOr404;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
 import org.jclouds.hostedchef.binders.BindGroupNameToJsonPayload;
@@ -39,12 +40,11 @@ import org.jclouds.hostedchef.domain.Group;
 import org.jclouds.hostedchef.domain.User;
 import org.jclouds.rest.annotations.BinderParam;
 import org.jclouds.rest.annotations.Delegate;
-import org.jclouds.rest.annotations.ExceptionParser;
+import org.jclouds.rest.annotations.Fallback;
 import org.jclouds.rest.annotations.Headers;
 import org.jclouds.rest.annotations.ParamParser;
 import org.jclouds.rest.annotations.RequestFilters;
 import org.jclouds.rest.annotations.ResponseParser;
-import org.jclouds.rest.functions.ReturnNullOnNotFoundOr404;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -70,7 +70,7 @@ public interface HostedChefAsyncApi {
     */
    @GET
    @Path("/users/{name}")
-   @ExceptionParser(ReturnNullOnNotFoundOr404.class)
+   @Fallback(NullOnNotFoundOr404.class)
    ListenableFuture<User> getUser(@PathParam("name") String name);
 
    /**
@@ -86,7 +86,7 @@ public interface HostedChefAsyncApi {
     */
    @GET
    @Path("/groups/{name}")
-   @ExceptionParser(ReturnNullOnNotFoundOr404.class)
+   @Fallback(NullOnNotFoundOr404.class)
    ListenableFuture<Group> getGroup(@PathParam("name") String name);
 
    /**
