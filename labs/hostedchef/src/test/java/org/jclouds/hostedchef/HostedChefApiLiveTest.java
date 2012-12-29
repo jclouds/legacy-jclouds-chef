@@ -31,6 +31,7 @@ import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.internal.BaseChefApiLiveTest;
 import org.jclouds.hostedchef.domain.Group;
 import org.jclouds.hostedchef.domain.User;
+import org.jclouds.rest.AuthorizationException;
 import org.jclouds.rest.ResourceNotFoundException;
 import org.testng.annotations.Test;
 
@@ -49,6 +50,21 @@ public class HostedChefApiLiveTest extends BaseChefApiLiveTest<HostedChefContext
 
    public HostedChefApiLiveTest() {
       provider = "hostedchef";
+   }
+
+   @Override
+   @Test(expectedExceptions = AuthorizationException.class)
+   public void testValidatorCreateClient() throws Exception {
+      validatorClient.createClient(VALIDATOR_PREFIX);
+   }
+
+   @Override
+   @Test
+   public void testSearchClientsWithOptions() throws Exception {
+      // This test will fail because Hosted Chef does not index client name.
+      // Once it is fixes, the test should suceed.
+      // See: http://tickets.opscode.com/browse/CHEF-2477
+      super.testSearchClientsWithOptions();
    }
 
    public void testGetUser() {
