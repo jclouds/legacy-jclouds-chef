@@ -19,9 +19,6 @@
 package org.jclouds.hostedchef;
 
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.jclouds.concurrent.Timeout;
 import org.jclouds.hostedchef.domain.Group;
 import org.jclouds.hostedchef.domain.User;
 import org.jclouds.rest.annotations.Delegate;
@@ -31,7 +28,6 @@ import org.jclouds.rest.annotations.Delegate;
  * 
  * @author Ignasi Barrera
  */
-@Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
 public interface HostedChefApi {
 
    /**
