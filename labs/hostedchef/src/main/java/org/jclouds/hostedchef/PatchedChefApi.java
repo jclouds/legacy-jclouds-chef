@@ -18,10 +18,7 @@
  */
 package org.jclouds.hostedchef;
 
-import java.util.concurrent.TimeUnit;
-
 import org.jclouds.chef.ChefApi;
-import org.jclouds.concurrent.Timeout;
 
 /**
  * Private chef api seems to miss support for HEAD method in the node resource.
@@ -30,7 +27,6 @@ import org.jclouds.concurrent.Timeout;
  * 
  * @author Ignasi Barrera
  */
-@Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
 public interface PatchedChefApi extends ChefApi {
    /**
     * Check if there exists a node with the given name.

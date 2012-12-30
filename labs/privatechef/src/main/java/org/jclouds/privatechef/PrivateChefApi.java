@@ -18,9 +18,6 @@
  */
 package org.jclouds.privatechef;
 
-import java.util.concurrent.TimeUnit;
-
-import org.jclouds.concurrent.Timeout;
 import org.jclouds.hostedchef.HostedChefApi;
 
 /**
@@ -29,7 +26,6 @@ import org.jclouds.hostedchef.HostedChefApi;
  * @see HostedChefApi
  * @author Ignasi Barrera
  */
-@Timeout(duration = 30, timeUnit = TimeUnit.SECONDS)
 public interface PrivateChefApi extends HostedChefApi {
 
 }
