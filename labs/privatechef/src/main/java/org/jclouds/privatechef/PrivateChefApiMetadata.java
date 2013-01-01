@@ -27,7 +27,6 @@ import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.hostedchef.config.HostedChefRestClientModule;
 import org.jclouds.ohai.config.JMXOhaiModule;
-import org.jclouds.rest.internal.BaseRestApiMetadata;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
@@ -38,19 +37,19 @@ import com.google.inject.Module;
  * 
  * @author Adrian Cole
  */
-public class PrivateChefApiMetadata extends BaseRestApiMetadata {
+public class PrivateChefApiMetadata extends ChefApiMetadata {
 
    @Override
    public Builder toBuilder() {
-      return new Builder(getApi(), getAsyncApi()).fromApiMetadata(this);
+      return new Builder().fromApiMetadata(this);
    }
 
    public PrivateChefApiMetadata() {
-      this(new Builder(PrivateChefApi.class, PrivateChefAsyncApi.class));
+      this(new Builder());
    }
 
    protected PrivateChefApiMetadata(Builder builder) {
-      super(Builder.class.cast(builder));
+      super(builder);
    }
 
    public static Properties defaultProperties() {
@@ -58,10 +57,10 @@ public class PrivateChefApiMetadata extends BaseRestApiMetadata {
       return properties;
    }
 
-   public static class Builder extends BaseRestApiMetadata.Builder {
+   public static class Builder extends ChefApiMetadata.Builder<Builder> {
 
-      protected Builder(Class<?> api, Class<?> asyncApi) {
-         super(api, asyncApi);
+      protected Builder() {
+         super(PrivateChefApi.class, PrivateChefAsyncApi.class);
          id("privatechef")
                .name("Private Chef Api")
                .identityName("User")
@@ -82,10 +81,8 @@ public class PrivateChefApiMetadata extends BaseRestApiMetadata {
       }
 
       @Override
-      public Builder fromApiMetadata(ApiMetadata in) {
-         super.fromApiMetadata(in);
+      protected Builder self() {
          return this;
       }
    }
-
 }
