@@ -22,15 +22,17 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.jclouds.annotations.Name;
+import org.jclouds.domain.Credentials;
 import org.jclouds.lifecycle.Closer;
-import org.jclouds.privatechef.PrivateChefAsyncApi;
+import org.jclouds.location.Provider;
 import org.jclouds.privatechef.PrivateChefApi;
+import org.jclouds.privatechef.PrivateChefAsyncApi;
 import org.jclouds.privatechef.PrivateChefContext;
 import org.jclouds.providers.ProviderMetadata;
 import org.jclouds.rest.Utils;
-import org.jclouds.rest.annotations.Identity;
 import org.jclouds.rest.internal.RestContextImpl;
 
+import com.google.common.base.Supplier;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
@@ -42,10 +44,10 @@ public class PrivateChefContextImpl extends RestContextImpl<PrivateChefApi, Priv
          implements PrivateChefContext {
 
    @Inject
-   protected PrivateChefContextImpl(@Name String name, ProviderMetadata providerMetadata, @Identity String identity, Utils utils,
-            Closer closer, Injector injector) {
-      super(name, providerMetadata, identity, utils, closer, injector, TypeLiteral.get(PrivateChefApi.class),
-               TypeLiteral.get(PrivateChefAsyncApi.class));
+   protected PrivateChefContextImpl(@Name String name, ProviderMetadata providerMetadata,
+         @Provider Supplier<Credentials> creds, Utils utils, Closer closer, Injector injector) {
+      super(name, providerMetadata, creds, utils, closer, injector, TypeLiteral.get(PrivateChefApi.class), TypeLiteral
+            .get(PrivateChefAsyncApi.class));
    }
 
 }
