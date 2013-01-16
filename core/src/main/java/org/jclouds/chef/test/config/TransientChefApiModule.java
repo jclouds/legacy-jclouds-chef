@@ -40,14 +40,12 @@ import org.jclouds.chef.test.TransientChefAsyncApi;
 import org.jclouds.concurrent.MoreExecutors;
 import org.jclouds.concurrent.config.ExecutorServiceModule;
 import org.jclouds.crypto.Crypto;
-import org.jclouds.crypto.Pems;
-import org.jclouds.io.InputSuppliers;
 import org.jclouds.rest.ConfiguresRestClient;
-import org.jclouds.rest.annotations.Credential;
 import org.jclouds.rest.config.BinderUtils;
 import org.jclouds.rest.config.RestModule;
 import org.jclouds.scriptbuilder.domain.Statement;
 
+import com.google.common.cache.CacheLoader;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MapMaker;
@@ -79,12 +77,11 @@ public class TransientChefApiModule extends AbstractModule {
       
       bind(Statement.class).annotatedWith(Names.named("installChefGems")).to(InstallChefGems.class);
    }
-   
+
    @Provides
    @Singleton
-   public PrivateKey provideKey(Crypto crypto, @Credential String pem) throws InvalidKeySpecException,
-            IOException {
-        return crypto.rsaKeyFactory().generatePrivate(Pems.privateKeySpec(InputSuppliers.of(pem)));
+   CacheLoader<String, List<String>> runListForGroup(RunListForGroup runListForGroup) {
+      return CacheLoader.from(runListForGroup);
    }
    
    @Provides

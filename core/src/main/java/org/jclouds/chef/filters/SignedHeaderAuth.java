@@ -20,6 +20,7 @@ package org.jclouds.chef.filters;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.io.IOException;
 import java.security.PrivateKey;
 import java.util.NoSuchElementException;
 
@@ -33,6 +34,7 @@ import org.jclouds.Constants;
 import org.jclouds.crypto.Crypto;
 import org.jclouds.crypto.CryptoStreams;
 import org.jclouds.date.TimeStamp;
+import org.jclouds.domain.Credentials;
 import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;
@@ -45,12 +47,12 @@ import org.jclouds.io.payloads.MultipartForm;
 import org.jclouds.io.payloads.Part;
 import org.jclouds.io.payloads.RSAEncryptingPayload;
 import org.jclouds.logging.Logger;
-import org.jclouds.rest.annotations.Identity;
 import org.jclouds.util.Strings2;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
@@ -69,8 +71,8 @@ public class SignedHeaderAuth implements HttpRequestFilter {
    public static final String SIGNING_DESCRIPTION = "version=1.0";
 
    private final SignatureWire signatureWire;
-   private final String userId;
-   private final PrivateKey privateKey;
+   private final Supplier<Credentials> creds;
+   private final Supplier<PrivateKey> supplyKey;
    private final Provider<String> timeStampProvider;
    private final Crypto crypto;
    private final String emptyStringHash;
@@ -80,12 +82,13 @@ public class SignedHeaderAuth implements HttpRequestFilter {
    @Named(Constants.LOGGER_SIGNATURE)
    Logger signatureLog = Logger.NULL;
 
+
    @Inject
-   public SignedHeaderAuth(SignatureWire signatureWire, @Identity String userId, PrivateKey privateKey,
-            @TimeStamp Provider<String> timeStampProvider, Crypto crypto, HttpUtils utils) {
+   public SignedHeaderAuth(SignatureWire signatureWire, @org.jclouds.location.Provider Supplier<Credentials> creds,
+         Supplier<PrivateKey> supplyKey, @TimeStamp Provider<String> timeStampProvider, Crypto crypto, HttpUtils utils) {
       this.signatureWire = signatureWire;
-      this.userId = userId;
-      this.privateKey = privateKey;
+      this.creds = creds;
+      this.supplyKey = supplyKey;
       this.timeStampProvider = timeStampProvider;
       this.crypto = crypto;
       this.emptyStringHash = hashBody(Payloads.newStringPayload(""));
@@ -93,14 +96,13 @@ public class SignedHeaderAuth implements HttpRequestFilter {
    }
 
    public HttpRequest filter( HttpRequest request ) throws HttpException {
-
       String contentHash = hashBody(request.getPayload());
       Multimap<String, String> headers = ArrayListMultimap.create();
       headers.put( "X-Ops-Content-Hash", contentHash );
       String timestamp = timeStampProvider.get();
       String toSign = createStringToSign(request.getMethod(), hashPath(request.getEndpoint().getPath()), contentHash,
                timestamp);
-      headers.put("X-Ops-Userid", userId);
+      headers.put("X-Ops-Userid", creds.get().identity);
       headers.put( "X-Ops-Sign", SIGNING_DESCRIPTION );
       request = calculateAndReplaceAuthorizationHeaders( request, toSign );
       headers.put( "X-Ops-Timestamp", timestamp );
@@ -125,9 +127,10 @@ public class SignedHeaderAuth implements HttpRequestFilter {
 
    public String createStringToSign(String request, String hashedPath, String contentHash, String timestamp) {
 
-      return new StringBuilder().append("Method:").append(request).append("\n").append("Hashed Path:").append(
-               hashedPath).append("\n").append("X-Ops-Content-Hash:").append(contentHash).append("\n").append(
-               "X-Ops-Timestamp:").append(timestamp).append("\n").append("X-Ops-UserId:").append(userId).toString();
+      return new StringBuilder().append("Method:").append(request).append("\n").append("Hashed Path:")
+            .append(hashedPath).append("\n").append("X-Ops-Content-Hash:").append(contentHash).append("\n")
+            .append("X-Ops-Timestamp:").append(timestamp).append("\n").append("X-Ops-UserId:")
+            .append(creds.get().identity).toString();
 
    }
 
@@ -188,7 +191,7 @@ public class SignedHeaderAuth implements HttpRequestFilter {
    public String sign(String toSign) {
       try {
          byte[] encrypted = ByteStreams.toByteArray(new RSAEncryptingPayload(Payloads.newStringPayload(toSign),
-                  privateKey));
+                  supplyKey.get()));
          return CryptoStreams.base64(encrypted);
       } catch (Exception e) {
          throw new HttpException("error signing request", e);
