@@ -20,6 +20,7 @@ package org.jclouds.hostedchef;
 
 import java.util.Set;
 
+import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -68,6 +69,7 @@ public interface HostedChefAsyncApi {
    /**
     * @see HostedChefApi#getUser(String)
     */
+   @Named("user:get")
    @GET
    @Path("/users/{name}")
    @Fallback(NullOnNotFoundOr404.class)
@@ -76,6 +78,7 @@ public interface HostedChefAsyncApi {
    /**
     * @see HostedChefApi#listGroups()
     */
+   @Named("group:list")
    @GET
    @Path("/groups")
    @ResponseParser(ParseKeySetFromJson.class)
@@ -84,6 +87,7 @@ public interface HostedChefAsyncApi {
    /**
     * @see HostedChefApi#getGroup(String)
     */
+   @Named("group:get")
    @GET
    @Path("/groups/{name}")
    @Fallback(NullOnNotFoundOr404.class)
@@ -92,6 +96,7 @@ public interface HostedChefAsyncApi {
    /**
     * @see HostedChefApi#createGroup(String)
     */
+   @Named("group:create")
    @POST
    @Path("/groups")
    ListenableFuture<Void> createGroup(@BinderParam(BindGroupNameToJsonPayload.class) String name);
@@ -99,6 +104,7 @@ public interface HostedChefAsyncApi {
    /**
     * @see HostedChefApi#updateGroup(Group)
     */
+   @Named("group:update")
    @PUT
    @Path("/groups/{name}")
    ListenableFuture<Void> updateGroup(
@@ -107,6 +113,7 @@ public interface HostedChefAsyncApi {
    /**
     * @see HostedChefApi#getGroup(String)
     */
+   @Named("group:delete")
    @DELETE
    @Path("/groups/{name}")
    ListenableFuture<Void> deleteGroup(@PathParam("name") String name);
