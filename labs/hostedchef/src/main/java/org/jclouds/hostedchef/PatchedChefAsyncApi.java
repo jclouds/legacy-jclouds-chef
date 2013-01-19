@@ -18,6 +18,7 @@
  */
 package org.jclouds.hostedchef;
 
+import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -51,6 +52,7 @@ public interface PatchedChefAsyncApi extends ChefAsyncApi {
     */
    @Override
    // Use get instead of HEAD
+   @Named("node:exists")
    @GET
    @Path("/nodes/{nodename}")
    @Fallback(FalseOnNotFoundOr404.class)
