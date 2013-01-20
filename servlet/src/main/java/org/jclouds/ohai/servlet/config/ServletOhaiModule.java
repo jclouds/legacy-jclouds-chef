@@ -18,7 +18,6 @@
  */
 package org.jclouds.ohai.servlet.config;
 
-
 import static org.jclouds.chef.util.ChefUtils.ohaiAutomaticAttributeBinder;
 
 import org.jclouds.domain.JsonBall;
@@ -35,10 +34,10 @@ import com.google.inject.AbstractModule;
  */
 public class ServletOhaiModule extends AbstractModule {
 
-   @Override
-   protected void configure() {
-      MapBinder<String, Supplier<JsonBall>> mapbinder = ohaiAutomaticAttributeBinder(binder());
-      mapbinder.addBinding("webapp").to(ServletContextInfoSupplier.class);
-   }
+	@Override
+	protected void configure() {
+		MapBinder<String, Supplier<JsonBall>> mapbinder = ohaiAutomaticAttributeBinder(binder());
+		mapbinder.addBinding("webapp").to(ServletContextInfoSupplier.class);
+	}
 
 }

@@ -31,17 +31,20 @@ import com.google.common.base.Function;
  * @author Adrian Cole
  */
 @Singleton
-public class InitParamsToProperties implements Function<ServletContext, Properties> {
+public class InitParamsToProperties
+		implements
+			Function<ServletContext, Properties> {
 
-   public static final InitParamsToProperties INSTANCE = new InitParamsToProperties();
+	public static final InitParamsToProperties INSTANCE = new InitParamsToProperties();
 
-   public Properties apply(ServletContext servletContext) {
-      Properties overrides = new Properties();
-      Enumeration<?> e = servletContext.getInitParameterNames();
-      while (e.hasMoreElements()) {
-         String propertyName = e.nextElement().toString();
-         overrides.setProperty(propertyName, servletContext.getInitParameter(propertyName));
-      }
-      return overrides;
-   }
+	public Properties apply(ServletContext servletContext) {
+		Properties overrides = new Properties();
+		Enumeration<?> e = servletContext.getInitParameterNames();
+		while (e.hasMoreElements()) {
+			String propertyName = e.nextElement().toString();
+			overrides.setProperty(propertyName,
+					servletContext.getInitParameter(propertyName));
+		}
+		return overrides;
+	}
 }
