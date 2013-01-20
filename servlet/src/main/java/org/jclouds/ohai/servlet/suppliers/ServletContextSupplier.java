@@ -32,20 +32,21 @@ import com.google.common.base.Supplier;
  */
 @Singleton
 public abstract class ServletContextSupplier implements Supplier<JsonBall> {
-   private final ServletContext servletContext;
+	private final ServletContext servletContext;
 
-   @Inject
-   public ServletContextSupplier(ServletContext servletContext) {
-      this.servletContext = servletContext;
-   }
+	@Inject
+	public ServletContextSupplier(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
 
-   @Override
-   public JsonBall get() {
-      String path = servletContext.getContextPath();
-      if (path == null || path.equals(""))
-         path = "/";
-      return new JsonBall(String.format("{\"%s\":%s}", path, provideJson(servletContext)));
-   }
+	@Override
+	public JsonBall get() {
+		String path = servletContext.getContextPath();
+		if (path == null || path.equals(""))
+			path = "/";
+		return new JsonBall(String.format("{\"%s\":%s}", path,
+				provideJson(servletContext)));
+	}
 
-   protected abstract String provideJson(ServletContext servletContext);
+	protected abstract String provideJson(ServletContext servletContext);
 }

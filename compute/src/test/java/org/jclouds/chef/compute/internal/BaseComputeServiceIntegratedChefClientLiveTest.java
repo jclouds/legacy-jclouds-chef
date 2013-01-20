@@ -45,65 +45,82 @@ import com.google.inject.Module;
 /**
  * @author Adrian Cole
  */
-public abstract class BaseComputeServiceIntegratedChefClientLiveTest<C extends Context> extends BaseChefContextLiveTest<C> {
+public abstract class BaseComputeServiceIntegratedChefClientLiveTest<C extends Context>
+		extends
+			BaseChefContextLiveTest<C> {
 
-   protected TemplateBuilderSpec template;
-   protected LoginCredentials loginCredentials = LoginCredentials.builder().user("root").build();
+	protected TemplateBuilderSpec template;
+	protected LoginCredentials loginCredentials = LoginCredentials.builder()
+			.user("root").build();
 
-   // isolate tests from eachother, as default credentialStore is static
-   protected Module credentialStoreModule = new CredentialStoreModule(new CopyInputStreamInputSupplierMap(
-         new ConcurrentHashMap<String, InputSupplier<InputStream>>()));
-   
-   private String computeProvider;
-   
-   protected Properties setupComputeProperties() {
-      Properties overrides = new Properties();
-      overrides.setProperty(Constants.PROPERTY_TRUST_ALL_CERTS, "true");
-      overrides.setProperty(Constants.PROPERTY_RELAX_HOSTNAME, "true");
-      computeProvider =  setIfTestSystemPropertyPresent(overrides,  provider + ".compute.provider");
-      setIfTestSystemPropertyPresent(overrides,  provider + ".compute.identity");
-      setIfTestSystemPropertyPresent(overrides,  provider + ".compute.credential");
-      setIfTestSystemPropertyPresent(overrides,  provider + ".compute.endpoint");
-      setIfTestSystemPropertyPresent(overrides,  provider + ".compute.api-version");
-      setIfTestSystemPropertyPresent(overrides,  provider + ".compute.build-version");
-      String spec = setIfTestSystemPropertyPresent(overrides, provider + ".compute.template");
-      if (spec != null) {
-         template = TemplateBuilderSpec.parse(spec);
-         if (template.getLoginUser() != null) {
-            Iterable<String> userPass = Splitter.on(':').split(template.getLoginUser());
-            Builder loginCredentialsBuilder = LoginCredentials.builder();
-            loginCredentialsBuilder.user(Iterables.get(userPass, 0));
-            if (Iterables.size(userPass) == 2)
-               loginCredentialsBuilder.password(Iterables.get(userPass, 1));
-            if (template.getAuthenticateSudo() != null)
-               loginCredentialsBuilder.authenticateSudo(template.getAuthenticateSudo());
-            loginCredentials = loginCredentialsBuilder.build();
-         }
-      }
-      return overrides;
-   }
+	// isolate tests from eachother, as default credentialStore is static
+	protected Module credentialStoreModule = new CredentialStoreModule(
+			new CopyInputStreamInputSupplierMap(
+					new ConcurrentHashMap<String, InputSupplier<InputStream>>()));
 
-   @Override
-   protected Iterable<Module> setupModules() {
-      return ImmutableSet.<Module> of(getLoggingModule(), credentialStoreModule, getSshModule());
-   }
-   
-   protected Module getSshModule() {
-      return new SshjSshClientModule();
-   }
-   
-   protected volatile ComputeServiceContext computeContext;
+	private String computeProvider;
 
-   @Override
-   protected void initializeContext() {
-      super.initializeContext();
-      computeContext = ContextBuilder.newBuilder(computeProvider).modules(setupModules()).overrides(setupComputeProperties()).buildView(ComputeServiceContext.class);
-   }
-   
-   @AfterClass(groups = { "integration", "live" })
-   @Override
-   protected void tearDownContext() {
-      Closeables.closeQuietly(computeContext);
-      super.tearDownContext();
-   }
+	protected Properties setupComputeProperties() {
+		Properties overrides = new Properties();
+		overrides.setProperty(Constants.PROPERTY_TRUST_ALL_CERTS, "true");
+		overrides.setProperty(Constants.PROPERTY_RELAX_HOSTNAME, "true");
+		computeProvider = setIfTestSystemPropertyPresent(overrides, provider
+				+ ".compute.provider");
+		setIfTestSystemPropertyPresent(overrides, provider
+				+ ".compute.identity");
+		setIfTestSystemPropertyPresent(overrides, provider
+				+ ".compute.credential");
+		setIfTestSystemPropertyPresent(overrides, provider
+				+ ".compute.endpoint");
+		setIfTestSystemPropertyPresent(overrides, provider
+				+ ".compute.api-version");
+		setIfTestSystemPropertyPresent(overrides, provider
+				+ ".compute.build-version");
+		String spec = setIfTestSystemPropertyPresent(overrides, provider
+				+ ".compute.template");
+		if (spec != null) {
+			template = TemplateBuilderSpec.parse(spec);
+			if (template.getLoginUser() != null) {
+				Iterable<String> userPass = Splitter.on(':').split(
+						template.getLoginUser());
+				Builder loginCredentialsBuilder = LoginCredentials.builder();
+				loginCredentialsBuilder.user(Iterables.get(userPass, 0));
+				if (Iterables.size(userPass) == 2)
+					loginCredentialsBuilder
+							.password(Iterables.get(userPass, 1));
+				if (template.getAuthenticateSudo() != null)
+					loginCredentialsBuilder.authenticateSudo(template
+							.getAuthenticateSudo());
+				loginCredentials = loginCredentialsBuilder.build();
+			}
+		}
+		return overrides;
+	}
+
+	@Override
+	protected Iterable<Module> setupModules() {
+		return ImmutableSet.<Module> of(getLoggingModule(),
+				credentialStoreModule, getSshModule());
+	}
+
+	protected Module getSshModule() {
+		return new SshjSshClientModule();
+	}
+
+	protected volatile ComputeServiceContext computeContext;
+
+	@Override
+	protected void initializeContext() {
+		super.initializeContext();
+		computeContext = ContextBuilder.newBuilder(computeProvider)
+				.modules(setupModules()).overrides(setupComputeProperties())
+				.buildView(ComputeServiceContext.class);
+	}
+
+	@AfterClass(groups = {"integration", "live"})
+	@Override
+	protected void tearDownContext() {
+		Closeables.closeQuietly(computeContext);
+		super.tearDownContext();
+	}
 }

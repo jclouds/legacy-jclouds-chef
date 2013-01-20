@@ -18,7 +18,6 @@
  */
 package org.jclouds.hostedchef;
 
-
 import static org.jclouds.reflect.Reflection2.typeToken;
 
 import java.net.URI;
