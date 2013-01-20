@@ -18,7 +18,6 @@
  */
 package org.jclouds.hostedchef.config;
 
-
 import static org.jclouds.reflect.Reflection2.typeToken;
 
 import java.util.Map;

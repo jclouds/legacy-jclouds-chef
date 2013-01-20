@@ -31,19 +31,21 @@ import org.jclouds.json.Json;
  */
 @Singleton
 public class ServletContextInfoSupplier extends ServletContextSupplier {
-   private final InitParamsToProperties converter;
-   private final Json json;
+	private final InitParamsToProperties converter;
+	private final Json json;
 
-   @Inject
-   public ServletContextInfoSupplier(ServletContext servletContext, InitParamsToProperties converter, Json json) {
-      super(servletContext);
-      this.converter = converter;
-      this.json = json;
-   }
+	@Inject
+	public ServletContextInfoSupplier(ServletContext servletContext,
+			InitParamsToProperties converter, Json json) {
+		super(servletContext);
+		this.converter = converter;
+		this.json = json;
+	}
 
-   @Override
-   protected String provideJson(ServletContext servletContext) {
-      return String.format("{\"server_info\":\"%s\",\"init_params\":%s}", servletContext.getServerInfo(), json
-            .toJson(converter.apply(servletContext)));
-   }
+	@Override
+	protected String provideJson(ServletContext servletContext) {
+		return String.format("{\"server_info\":\"%s\",\"init_params\":%s}",
+				servletContext.getServerInfo(),
+				json.toJson(converter.apply(servletContext)));
+	}
 }

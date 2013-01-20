@@ -40,8 +40,8 @@ import com.google.inject.TypeLiteral;
  * @author Adrian Cole
  */
 @Singleton
-public class PrivateChefContextImpl extends RestContextImpl<PrivateChefApi, PrivateChefAsyncApi>
-         implements PrivateChefContext {
+public class PrivateChefContextImpl extends RestContextImpl<PrivateChefApi, PrivateChefAsyncApi> implements
+      PrivateChefContext {
 
    @Inject
    protected PrivateChefContextImpl(@Name String name, ProviderMetadata providerMetadata,
