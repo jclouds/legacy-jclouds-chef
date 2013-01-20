@@ -24,7 +24,7 @@ import static com.google.common.collect.Iterables.getLast;
 import static org.jclouds.chef.predicates.CookbookVersionPredicates.containsRecipe;
 import static org.jclouds.chef.predicates.CookbookVersionPredicates.containsRecipes;
 import static org.jclouds.compute.options.TemplateOptions.Builder.runScript;
-import static org.jclouds.reflect.Reflection2.typeTokenOf;
+import static org.jclouds.reflect.Reflection2.typeToken;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
@@ -122,6 +122,6 @@ public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChef
    @Override
    protected TypeToken<ChefContext> contextType()
    {
-       return typeTokenOf(ChefContext.class);
+       return typeToken(ChefContext.class);
    }
 }
