@@ -18,7 +18,8 @@
  */
 package org.jclouds.hostedchef;
 
-import static org.jclouds.reflect.Reflection2.typeTokenOf;
+
+import static org.jclouds.reflect.Reflection2.typeToken;
 
 import java.net.URI;
 import java.util.Properties;
@@ -70,7 +71,7 @@ public class HostedChefApiMetadata extends ChefApiMetadata {
                .documentation(URI.create("http://www.opscode.com/support"))
                .defaultEndpoint("https://api.opscode.com")
                .defaultProperties(HostedChefApiMetadata.defaultProperties())
-               .context(typeTokenOf(HostedChefContext.class))
+               .context(typeToken(HostedChefContext.class))
                .defaultModules(
                      ImmutableSet.<Class<? extends Module>> of(HostedChefRestClientModule.class,
                            ChefParserModule.class, JMXOhaiModule.class));

@@ -18,7 +18,8 @@
  */
 package org.jclouds.hostedchef.config;
 
-import static org.jclouds.reflect.Reflection2.typeTokenOf;
+
+import static org.jclouds.reflect.Reflection2.typeToken;
 
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class HostedChefRestClientModule extends BaseChefRestClientModule<HostedC
          .build();
 
    public HostedChefRestClientModule() {
-      super(typeTokenOf(HostedChefApi.class), typeTokenOf(HostedChefAsyncApi.class), DELEGATE_MAP);
+      super(typeToken(HostedChefApi.class), typeToken(HostedChefAsyncApi.class), DELEGATE_MAP);
    }
 
 }

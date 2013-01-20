@@ -25,7 +25,7 @@ import static org.jclouds.chef.config.ChefProperties.CHEF_NODE;
 import static org.jclouds.chef.config.ChefProperties.CHEF_NODE_PATTERN;
 import static org.jclouds.chef.config.ChefProperties.CHEF_RUN_LIST;
 import static org.jclouds.chef.config.ChefProperties.CHEF_SERVICE_CLIENT;
-import static org.jclouds.reflect.Reflection2.typeTokenOf;
+import static org.jclouds.reflect.Reflection2.typeToken;
 
 import java.util.Properties;
 import java.util.Set;
@@ -114,7 +114,7 @@ public class ChefRegistrationListener implements ServletContextListener {
             bind(ServletContext.class).toInstance(servletContextEvent.getServletContext());
          }
 
-      })).overrides(props).build(typeTokenOf(ChefContext.class)).getChefService();
+      })).overrides(props).build(typeToken(ChefContext.class)).getChefService();
    }
 
    private static String getInitParam(ServletContextEvent servletContextEvent, String name) {
