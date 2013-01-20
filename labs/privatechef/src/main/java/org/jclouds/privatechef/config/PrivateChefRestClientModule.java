@@ -18,6 +18,8 @@
  */
 package org.jclouds.privatechef.config;
 
+import static org.jclouds.reflect.Reflection2.typeTokenOf;
+
 import java.util.Map;
 
 import org.jclouds.chef.config.BaseChefRestClientModule;
@@ -28,7 +30,6 @@ import org.jclouds.privatechef.PrivateChefAsyncApi;
 import org.jclouds.rest.ConfiguresRestClient;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.reflect.TypeToken;
 
 /**
  * Configures the Hosted Chef connection.
@@ -42,7 +43,7 @@ public class PrivateChefRestClientModule extends BaseChefRestClientModule<Privat
          .build();
 
    public PrivateChefRestClientModule() {
-      super(TypeToken.of(PrivateChefApi.class), TypeToken.of(PrivateChefAsyncApi.class), DELEGATE_MAP);
+      super(typeTokenOf(PrivateChefApi.class), typeTokenOf(PrivateChefAsyncApi.class), DELEGATE_MAP);
    }
 
 }

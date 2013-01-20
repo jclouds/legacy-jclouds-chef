@@ -18,6 +18,7 @@
  */
 package org.jclouds.hostedchef;
 
+import static org.jclouds.reflect.Reflection2.typeTokenOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -134,7 +135,7 @@ public class HostedChefApiLiveTest extends BaseChefApiLiveTest<HostedChefContext
 
    @Override
    protected TypeToken<HostedChefContext> contextType() {
-      return TypeToken.of(HostedChefContext.class);
+      return typeTokenOf(HostedChefContext.class);
    }
 
 }

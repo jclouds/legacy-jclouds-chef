@@ -18,6 +18,8 @@
  */
 package org.jclouds.privatechef;
 
+import static org.jclouds.reflect.Reflection2.typeTokenOf;
+
 import java.net.URI;
 import java.util.Properties;
 
@@ -29,7 +31,6 @@ import org.jclouds.hostedchef.config.HostedChefRestClientModule;
 import org.jclouds.ohai.config.JMXOhaiModule;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Module;
 
 /**
@@ -69,7 +70,7 @@ public class PrivateChefApiMetadata extends ChefApiMetadata {
                .documentation(URI.create("http://www.opscode.com/support/"))
                .defaultEndpoint("https://api.opscode.com")
                .defaultProperties(PrivateChefApiMetadata.defaultProperties())
-               .context(TypeToken.of(PrivateChefContext.class))
+               .context(typeTokenOf(PrivateChefContext.class))
                .defaultModules(
                      ImmutableSet.<Class<? extends Module>> of(HostedChefRestClientModule.class,
                            ChefParserModule.class, JMXOhaiModule.class));
