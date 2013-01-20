@@ -18,7 +18,7 @@
  */
 package org.jclouds.privatechef.config;
 
-import static org.jclouds.reflect.Reflection2.typeTokenOf;
+import static org.jclouds.reflect.Reflection2.typeToken;
 
 import java.util.Map;
 
@@ -43,7 +43,7 @@ public class PrivateChefRestClientModule extends BaseChefRestClientModule<Privat
          .build();
 
    public PrivateChefRestClientModule() {
-      super(typeTokenOf(PrivateChefApi.class), typeTokenOf(PrivateChefAsyncApi.class), DELEGATE_MAP);
+      super(typeToken(PrivateChefApi.class), typeToken(PrivateChefAsyncApi.class), DELEGATE_MAP);
    }
 
 }
