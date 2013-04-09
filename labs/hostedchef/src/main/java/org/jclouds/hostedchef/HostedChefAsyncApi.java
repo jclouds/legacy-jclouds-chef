@@ -18,6 +18,7 @@
  */
 package org.jclouds.hostedchef;
 
+import java.io.Closeable;
 import java.util.Set;
 
 import javax.inject.Named;
@@ -58,7 +59,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
-public interface HostedChefAsyncApi {
+public interface HostedChefAsyncApi extends Closeable {
 
    /**
     * @see HostedChefApi#getChefApi()
