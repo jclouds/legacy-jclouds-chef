@@ -18,6 +18,7 @@
  */
 package org.jclouds.hostedchef;
 
+import java.io.Closeable;
 import java.util.Set;
 import org.jclouds.hostedchef.domain.Group;
 import org.jclouds.hostedchef.domain.User;
@@ -28,7 +29,7 @@ import org.jclouds.rest.annotations.Delegate;
  * 
  * @author Ignasi Barrera
  */
-public interface HostedChefApi {
+public interface HostedChefApi extends Closeable {
 
    /**
     * Gets the core Chef Api.
