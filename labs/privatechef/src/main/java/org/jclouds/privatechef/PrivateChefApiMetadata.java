@@ -26,9 +26,10 @@ import java.util.Properties;
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.chef.ChefApiMetadata;
 import org.jclouds.chef.ChefAsyncApi;
+import org.jclouds.chef.config.ChefBootstrapModule;
 import org.jclouds.chef.config.ChefParserModule;
-import org.jclouds.hostedchef.config.HostedChefRestClientModule;
 import org.jclouds.ohai.config.JMXOhaiModule;
+import org.jclouds.privatechef.config.PrivateChefRestClientModule;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Module;
@@ -72,8 +73,8 @@ public class PrivateChefApiMetadata extends ChefApiMetadata {
                .defaultProperties(PrivateChefApiMetadata.defaultProperties())
                .context(typeToken(PrivateChefContext.class))
                .defaultModules(
-                     ImmutableSet.<Class<? extends Module>> of(HostedChefRestClientModule.class,
-                           ChefParserModule.class, JMXOhaiModule.class));
+                     ImmutableSet.<Class<? extends Module>> of(PrivateChefRestClientModule.class,
+                           ChefParserModule.class, ChefBootstrapModule.class, JMXOhaiModule.class));
       }
 
       @Override
