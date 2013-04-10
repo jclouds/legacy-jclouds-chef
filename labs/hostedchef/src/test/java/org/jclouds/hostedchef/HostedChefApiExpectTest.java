@@ -26,7 +26,7 @@ import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
 
-import org.jclouds.chef.BaseChefApiExectTest;
+import org.jclouds.chef.BaseChefApiExpectTest;
 import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.date.TimeStamp;
 import org.jclouds.hostedchef.config.HostedChefRestClientModule;
@@ -49,7 +49,7 @@ import com.google.inject.Module;
  * @author Ignasi Barrera
  */
 @Test(groups = "unit", testName = "HostedChefApiExpectTest")
-public class HostedChefApiExpectTest extends BaseChefApiExectTest<HostedChefApi> {
+public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi> {
    public HostedChefApiExpectTest() {
       provider = "hostedchef";
    }
