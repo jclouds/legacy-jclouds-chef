@@ -19,11 +19,10 @@
 package org.jclouds.privatechef;
 
 import org.jclouds.privatechef.internal.PrivateChefContextImpl;
-import org.jclouds.rest.RestContext;
 
 import com.google.inject.ImplementedBy;
 
 @ImplementedBy(PrivateChefContextImpl.class)
-public interface PrivateChefContext extends RestContext<PrivateChefApi, PrivateChefAsyncApi> {
+public interface PrivateChefContext extends org.jclouds.rest.RestContext<PrivateChefApi, PrivateChefAsyncApi> {
 
 }

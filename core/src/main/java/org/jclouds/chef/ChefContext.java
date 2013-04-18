@@ -19,7 +19,6 @@
 package org.jclouds.chef;
 
 import org.jclouds.chef.internal.ChefContextImpl;
-import org.jclouds.rest.RestContext;
 
 import com.google.inject.ImplementedBy;
 
@@ -30,7 +29,7 @@ import com.google.inject.ImplementedBy;
  * 
  */
 @ImplementedBy(ChefContextImpl.class)
-public interface ChefContext extends RestContext<ChefApi, ChefAsyncApi> {
+public interface ChefContext extends org.jclouds.rest.RestContext<ChefApi, ChefAsyncApi> {
 
    ChefService getChefService();
 

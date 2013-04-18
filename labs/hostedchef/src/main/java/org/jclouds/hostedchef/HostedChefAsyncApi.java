@@ -55,7 +55,10 @@ import com.google.common.util.concurrent.ListenableFuture;
  * 
  * @see HostedChefApi
  * @author Ignasi Barrera
+ * @deprecated please use {@code org.jclouds.ContextBuilder#buildApi(HostedChefApi.class)} as
+ *             {@link HostedChefAsyncApi} interface will be removed in jclouds 1.7.
  */
+@Deprecated
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")

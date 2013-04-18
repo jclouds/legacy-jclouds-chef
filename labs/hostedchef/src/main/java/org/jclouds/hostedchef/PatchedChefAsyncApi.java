@@ -42,7 +42,9 @@ import com.google.common.util.concurrent.ListenableFuture;
  * use GET instead of HEAD.
  * 
  * @author Ignasi Barrera
+ * @deprecated {@link PatchedChefAsyncApi} interface will be removed in jclouds 1.7.
  */
+@Deprecated
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")

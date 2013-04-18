@@ -19,11 +19,10 @@
 package org.jclouds.hostedchef;
 
 import org.jclouds.hostedchef.internal.HostedChefContextImpl;
-import org.jclouds.rest.RestContext;
 
 import com.google.inject.ImplementedBy;
 
 @ImplementedBy(HostedChefContextImpl.class)
-public interface HostedChefContext extends RestContext<HostedChefApi, HostedChefAsyncApi> {
+public interface HostedChefContext extends org.jclouds.rest.RestContext<HostedChefApi, HostedChefAsyncApi> {
 
 }
