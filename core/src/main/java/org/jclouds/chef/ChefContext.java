@@ -18,6 +18,9 @@
  */
 package org.jclouds.chef;
 
+import java.io.Closeable;
+
+import org.jclouds.View;
 import org.jclouds.chef.internal.ChefContextImpl;
 
 import com.google.inject.ImplementedBy;
@@ -29,7 +32,7 @@ import com.google.inject.ImplementedBy;
  * 
  */
 @ImplementedBy(ChefContextImpl.class)
-public interface ChefContext extends org.jclouds.rest.RestContext<ChefApi, ChefAsyncApi> {
+public interface ChefContext extends View, Closeable {
 
    ChefService getChefService();
 

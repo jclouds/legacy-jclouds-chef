@@ -35,7 +35,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.jclouds.ContextBuilder;
+import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.ChefApiMetadata;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.ChefService;
 import org.jclouds.chef.domain.Node;
@@ -45,6 +47,8 @@ import org.jclouds.logging.jdk.JDKLogger;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.io.Closeables;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.AbstractModule;
 
 /**
@@ -103,7 +107,9 @@ public class ChefRegistrationListener implements ServletContextListener {
 	}
 
 	private String findNextNodeName(ChefService client, String pattern) {
-		Set<String> nodes = client.getContext().getApi().listNodes();
+	    ChefApi api = client.getContext().unwrap(new TypeToken<org.jclouds.rest.RestContext<ChefApi, ChefAsyncApi>>() {
+        }).getApi();
+		Set<String> nodes = api.listNodes();
 		String nodeName;
 		Set<String> names = newHashSet(nodes);
 		int index = 0;
@@ -127,7 +133,7 @@ public class ChefRegistrationListener implements ServletContextListener {
 								servletContextEvent.getServletContext());
 					}
 
-				})).overrides(props).build(typeToken(ChefContext.class))
+				})).overrides(props).buildView(ChefContext.class)
 				.getChefService();
 	}
 
@@ -155,7 +161,7 @@ public class ChefRegistrationListener implements ServletContextListener {
 			client.deleteAllNodesInList(singleton(node.getName()));
 		}
 		if (client != null) {
-			client.getContext().close();
+			Closeables.closeQuietly(client.getContext());
 		}
 	}
 }
