@@ -33,6 +33,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.jclouds.chef.ChefApi;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.compute.internal.BaseComputeServiceIntegratedChefClientLiveTest;
 import org.jclouds.chef.domain.CookbookVersion;
@@ -54,7 +55,7 @@ import com.google.common.reflect.TypeToken;
 @Test(groups = "live", testName = "ChefComputeServiceLiveTest")
 public class ChefComputeServiceLiveTest
 		extends
-			BaseComputeServiceIntegratedChefClientLiveTest<ChefContext> {
+			BaseComputeServiceIntegratedChefClientLiveTest {
 
 	private String group;
 	private String clientName;
@@ -64,14 +65,14 @@ public class ChefComputeServiceLiveTest
 	public void testCanUpdateRunList() throws IOException {
 		String recipe = "apache2";
 
-		Iterable<? extends CookbookVersion> cookbookVersions = context
+		Iterable<? extends CookbookVersion> cookbookVersions = view
 				.getChefService().listCookbookVersions();
 
 		if (any(cookbookVersions, containsRecipe(recipe))) {
 			List<String> runList = new RunListBuilder().addRecipe(recipe)
 					.build();
-			context.getChefService().updateRunListForGroup(runList, group);
-			assertEquals(context.getChefService().getRunListForGroup(group),
+			view.getChefService().updateRunListForGroup(runList, group);
+			assertEquals(view.getChefService().getRunListForGroup(group),
 					runList);
 		} else {
 			assert false : String.format("recipe %s not in %s", recipe,
@@ -91,7 +92,7 @@ public class ChefComputeServiceLiveTest
 	@Test(dependsOnMethods = "testCanUpdateRunList")
 	public void testRunNodesWithBootstrap() throws IOException {
 
-		Statement bootstrap = context.getChefService()
+		Statement bootstrap = view.getChefService()
 				.createBootstrapScriptForGroup(group);
 
 		try {
@@ -118,22 +119,20 @@ public class ChefComputeServiceLiveTest
 			computeContext.getComputeService().destroyNodesMatching(
 					NodePredicates.inGroup(group));
 		if (context != null) {
-			context.getChefService()
+		   view.getChefService()
 					.cleanupStaleNodesAndClients(group + "-", 1);
-			if (clientName != null && context.getApi().clientExists(clientName))
-				context.getApi().deleteClient(clientName);
+		   ChefApi api = view.unwrap(new TypeToken<org.jclouds.rest.RestContext<ChefApi, ChefAsyncApi>>() {
+         }).getApi();
+			if (clientName != null && api.clientExists(clientName))
+				api.deleteClient(clientName);
 			context.close();
 		}
 		super.tearDownContext();
 	}
 
-	@Override
-	protected ChefApi getChefApi(ChefContext context) {
-		return context.getApi();
-	}
+   @Override
+   protected TypeToken<ChefContext> viewType() {
+      return typeToken(ChefContext.class);
+   }
 
-	@Override
-	protected TypeToken<ChefContext> contextType() {
-		return typeToken(ChefContext.class);
-	}
 }
