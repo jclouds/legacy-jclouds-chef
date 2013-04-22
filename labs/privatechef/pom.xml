@@ -33,15 +33,12 @@
     <description>jclouds components to access Private Chef</description>
 
     <properties>
-        <test.jclouds.privatechef.org>YOUR_ORG</test.jclouds.privatechef.org>
-        <test.privatechef.endpoint>https://api.opscode.com/organizations/${test.jclouds.privatechef.org}</test.privatechef.endpoint>
+        <test.privatechef.org>YOUR_ORG</test.privatechef.org>
+        <test.privatechef.endpoint>https://api.opscode.com/organizations/${test.privatechef.org}</test.privatechef.endpoint>
         <test.privatechef.api-version />
         <test.privatechef.build-version />
         <test.privatechef.identity>YOUR_USER</test.privatechef.identity>
-        <test.privatechef.credential>${user.home}/.chef/${test.jclouds.privatechef.org}/${jclouds.privatechef.identity}.pem</test.privatechef.credential>
-        <test.privatechef.validator.identity>${test.jclouds.privatechef.org}-validator</test.privatechef.validator.identity>
-        <test.privatechef.validator.credential>${user.home}/.chef/${test.jclouds.privatechef.org}/${test.privatechef.validator.identity}.pem</test.privatechef.validator.credential>
-
+        <test.privatechef.credential>${user.home}/.chef/${test.privatechef.org}/${jclouds.privatechef.identity}.pem</test.privatechef.credential>
         <jclouds.osgi.export>org.jclouds.privatechef*;version="${project.version}"</jclouds.osgi.export>
         <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
     </properties>
@@ -109,7 +106,7 @@
                                 </goals>
                                 <configuration>
                                     <systemPropertyVariables>
-                                        <test.jclouds.privatechef.org>${test.jclouds.privatechef.org}</test.jclouds.privatechef.org>
+                                        <test.privatechef.org>${test.privatechef.org}</test.privatechef.org>
                                         <test.privatechef.endpoint>${test.privatechef.endpoint}</test.privatechef.endpoint>
                                         <test.privatechef.api-version>${test.privatechef.api-version}</test.privatechef.api-version>
                                         <test.privatechef.build-version>${test.privatechef.build-version}</test.privatechef.build-version>

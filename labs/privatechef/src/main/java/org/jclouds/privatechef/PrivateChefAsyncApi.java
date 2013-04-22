@@ -32,7 +32,11 @@ import org.jclouds.rest.annotations.RequestFilters;
  * 
  * @see HostedChefAsyncApi
  * @author Ignasi Barrera
+ * @deprecated please use {@code org.jclouds.ContextBuilder#buildApi(PrivateChefApi.class)}
+ *             as {@link PrivateChefAsyncApi} interface will be removed in
+ *             jclouds 1.7.
  */
+@Deprecated
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
