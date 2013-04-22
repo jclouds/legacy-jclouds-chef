@@ -18,24 +18,26 @@
  */
 package org.jclouds.hostedchef;
 
-import java.io.Closeable;
 import java.util.Set;
+
+import org.jclouds.chef.ChefApi;
 import org.jclouds.hostedchef.domain.Group;
 import org.jclouds.hostedchef.domain.User;
-import org.jclouds.rest.annotations.Delegate;
 
 /**
  * Provides synchronous access to the Hosted Chef Api.
  * 
  * @author Ignasi Barrera
  */
-public interface HostedChefApi extends Closeable {
+public interface HostedChefApi extends ChefApi {
 
    /**
-    * Gets the core Chef Api.
+    * Check if there exists a node with the given name.
+    * 
+    * @return <code>true</code> if the specified node name exists.
     */
-   @Delegate
-   PatchedChefApi getChefApi();
+   @Override
+   boolean nodeExists(String name);
 
    /**
     * Retrieves an existing user.
