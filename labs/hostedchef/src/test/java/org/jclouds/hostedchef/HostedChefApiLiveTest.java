@@ -44,6 +44,7 @@ import com.google.common.collect.ImmutableSet;
 public class HostedChefApiLiveTest extends BaseChefApiLiveTest<HostedChefApi> {
 
    private static final String GROUP_NAME = System.getProperty("user.name") + "-jcloudstest";
+   private static final String ORG_NAME = System.getProperty("test.hostedchef.org");
 
    public HostedChefApiLiveTest() {
       provider = "hostedchef";
@@ -91,14 +92,14 @@ public class HostedChefApiLiveTest extends BaseChefApiLiveTest<HostedChefApi> {
    public void testUpdateGroup() {
       Group group = api.getGroup(GROUP_NAME);
       group.setUsers(ImmutableSet.of(identity));
-      group.setClients(ImmutableSet.of(identity));
+      group.setClients(ImmutableSet.of(ORG_NAME + "-validator"));
 
       api.updateGroup(group);
       group = api.getGroup(GROUP_NAME);
 
       assertNotNull(group);
       assertTrue(group.getUsers().contains(identity));
-      assertTrue(group.getClients().contains(identity));
+      assertTrue(group.getClients().contains(ORG_NAME + "-validator"));
    }
 
    @Test(expectedExceptions = ResourceNotFoundException.class)
