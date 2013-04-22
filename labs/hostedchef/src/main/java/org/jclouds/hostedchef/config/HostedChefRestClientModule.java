@@ -20,19 +20,12 @@ package org.jclouds.hostedchef.config;
 
 import static org.jclouds.reflect.Reflection2.typeToken;
 
-import java.util.Map;
-
 import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.config.BaseChefRestClientModule;
 import org.jclouds.hostedchef.HostedChefApi;
 import org.jclouds.hostedchef.HostedChefAsyncApi;
-import org.jclouds.hostedchef.PatchedChefApi;
-import org.jclouds.hostedchef.PatchedChefAsyncApi;
 import org.jclouds.rest.ConfiguresRestClient;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.inject.Provides;
 
 /**
  * Configures the Hosted Chef connection.
@@ -41,21 +34,16 @@ import com.google.inject.Provides;
  */
 @ConfiguresRestClient
 public class HostedChefRestClientModule extends BaseChefRestClientModule<HostedChefApi, HostedChefAsyncApi> {
-   public static final Map<Class<?>, Class<?>> DELEGATE_MAP = ImmutableMap.<Class<?>, Class<?>> builder()//
-         .put(PatchedChefApi.class, PatchedChefAsyncApi.class)//
-         .build();
 
    public HostedChefRestClientModule() {
-      super(typeToken(HostedChefApi.class), typeToken(HostedChefAsyncApi.class), DELEGATE_MAP);
+      super(typeToken(HostedChefApi.class), typeToken(HostedChefAsyncApi.class));
    }
 
-   @Provides
-   private ChefApi provideChefApi(HostedChefApi in){
-      return in.getChefApi();
+   @Override
+   protected void configure() {
+      super.configure();
+      bind(ChefApi.class).to(HostedChefApi.class);
+      bind(ChefAsyncApi.class).to(HostedChefAsyncApi.class);
    }
 
-   @Provides
-   private ChefAsyncApi provideChefApi(HostedChefAsyncApi in){
-      return in.getChefApi();
-   }
 }

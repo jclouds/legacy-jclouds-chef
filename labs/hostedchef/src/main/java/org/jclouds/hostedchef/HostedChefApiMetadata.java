@@ -18,14 +18,13 @@
  */
 package org.jclouds.hostedchef;
 
-import static org.jclouds.reflect.Reflection2.typeToken;
-
 import java.net.URI;
 import java.util.Properties;
 
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.chef.ChefApiMetadata;
 import org.jclouds.chef.ChefAsyncApi;
+import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.config.ChefBootstrapModule;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.hostedchef.config.HostedChefRestClientModule;
@@ -70,7 +69,7 @@ public class HostedChefApiMetadata extends ChefApiMetadata {
                .version(ChefAsyncApi.VERSION)
                .documentation(URI.create("http://www.opscode.com/support"))
                .defaultEndpoint("https://api.opscode.com")
-               .context(typeToken(HostedChefContext.class))
+               .view(ChefContext.class)
                .defaultProperties(HostedChefApiMetadata.defaultProperties())
                .defaultModules(
                      ImmutableSet.<Class<? extends Module>> of(HostedChefRestClientModule.class,

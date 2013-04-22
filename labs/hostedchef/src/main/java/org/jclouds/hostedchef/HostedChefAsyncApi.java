@@ -18,7 +18,6 @@
  */
 package org.jclouds.hostedchef;
 
-import java.io.Closeable;
 import java.util.Set;
 
 import javax.inject.Named;
@@ -32,7 +31,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
+import org.jclouds.Fallbacks.FalseOnNotFoundOr404;
 import org.jclouds.Fallbacks.NullOnNotFoundOr404;
+import org.jclouds.chef.ChefApi;
+import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.chef.functions.ParseKeySetFromJson;
 import org.jclouds.hostedchef.binders.BindGroupNameToJsonPayload;
@@ -41,7 +43,6 @@ import org.jclouds.hostedchef.binders.GroupName;
 import org.jclouds.hostedchef.domain.Group;
 import org.jclouds.hostedchef.domain.User;
 import org.jclouds.rest.annotations.BinderParam;
-import org.jclouds.rest.annotations.Delegate;
 import org.jclouds.rest.annotations.Fallback;
 import org.jclouds.rest.annotations.Headers;
 import org.jclouds.rest.annotations.ParamParser;
@@ -55,17 +56,27 @@ import com.google.common.util.concurrent.ListenableFuture;
  * 
  * @see HostedChefApi
  * @author Ignasi Barrera
+ * @deprecated please use
+ *             {@code org.jclouds.ContextBuilder#buildApi(HostedChefApi.class)}
+ *             as {@link HostedChefAsyncApi} interface will be removed in
+ *             jclouds 1.7.
  */
+@Deprecated
 @RequestFilters(SignedHeaderAuth.class)
 @Consumes(MediaType.APPLICATION_JSON)
 @Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
-public interface HostedChefAsyncApi extends Closeable {
+public interface HostedChefAsyncApi extends ChefAsyncApi {
 
    /**
-    * @see HostedChefApi#getChefApi()
+    * @see ChefApi#nodeExists(String)
     */
-   @Delegate
-   PatchedChefAsyncApi getChefApi();
+   @Override
+   // Use get instead of HEAD
+   @Named("node:exists")
+   @GET
+   @Path("/nodes/{nodename}")
+   @Fallback(FalseOnNotFoundOr404.class)
+   ListenableFuture<Boolean> nodeExists(@PathParam("nodename") String nodename);
 
    /**
     * @see HostedChefApi#getUser(String)

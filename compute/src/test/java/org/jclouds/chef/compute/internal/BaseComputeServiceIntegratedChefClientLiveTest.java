@@ -23,9 +23,9 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.jclouds.Constants;
-import org.jclouds.Context;
 import org.jclouds.ContextBuilder;
-import org.jclouds.chef.internal.BaseChefContextLiveTest;
+import org.jclouds.apis.BaseViewLiveTest;
+import org.jclouds.chef.ChefContext;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.domain.TemplateBuilderSpec;
 import org.jclouds.domain.LoginCredentials;
@@ -45,9 +45,9 @@ import com.google.inject.Module;
 /**
  * @author Adrian Cole
  */
-public abstract class BaseComputeServiceIntegratedChefClientLiveTest<C extends Context>
+public abstract class BaseComputeServiceIntegratedChefClientLiveTest
 		extends
-			BaseChefContextLiveTest<C> {
+			BaseViewLiveTest<ChefContext> {
 
 	protected TemplateBuilderSpec template;
 	protected LoginCredentials loginCredentials = LoginCredentials.builder()
