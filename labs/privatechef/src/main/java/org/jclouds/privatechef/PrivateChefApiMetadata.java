@@ -18,14 +18,13 @@
  */
 package org.jclouds.privatechef;
 
-import static org.jclouds.reflect.Reflection2.typeToken;
-
 import java.net.URI;
 import java.util.Properties;
 
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.chef.ChefApiMetadata;
 import org.jclouds.chef.ChefAsyncApi;
+import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.config.ChefBootstrapModule;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.ohai.config.JMXOhaiModule;
@@ -71,7 +70,7 @@ public class PrivateChefApiMetadata extends ChefApiMetadata {
                .documentation(URI.create("http://www.opscode.com/support/"))
                .defaultEndpoint("https://api.opscode.com")
                .defaultProperties(PrivateChefApiMetadata.defaultProperties())
-               .context(typeToken(PrivateChefContext.class))
+               .view(ChefContext.class)
                .defaultModules(
                      ImmutableSet.<Class<? extends Module>> of(PrivateChefRestClientModule.class,
                            ChefParserModule.class, ChefBootstrapModule.class, JMXOhaiModule.class));
