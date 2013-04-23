@@ -27,9 +27,9 @@ import java.util.Set;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.chef.BaseChefApiExpectTest;
-import org.jclouds.chef.ChefAsyncApi;
+import org.jclouds.chef.ChefApi;
 import org.jclouds.date.TimeStamp;
-import org.jclouds.hostedchef.config.HostedChefRestClientModule;
+import org.jclouds.hostedchef.config.HostedChefHttpApiModule;
 import org.jclouds.hostedchef.domain.Group;
 import org.jclouds.hostedchef.domain.User;
 import org.jclouds.http.HttpRequest;
@@ -59,7 +59,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
             signed(HttpRequest.builder() //
                   .method("GET") //
                   .endpoint("https://api.opscode.com/users/nacx") //
-                  .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+                  .addHeader("X-Chef-Version", ChefApi.VERSION) //
                   .addHeader("Accept", MediaType.APPLICATION_JSON).build()), //
             HttpResponse.builder().statusCode(200)
                   .payload(payloadFromResourceWithContentType("/user.json", MediaType.APPLICATION_JSON)) //
@@ -74,7 +74,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
       HostedChefApi api = requestSendsResponse(signed(HttpRequest.builder() //
             .method("GET") //
             .endpoint("https://api.opscode.com/users/foo") //
-            .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+            .addHeader("X-Chef-Version", ChefApi.VERSION) //
             .addHeader("Accept", MediaType.APPLICATION_JSON) //
             .build()), //
             HttpResponse.builder().statusCode(404).build());
@@ -87,7 +87,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
             signed(HttpRequest.builder() //
                   .method("GET") //
                   .endpoint("https://api.opscode.com/groups") //
-                  .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+                  .addHeader("X-Chef-Version", ChefApi.VERSION) //
                   .addHeader("Accept", MediaType.APPLICATION_JSON).build()), //
             HttpResponse.builder().statusCode(200)
                   .payload(payloadFromResourceWithContentType("/groups.json", MediaType.APPLICATION_JSON)) //
@@ -103,7 +103,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
             signed(HttpRequest.builder() //
                   .method("GET") //
                   .endpoint("https://api.opscode.com/groups/admins") //
-                  .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+                  .addHeader("X-Chef-Version", ChefApi.VERSION) //
                   .addHeader("Accept", MediaType.APPLICATION_JSON).build()), //
             HttpResponse.builder().statusCode(200)
                   .payload(payloadFromResourceWithContentType("/group.json", MediaType.APPLICATION_JSON)) //
@@ -118,7 +118,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
       HostedChefApi api = requestSendsResponse(signed(HttpRequest.builder() //
             .method("GET") //
             .endpoint("https://api.opscode.com/groups/foo") //
-            .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+            .addHeader("X-Chef-Version", ChefApi.VERSION) //
             .addHeader("Accept", MediaType.APPLICATION_JSON) //
             .build()), //
             HttpResponse.builder().statusCode(404).build());
@@ -130,7 +130,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
       HostedChefApi api = requestSendsResponse(signed(HttpRequest.builder() //
             .method("POST") //
             .endpoint("https://api.opscode.com/groups") //
-            .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+            .addHeader("X-Chef-Version", ChefApi.VERSION) //
             .addHeader("Accept", MediaType.APPLICATION_JSON) //
             .payload(payloadFromStringWithContentType("{\"groupname\":\"foo\"}", MediaType.APPLICATION_JSON)) //
             .build()), //
@@ -143,7 +143,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
       HostedChefApi api = requestSendsResponse(signed(HttpRequest.builder() //
             .method("DELETE") //
             .endpoint("https://api.opscode.com/groups/foo") //
-            .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+            .addHeader("X-Chef-Version", ChefApi.VERSION) //
             .addHeader("Accept", MediaType.APPLICATION_JSON) //
             .build()), //
             HttpResponse.builder().statusCode(200).build());
@@ -156,7 +156,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
       HostedChefApi api = requestSendsResponse(signed(HttpRequest.builder() //
             .method("DELETE") //
             .endpoint("https://api.opscode.com/groups/foo") //
-            .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+            .addHeader("X-Chef-Version", ChefApi.VERSION) //
             .addHeader("Accept", MediaType.APPLICATION_JSON) //
             .build()), //
             HttpResponse.builder().statusCode(404).build());
@@ -168,7 +168,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
       HostedChefApi api = requestSendsResponse(signed(HttpRequest.builder() //
             .method("PUT") //
             .endpoint("https://api.opscode.com/groups/admins") //
-            .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+            .addHeader("X-Chef-Version", ChefApi.VERSION) //
             .addHeader("Accept", MediaType.APPLICATION_JSON) //
             .payload(payloadFromResourceWithContentType("/group-update.json", MediaType.APPLICATION_JSON)) //
             .build()), //
@@ -187,7 +187,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
       HostedChefApi api = requestSendsResponse(signed(HttpRequest.builder() //
             .method("PUT") //
             .endpoint("https://api.opscode.com/groups/admins") //
-            .addHeader("X-Chef-Version", ChefAsyncApi.VERSION) //
+            .addHeader("X-Chef-Version", ChefApi.VERSION) //
             .addHeader("Accept", MediaType.APPLICATION_JSON) //
             .payload(payloadFromResourceWithContentType("/group-update.json", MediaType.APPLICATION_JSON)) //
             .build()), //
@@ -207,7 +207,7 @@ public class HostedChefApiExpectTest extends BaseChefApiExpectTest<HostedChefApi
    }
 
    @ConfiguresRestClient
-   static class TestHostedChefRestClientModule extends HostedChefRestClientModule {
+   static class TestHostedChefRestClientModule extends HostedChefHttpApiModule {
       @Override
       protected String provideTimeStamp(@TimeStamp Supplier<String> cache) {
          return "timestamp";

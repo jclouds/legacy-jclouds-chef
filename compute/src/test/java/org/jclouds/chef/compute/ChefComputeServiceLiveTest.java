@@ -33,7 +33,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.jclouds.chef.ChefApi;
-import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.compute.internal.BaseComputeServiceIntegratedChefClientLiveTest;
 import org.jclouds.chef.domain.CookbookVersion;
@@ -53,82 +52,69 @@ import com.google.common.reflect.TypeToken;
  * @author Adrian Cole
  */
 @Test(groups = "live", testName = "ChefComputeServiceLiveTest")
-public class ChefComputeServiceLiveTest
-		extends
-			BaseComputeServiceIntegratedChefClientLiveTest {
+public class ChefComputeServiceLiveTest extends BaseComputeServiceIntegratedChefClientLiveTest {
 
-	private String group;
-	private String clientName;
-	private Iterable<? extends NodeMetadata> nodes;
+   private String group;
+   private String clientName;
+   private Iterable<? extends NodeMetadata> nodes;
 
-	@Test
-	public void testCanUpdateRunList() throws IOException {
-		String recipe = "apache2";
+   @Test
+   public void testCanUpdateRunList() throws IOException {
+      String recipe = "apache2";
 
-		Iterable<? extends CookbookVersion> cookbookVersions = view
-				.getChefService().listCookbookVersions();
+      Iterable<? extends CookbookVersion> cookbookVersions = view.getChefService().listCookbookVersions();
 
-		if (any(cookbookVersions, containsRecipe(recipe))) {
-			List<String> runList = new RunListBuilder().addRecipe(recipe)
-					.build();
-			view.getChefService().updateRunListForGroup(runList, group);
-			assertEquals(view.getChefService().getRunListForGroup(group),
-					runList);
-		} else {
-			assert false : String.format("recipe %s not in %s", recipe,
-					cookbookVersions);
-		}
+      if (any(cookbookVersions, containsRecipe(recipe))) {
+         List<String> runList = new RunListBuilder().addRecipe(recipe).build();
+         view.getChefService().updateBootstrapConfigForGroup(runList, group);
+         assertEquals(view.getChefService().getRunListForGroup(group), runList);
+      } else {
+         assert false : String.format("recipe %s not in %s", recipe, cookbookVersions);
+      }
 
-		// TODO move this to a unit test
-		assert any(cookbookVersions, containsRecipe("apache2::mod_proxy"));
-		assert any(
-				cookbookVersions,
-				containsRecipes("apache2", "apache2::mod_proxy",
-						"apache2::mod_proxy_http"));
-		assert !any(cookbookVersions, containsRecipe("apache2::bar"));
-		assert !any(cookbookVersions, containsRecipe("foo::bar"));
-	}
+      // TODO move this to a unit test
+      assert any(cookbookVersions, containsRecipe("apache2::mod_proxy"));
+      assert any(cookbookVersions, containsRecipes("apache2", "apache2::mod_proxy", "apache2::mod_proxy_http"));
+      assert !any(cookbookVersions, containsRecipe("apache2::bar"));
+      assert !any(cookbookVersions, containsRecipe("foo::bar"));
+   }
 
-	@Test(dependsOnMethods = "testCanUpdateRunList")
-	public void testRunNodesWithBootstrap() throws IOException {
+   @Test(dependsOnMethods = "testCanUpdateRunList")
+   public void testRunNodesWithBootstrap() throws IOException {
 
-		Statement bootstrap = view.getChefService()
-				.createBootstrapScriptForGroup(group);
+      Statement bootstrap = view.getChefService().createBootstrapScriptForGroup(group);
 
-		try {
-			nodes = computeContext.getComputeService().createNodesInGroup(
-					group, 1, runScript(bootstrap));
-		} catch (RunNodesException e) {
-			nodes = concat(e.getSuccessfulNodes(), e.getNodeErrors().keySet());
-		}
+      try {
+         nodes = computeContext.getComputeService().createNodesInGroup(group, 1, runScript(bootstrap));
+      } catch (RunNodesException e) {
+         nodes = concat(e.getSuccessfulNodes(), e.getNodeErrors().keySet());
+      }
 
-		for (NodeMetadata node : nodes) {
-			URI uri = URI
-					.create("http://" + getLast(node.getPublicAddresses()));
-			InputStream content = computeContext.utils().http().get(uri);
-			String string = Strings2.toStringAndClose(content);
-			assert string.indexOf("It works!") >= 0 : string;
-		}
+      for (NodeMetadata node : nodes) {
+         URI uri = URI.create("http://" + getLast(node.getPublicAddresses()));
+         InputStream content = computeContext.utils().http().get(uri);
+         String string = Strings2.toStringAndClose(content);
+         assert string.indexOf("It works!") >= 0 : string;
+      }
 
-	}
+   }
 
-	@AfterClass(groups = {"integration", "live"})
-	@Override
-	protected void tearDownContext() {
-		if (computeContext != null)
-			computeContext.getComputeService().destroyNodesMatching(
-					NodePredicates.inGroup(group));
-		if (context != null) {
-		   view.getChefService()
-					.cleanupStaleNodesAndClients(group + "-", 1);
-		   ChefApi api = view.unwrap(new TypeToken<org.jclouds.rest.RestContext<ChefApi, ChefAsyncApi>>() {
-         }).getApi();
-			if (clientName != null && api.clientExists(clientName))
-				api.deleteClient(clientName);
-			context.close();
-		}
-		super.tearDownContext();
-	}
+   @AfterClass(groups = { "integration", "live" })
+   @Override
+   protected void tearDownContext() {
+      if (computeContext != null) {
+         computeContext.getComputeService().destroyNodesMatching(NodePredicates.inGroup(group));
+      }
+      if (context != null) {
+         view.getChefService().cleanupStaleNodesAndClients(group + "-", 1);
+         ChefApi api = view.getApi(ChefApi.class);
+         if (clientName != null && api.clientExists(clientName)) {
+            api.deleteClient(clientName);
+         }
+         context.close();
+      }
+      super.tearDownContext();
+   }
 
    @Override
    protected TypeToken<ChefContext> viewType() {
