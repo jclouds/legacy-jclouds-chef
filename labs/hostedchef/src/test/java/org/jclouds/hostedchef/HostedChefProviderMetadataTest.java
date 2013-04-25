@@ -16,24 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.chef.config;
+package org.jclouds.hostedchef;
 
-import static org.jclouds.reflect.Reflection2.typeToken;
-
-import org.jclouds.chef.ChefApi;
-import org.jclouds.chef.ChefAsyncApi;
-import org.jclouds.rest.ConfiguresRestClient;
+import org.jclouds.providers.internal.BaseProviderMetadataTest;
+import org.testng.annotations.Test;
 
 /**
- * Configures the Chef connection.
+ * The HostedChefProviderTest tests the org.jclouds.providers.HostedChefProvider
+ * class.
  * 
  * @author Adrian Cole
  */
-@ConfiguresRestClient
-public class ChefRestClientModule extends BaseChefRestClientModule<ChefApi, ChefAsyncApi> {
+@Test(groups = "unit", testName = "HostedChefProviderTest")
+public class HostedChefProviderMetadataTest extends BaseProviderMetadataTest {
 
-   public ChefRestClientModule() {
-      super(typeToken(ChefApi.class), typeToken(ChefAsyncApi.class));
+   public HostedChefProviderMetadataTest() {
+      super(new HostedChefProviderMetadata(), new HostedChefApiMetadata());
    }
-
 }

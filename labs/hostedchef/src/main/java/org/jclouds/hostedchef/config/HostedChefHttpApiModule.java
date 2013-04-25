@@ -16,21 +16,25 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.hostedchef;
+package org.jclouds.hostedchef.config;
 
-import org.jclouds.providers.internal.BaseProviderMetadataTest;
-import org.testng.annotations.Test;
+import org.jclouds.chef.ChefApi;
+import org.jclouds.chef.config.BaseChefHttpApiModule;
+import org.jclouds.hostedchef.HostedChefApi;
+import org.jclouds.rest.ConfiguresHttpApi;
 
 /**
- * The HostedChefProviderTest tests the org.jclouds.providers.HostedChefProvider
- * class.
+ * Configures the Hosted Chef connection.
  * 
- * @author Adrian Cole
+ * @author Ignasi Barrera
  */
-@Test(groups = "unit", testName = "HostedChefProviderTest")
-public class HostedChefProviderTest extends BaseProviderMetadataTest {
+@ConfiguresHttpApi
+public class HostedChefHttpApiModule extends BaseChefHttpApiModule<HostedChefApi> {
 
-   public HostedChefProviderTest() {
-      super(new HostedChefProviderMetadata(), new HostedChefApiMetadata());
+   @Override
+   protected void configure() {
+      super.configure();
+      bind(ChefApi.class).to(HostedChefApi.class);
    }
+
 }
