@@ -18,32 +18,23 @@
  */
 package org.jclouds.privatechef.config;
 
-import static org.jclouds.reflect.Reflection2.typeToken;
-
 import org.jclouds.chef.ChefApi;
-import org.jclouds.chef.ChefAsyncApi;
-import org.jclouds.chef.config.BaseChefRestClientModule;
+import org.jclouds.chef.config.BaseChefHttpApiModule;
 import org.jclouds.privatechef.PrivateChefApi;
-import org.jclouds.privatechef.PrivateChefAsyncApi;
-import org.jclouds.rest.ConfiguresRestClient;
+import org.jclouds.rest.ConfiguresHttpApi;
 
 /**
- * Configures the Hosted Chef connection.
+ * Configures the Private Chef connection.
  * 
  * @author Ignasi Barrera
  */
-@ConfiguresRestClient
-public class PrivateChefRestClientModule extends BaseChefRestClientModule<PrivateChefApi, PrivateChefAsyncApi> {
-
-   public PrivateChefRestClientModule() {
-      super(typeToken(PrivateChefApi.class), typeToken(PrivateChefAsyncApi.class));
-   }
+@ConfiguresHttpApi
+public class PrivateChefHttpApiModule extends BaseChefHttpApiModule<PrivateChefApi> {
 
    @Override
    protected void configure() {
       super.configure();
       bind(ChefApi.class).to(PrivateChefApi.class);
-      bind(ChefAsyncApi.class).to(PrivateChefAsyncApi.class);
    }
 
 }

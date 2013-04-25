@@ -22,13 +22,14 @@ import java.net.URI;
 import java.util.Properties;
 
 import org.jclouds.apis.ApiMetadata;
+import org.jclouds.chef.ChefApi;
 import org.jclouds.chef.ChefApiMetadata;
-import org.jclouds.chef.ChefAsyncApi;
 import org.jclouds.chef.ChefContext;
 import org.jclouds.chef.config.ChefBootstrapModule;
 import org.jclouds.chef.config.ChefParserModule;
 import org.jclouds.ohai.config.JMXOhaiModule;
-import org.jclouds.privatechef.config.PrivateChefRestClientModule;
+import org.jclouds.privatechef.config.PrivateChefHttpApiModule;
+import org.jclouds.rest.internal.BaseHttpApiMetadata;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Module;
@@ -38,7 +39,7 @@ import com.google.inject.Module;
  * 
  * @author Adrian Cole
  */
-public class PrivateChefApiMetadata extends ChefApiMetadata {
+public class PrivateChefApiMetadata extends BaseHttpApiMetadata<PrivateChefApi> {
 
    @Override
    public Builder toBuilder() {
@@ -54,26 +55,24 @@ public class PrivateChefApiMetadata extends ChefApiMetadata {
    }
 
    public static Properties defaultProperties() {
-      Properties properties = ChefApiMetadata.defaultProperties();
-      return properties;
+      return ChefApiMetadata.defaultProperties();
    }
 
-   public static class Builder extends ChefApiMetadata.Builder<Builder> {
+   public static class Builder extends BaseHttpApiMetadata.Builder<PrivateChefApi, Builder> {
 
       protected Builder() {
-         super(PrivateChefApi.class, PrivateChefAsyncApi.class);
          id("privatechef")
                .name("Private Chef Api")
                .identityName("User")
                .credentialName("Certificate")
-               .version(ChefAsyncApi.VERSION)
+               .version(ChefApi.VERSION)
                .documentation(URI.create("http://www.opscode.com/support/"))
                .defaultEndpoint("https://api.opscode.com")
                .defaultProperties(PrivateChefApiMetadata.defaultProperties())
                .view(ChefContext.class)
                .defaultModules(
-                     ImmutableSet.<Class<? extends Module>> of(PrivateChefRestClientModule.class,
-                           ChefParserModule.class, ChefBootstrapModule.class, JMXOhaiModule.class));
+                     ImmutableSet.<Class<? extends Module>> of(PrivateChefHttpApiModule.class, ChefParserModule.class,
+                           ChefBootstrapModule.class, JMXOhaiModule.class));
       }
 
       @Override

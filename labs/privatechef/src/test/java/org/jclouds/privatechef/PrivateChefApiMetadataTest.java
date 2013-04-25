@@ -19,7 +19,7 @@
 package org.jclouds.privatechef;
 
 import org.jclouds.View;
-import org.jclouds.rest.internal.BaseRestApiMetadataTest;
+import org.jclouds.rest.internal.BaseHttpApiMetadataTest;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableSet;
@@ -29,7 +29,7 @@ import com.google.common.reflect.TypeToken;
  * @author Adrian Cole
  */
 @Test(groups = "unit", testName = "PrivateChefApiMetadataTest")
-public class PrivateChefApiMetadataTest extends BaseRestApiMetadataTest {
+public class PrivateChefApiMetadataTest extends BaseHttpApiMetadataTest {
 
    public PrivateChefApiMetadataTest() {
       super(new PrivateChefApiMetadata(), ImmutableSet.<TypeToken<? extends View>> of());
