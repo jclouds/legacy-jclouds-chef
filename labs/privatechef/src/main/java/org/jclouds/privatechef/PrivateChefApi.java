@@ -18,7 +18,14 @@
  */
 package org.jclouds.privatechef;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.core.MediaType;
+
+import org.jclouds.Constants;
+import org.jclouds.chef.filters.SignedHeaderAuth;
 import org.jclouds.hostedchef.HostedChefApi;
+import org.jclouds.rest.annotations.Headers;
+import org.jclouds.rest.annotations.RequestFilters;
 
 /**
  * Provides synchronous access to the Private Chef Api.
@@ -26,6 +33,9 @@ import org.jclouds.hostedchef.HostedChefApi;
  * @see HostedChefApi
  * @author Ignasi Barrera
  */
+@RequestFilters(SignedHeaderAuth.class)
+@Consumes(MediaType.APPLICATION_JSON)
+@Headers(keys = "X-Chef-Version", values = "{" + Constants.PROPERTY_API_VERSION + "}")
 public interface PrivateChefApi extends HostedChefApi {
 
 }
