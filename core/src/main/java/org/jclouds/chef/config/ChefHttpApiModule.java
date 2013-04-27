@@ -16,34 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jclouds.hostedchef.config;
-
-import static org.jclouds.reflect.Reflection2.typeToken;
+package org.jclouds.chef.config;
 
 import org.jclouds.chef.ChefApi;
-import org.jclouds.chef.ChefAsyncApi;
-import org.jclouds.chef.config.BaseChefRestClientModule;
-import org.jclouds.hostedchef.HostedChefApi;
-import org.jclouds.hostedchef.HostedChefAsyncApi;
-import org.jclouds.rest.ConfiguresRestClient;
+import org.jclouds.rest.ConfiguresHttpApi;
 
 /**
- * Configures the Hosted Chef connection.
+ * Configures the Chef connection.
  * 
+ * @author Adrian Cole
  * @author Ignasi Barrera
  */
-@ConfiguresRestClient
-public class HostedChefRestClientModule extends BaseChefRestClientModule<HostedChefApi, HostedChefAsyncApi> {
-
-   public HostedChefRestClientModule() {
-      super(typeToken(HostedChefApi.class), typeToken(HostedChefAsyncApi.class));
-   }
-
-   @Override
-   protected void configure() {
-      super.configure();
-      bind(ChefApi.class).to(HostedChefApi.class);
-      bind(ChefAsyncApi.class).to(HostedChefAsyncApi.class);
-   }
+@ConfiguresHttpApi
+public class ChefHttpApiModule extends BaseChefHttpApiModule<ChefApi> {
 
 }
