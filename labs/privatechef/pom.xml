@@ -40,7 +40,7 @@
         <test.privatechef.identity>YOUR_USER</test.privatechef.identity>
         <test.privatechef.credential>${user.home}/.chef/${test.privatechef.org}/${jclouds.privatechef.identity}.pem</test.privatechef.credential>
         <jclouds.osgi.export>org.jclouds.privatechef*;version="${project.version}"</jclouds.osgi.export>
-        <jclouds.osgi.import>org.jclouds*;version="${project.version}",*</jclouds.osgi.import>
+        <jclouds.osgi.import>org.jclouds*;version="${jclouds.version}",*</jclouds.osgi.import>
     </properties>
 
     <dependencies>
@@ -71,20 +71,20 @@
         <dependency>
             <groupId>org.jclouds</groupId>
             <artifactId>jclouds-core</artifactId>
-            <version>1.6.0-SNAPSHOT</version>
+            <version>${jclouds.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jclouds.driver</groupId>
             <artifactId>jclouds-slf4j</artifactId>
-            <version>1.6.0-SNAPSHOT</version>
+            <version>${jclouds.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.9</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
