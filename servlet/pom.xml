@@ -33,8 +33,8 @@
 
   <properties>
     <jclouds.osgi.import>
-      org.jclouds;version=${project.version},
-      org.jclouds*;version=${project.version},
+      org.jclouds;version=${jclouds.version},
+      org.jclouds*;version=${jclouds.version},
       *
     </jclouds.osgi.import>
     <jclouds.osgi.export>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>org.jclouds</groupId>
       <artifactId>jclouds-core</artifactId>
-      <version>1.7.0-SNAPSHOT</version>
+      <version>${jclouds.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
